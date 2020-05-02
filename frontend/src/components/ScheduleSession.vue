@@ -1,6 +1,17 @@
 <template>
-  <div class="schedule-session">
-  </div>
+    <div class="schedule-session">
+        <p class='header'>
+            Pick a time that works for you
+        </p>
+        <div class='email-input'></div>
+        <div class='select-day'></div>
+        <div class='select-time'></div>
+        <div class='submit-button'>
+            <p class="submit-button-text">
+                Submit
+            </p>
+        </div>
+    </div>
 </template>
 
 <script>

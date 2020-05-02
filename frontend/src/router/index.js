@@ -4,6 +4,8 @@ import Home from '@/components/Home'
 import ScheduleSession from '@/components/ScheduleSession'
 import SessionEnd from '@/components/SessionEnd'
 import ScheduleConfirmation from '@/components/ScheduleConfirmation'
+import AppointmentLanding from '@/components/AppointmentLanding'
+import WaitingRoom from '@/components/WaitingRoom'
 import Call from '@/components/Call'
 
 Vue.use(Router)
@@ -24,6 +26,16 @@ export default new Router({
       path: '/scheduleConfirmation',
       name: 'ScheduleConfirmation',
       component: ScheduleConfirmation
+    },
+    {
+      path: '/appointmentLanding',
+      name: 'AppointmentLanding',
+      component: AppointmentLanding
+    },
+    {
+      path: '/waitingRoom',
+      name: 'WaitingRoom',
+      component: WaitingRoom
     },
     {
       path: '/sessionEnd',
