@@ -13,7 +13,8 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  @import url('https://fonts.cdnfonts.com/css/din-condensed');
+  font-family: 'DIN Condensed', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
