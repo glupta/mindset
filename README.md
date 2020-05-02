@@ -9,3 +9,5 @@ go to localhost:5000
 
 To see the latest version of the app on master:
 meditationhub.ngrok.io
+
+In the fullness of time
