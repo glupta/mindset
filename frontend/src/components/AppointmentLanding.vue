@@ -8,7 +8,7 @@ export default {
   name: 'AppointmentLanding',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js Appp'
     }
   }
 }
