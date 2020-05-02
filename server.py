@@ -3,6 +3,7 @@ app = Flask(__name__,
             static_folder="./dist/static",
             template_folder="./dist")
 
-@app.route('/')
-def hello_world():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def home(path):
     return render_template("index.html")
