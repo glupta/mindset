@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import ScheduleSession from '@/components/ScheduleSession'
 import SessionEnd from '@/components/SessionEnd'
+import ScheduleConfirmation from '@/components/ScheduleConfirmation'
 
 Vue.use(Router)
 
@@ -17,6 +18,11 @@ export default new Router({
       path: '/scheduleSession',
       name: 'ScheduleSession',
       component: ScheduleSession
+    },
+    {
+      path: 'scheduleConfirmation',
+      name: 'ScheduleConfirmation',
+      component: ScheduleConfirmation
     },
     {
       path: 'sessionEnd',
