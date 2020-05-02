@@ -1,5 +1,6 @@
 <template>
     <div class='session-end-screen'>
+        <NavBar></NavBar>
         <p class='header'>
             Your Session Has Ended!
         </p>

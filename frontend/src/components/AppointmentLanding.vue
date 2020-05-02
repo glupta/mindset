@@ -1,5 +1,6 @@
 <template>
   <div class="appointment-landing">
+    <NavBar></NavBar>
   </div>
 </template>
 

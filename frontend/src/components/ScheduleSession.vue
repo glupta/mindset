@@ -1,5 +1,6 @@
 <template>
     <div class="schedule-session">
+        <NavBar></NavBar>
         <p class='header'>
             Pick a time that works for you
         </p>
