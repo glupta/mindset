@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import ScheduleSession from '@/components/ScheduleSession'
 import SessionEnd from '@/components/SessionEnd'
 import ScheduleConfirmation from '@/components/ScheduleConfirmation'
+import Call from '@/components/Call'
 
 Vue.use(Router)
 
@@ -20,14 +21,19 @@ export default new Router({
       component: ScheduleSession
     },
     {
-      path: 'scheduleConfirmation',
+      path: '/scheduleConfirmation',
       name: 'ScheduleConfirmation',
       component: ScheduleConfirmation
     },
     {
-      path: 'sessionEnd',
+      path: '/sessionEnd',
       name: 'SessionEnd',
       component: SessionEnd
+    },
+    {
+      path: '/call',
+      name: 'Call',
+      component: Call
     }
   ]
 })
