@@ -1,16 +1,31 @@
 <template>
   <div class="waiting-room">
-    <NavBar></NavBar>
+    <SessionTopBar></SessionTopBar>
+    <div class='waiting-room-partner'>
+        <p class='description'>
+        You're here!
+        <br>
+        Waiting for your meditation buddy to join.
+        </p>
+    </div>
+    <div class='video-chat-self'></div>
+    <SessionBottomBar></SessionBottomBar>
   </div>
 </template>
 
 <script>
+import SessionTopBar from '@/components/SessionTopBar'
+import SessionBottomBar from '@/components/SessionBottomBar'
 export default {
   name: 'WaitingRoom',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  components: {
+    SessionTopBar,
+    SessionBottomBar
   }
 }
 </script>

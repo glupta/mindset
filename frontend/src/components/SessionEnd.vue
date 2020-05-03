@@ -1,6 +1,5 @@
 <template>
     <div class='session-end-screen'>
-        <NavBar></NavBar>
         <p class='header'>
             Your Session Has Ended!
         </p>
@@ -36,6 +35,8 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  components: {
   }
 }
 </script>

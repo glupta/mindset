@@ -1,12 +1,20 @@
 <template>
   <div>
-    <NavBar></NavBar>
+    <SessionTopBar></SessionTopBar>
     <p>Bowenn</p>
+    <SessionBottomBar></SessionBottomBar>
   </div>
 </template>
 
 <script>
+import SessionTopBar from '@/components/SessionTopBar'
+import SessionBottomBar from '@/components/SessionBottomBar'
 export default {
+  name: "Call",
+  components: {
+    SessionTopBar,
+    SessionBottomBar
+  },
   mounted () {
     let dailycoScript = document.createElement('script')
     dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js@0.9.988/dist/daily-iframe.js')

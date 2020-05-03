@@ -1,16 +1,35 @@
 <template>
   <div class="schedule-confirmation">
     <NavBar></NavBar>
+
+    <p class='description'>
+        It's set! You will receive an email 30 minutes before your session.
+    </p>
+    <div class='schedule-section'>
+        <div class='schedule-time'></div>
+    </div>
+    <p class='description'>
+        Want to do a test run?
+    </p>
+    <div class='test-session-button'>
+        <p class='test-session-text'>
+            Test Session
+        </p>
+    </div>
   </div>
 </template>
 
 <script>
+import NavBar from '@/components/NavBar';
 export default {
   name: 'ScheduleConfirmation',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  components: {
+    NavBar
   }
 }
 </script>

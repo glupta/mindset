@@ -1,31 +1,28 @@
 <template>
-    <div class="schedule-session">
-        <NavBar></NavBar>
-        <p class='header'>
-            Pick a time that works for you
+  <div class='session-top-bar'>
+        <p class='session-time'>
+            Session starts in
         </p>
-        <div class='email-input'></div>
-        <div class='select-day'></div>
-        <div class='select-time'></div>
-        <div class='submit-button'>
-            <p class="submit-button-text">
-                Submit
+        <Timer></Timer>
+        <div class='leave-button'>
+            <p class='leave-text'>
+            Leave
             </p>
         </div>
     </div>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar';
+import Timer from '@/components/Timer'
 export default {
-  name: 'ScheduleSession',
+  name: 'SessionTopBar',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
   },
   components: {
-    NavBar
+    Timer
   }
 }
 </script>

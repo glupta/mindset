@@ -1,20 +1,15 @@
 <template>
-  <div class="appointment-landing">
-    <NavBar></NavBar>
+  <div class="session-bottom-bar">
   </div>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar';
 export default {
-  name: 'AppointmentLanding',
+  name: 'SessionBottomBar',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js Appp'
+      msg: 'Welcome to Your Vue.js App'
     }
-  },
-  components: {
-    NavBar
   }
 }
 </script>
