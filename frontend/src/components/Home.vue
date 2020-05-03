@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <NavBar></NavBar>
+    <NavBar :useDotLogo="true"></NavBar>
     <div class='onboarding-screen'>
     <div class='home-background flexCC align-center'>
         <img class="logo" src="@/assets/Logo-V2-White.svg">
@@ -172,8 +172,8 @@ a {
 }
 
 .logo {
-  width: 56px;
-  height: 58px;
+  width: 198px;
+  height: 30px;
   margin-bottom: 24px;
 }
 .home-tips-background-light {
