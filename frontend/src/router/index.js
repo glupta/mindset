@@ -29,11 +29,6 @@ export default new Router({
       component: ScheduleConfirmation
     },
     {
-      path: '/appointmentLanding',
-      name: 'AppointmentLanding',
-      component: AppointmentLanding
-    },
-    {
       path: '/waitingRoom',
       name: 'WaitingRoom',
       component: WaitingRoom
