@@ -29,7 +29,7 @@ export default {
     dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js@0.9.988/dist/daily-iframe.js')
     document.head.appendChild(dailycoScript)
 
-    window.addEventListener("load", function(event) {
+    dailycoScript.addEventListener("load", function(event) {
       //console.log('fired')
       //let myRoom = this.createMtgRoom()
       //console.log(myRoom)
