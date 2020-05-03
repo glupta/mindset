@@ -45,7 +45,8 @@ export default new Router({
     {
       path: '/call',
       name: 'Call',
-      component: Call
+      component: Call,
+      props: true
     }
   ]
 })

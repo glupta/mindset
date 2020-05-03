@@ -7,7 +7,7 @@
         <div class='email-input'></div>
         <div class='select-day'></div>
         <div class='select-time'></div>
-        <div class='submit-button'>
+        <div class='submit-button' v-on:click="submit()">
             <p class="submit-button-text">
                 Submit
             </p>
@@ -17,6 +17,7 @@
 
 <script>
 import NavBar from '@/components/NavBar';
+import router from '../router';
 export default {
   name: 'ScheduleSession',
   data () {
@@ -26,6 +27,11 @@ export default {
   },
   components: {
     NavBar
+  },
+  methods: {
+    submit() {
+      router.push({ name: "ScheduleConfirmation" });
+    }
   }
 }
 </script>

@@ -15,6 +15,9 @@ export default {
     SessionTopBar,
     SessionBottomBar
   },
+  props: [
+    'testSession'
+  ],
   mounted () {
     let dailycoScript = document.createElement('script')
     dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js@0.9.988/dist/daily-iframe.js')

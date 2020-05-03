@@ -11,7 +11,7 @@
     <p class='description'>
         Want to do a test run?
     </p>
-    <div class='test-session-button'>
+    <div class='test-session-button' v-on:click="testSession()">
         <p class='test-session-text'>
             Test Session
         </p>
@@ -21,6 +21,7 @@
 
 <script>
 import NavBar from '@/components/NavBar';
+import router from '../router';
 export default {
   name: 'ScheduleConfirmation',
   data () {
@@ -30,6 +31,16 @@ export default {
   },
   components: {
     NavBar
+  },
+  methods: {
+    testSession() {
+      router.push({
+        name: "Call",
+        props: {
+          testSession: true
+        }
+      })
+    }
   }
 }
 </script>
