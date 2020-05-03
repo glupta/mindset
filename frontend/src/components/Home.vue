@@ -9,7 +9,7 @@
             <br>
             Meditate virtually with an accountability partner.
         </p>
-        <div class='get-started-button align-center justify-center flexCR'>
+        <div class='get-started-button align-center justify-center flexCR' v-on:click='getStarted()'>
             <p class='get-started-text'>
                 Get Started
             </p>
@@ -51,7 +51,7 @@
         <p class='description content-width margin-bottom-32'>
             Exit session and give feedback. Let's schedule the next session to build from here!
         </p>
-        <div class='get-started-button align-center justify-center flexCR margin-top-18 darker-blue'>
+        <div class='get-started-button align-center justify-center flexCR margin-top-18 darker-blue'  v-on:click='getStarted()'>
             <p class='get-started-text'>
                 Get Started
             </p>
@@ -85,6 +85,7 @@
 
 <script>
 import NavBar from '@/components/NavBar';
+import router from '../router';
 export default {
   name: 'Home',
   data () {
@@ -94,6 +95,11 @@ export default {
   },
   components: {
     NavBar
+  },
+  methods: {
+      getStarted() {
+          router.push({ name: "ScheduleSession" });
+      }
   }
 }
 </script>
