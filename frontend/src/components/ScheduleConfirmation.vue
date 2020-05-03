@@ -1,21 +1,18 @@
 <template>
   <div class="schedule-confirmation">
     <NavBar></NavBar>
-
-    <p class='description'>
+    <br><br><br><br>
+    <p class='mydescription'>
         It's set! You will receive an email 30 minutes before your session.
     </p>
-    <div class='schedule-section'>
-        <div class='schedule-time'></div>
-    </div>
-    <p class='description'>
+    <br>
+    <a class='scheduled-time' >May 3 at 1:00pm PST</a>
+    <br><br><br><br><br>
+    <p class='mydescription'>
         Want to do a test run?
     </p>
-    <div class='test-session-button' v-on:click="testSession()">
-        <p class='test-session-text'>
-            Test Session
-        </p>
-    </div>
+    <br>
+    <a class='test-session-button' v-on:click="testSession()">Test Session</a>
   </div>
 </template>
 
@@ -47,18 +44,39 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+.schedule-confirmation {
+  font-family: 'DIN Condensed', sans-serif;
+  font-size: 24px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.mydescription{
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+.scheduled-time {
+	background-color:rgba(236, 236, 236, 0.38);
+	border-radius:5px;
+	display:inline-block;
+	cursor:pointer;
+	color: #18a0fb;
+  font-weight: 750;
+	font-family: 'DIN Condensed', sans-serif;
+	font-size:22px;
+	padding:30px 50px;
+	text-decoration:none;
 }
-a {
-  color: #42b983;
+
+.test-session-button {
+  font-size: 18px;
+  font-family: 'DIN Condensed', sans-serif;
+  border-radius: 5px;
+  border: 2px solid #18A0FB;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 95px;
+  padding-left: 95px;
+  color: #18a0fb;
 }
 </style>
