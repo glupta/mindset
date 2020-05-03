@@ -1,5 +1,7 @@
 <template>
-  <div><p>Bowenn</p>
+  <div>
+    <NavBar></NavBar>
+    <p>Bowenn</p>
   </div>
 </template>
 

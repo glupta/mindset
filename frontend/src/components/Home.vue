@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <NavBar></NavBar>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
@@ -84,6 +85,7 @@
 </template>
 
 <script>
+import NavBar from '@/components/NavBar'
 export default {
   name: 'Home',
   data () {

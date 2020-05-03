@@ -1,5 +1,6 @@
 <template>
   <div class="waiting-room">
+    <NavBar></NavBar>
   </div>
 </template>
 

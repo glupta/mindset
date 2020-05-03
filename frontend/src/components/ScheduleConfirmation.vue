@@ -1,5 +1,6 @@
 <template>
   <div class="schedule-confirmation">
+    <NavBar></NavBar>
   </div>
 </template>
 
