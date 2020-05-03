@@ -37,18 +37,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+.session-top-bar {
+  height: 40px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.session-time{
+  float: left;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+.leave-button {
+  float: right;
+  background-color:#18a0fb;
+	border-radius:3px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family: 'DIN Condensed', sans-serif;
 }
-a {
-  color: #42b983;
-}
+
 </style>

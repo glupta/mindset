@@ -2,11 +2,22 @@
   <div class="waiting-room">
     <SessionTopBar timerCopy='Session starts in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
     <div class='waiting-room-partner'>
-        <p class='description'>
+        
+        <p class='description' style='background-color:#2AD9FF;color:#FFFFFF;'>
+        <br><br><br><br><br><br><br><br>
         You're here!
         <br>
-        Waiting for your meditation buddy to join.
+        Waiting for your meditation<br>
+        buddy to join.
+        <br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
         </p>
+        
     </div>
     <div class='video-chat-self'></div>
     <SessionBottomBar></SessionBottomBar>
@@ -41,18 +52,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.waiting-room {
+  font-family: 'DIN Condensed', sans-serif;
+  font-size: 24px;
 }
 </style>

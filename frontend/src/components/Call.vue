@@ -1,7 +1,6 @@
 <template>
   <div>
     <SessionTopBar timerCopy='Session ends in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
-    <p>Bowenn</p>
     <SessionBottomBar></SessionBottomBar>
   </div>
 </template>
@@ -36,6 +35,11 @@ export default {
 
       window.callFrame = window.DailyIframe.createFrame();
       callFrame.join({ url: 'https://meditation-hub.daily.co/hello' });
+      var elem = document.querySelector('iframe');
+      elem.style.width= "375px";
+      elem.style.height = "750px";
+      elem.style.right= "0em";
+      elem.style.bottom= "0em";
     });
 
     //console.log('akal wettakal')

@@ -6,7 +6,7 @@
         It's set! You will receive an email 30 minutes before your session.
     </p>
     <br>
-    <a class='scheduled-time' >May 3 at 1:00pm PST</a>
+    <a class='scheduled-time' >May 4 at 1:00pm PST</a>
     <br><br><br><br><br>
     <p class='mydescription'>
         Want to do a test run?

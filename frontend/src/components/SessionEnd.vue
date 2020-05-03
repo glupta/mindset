@@ -31,6 +31,11 @@ import NavBar from '@/components/NavBar'
 import router from '../router'
 export default {
   name: 'SessionEnd',
+  mounted(){
+    //kill vidchat iframe after the call is done
+    var elem = document.querySelector('iframe');
+    elem.style.display = 'none';
+  },
   data () {
     return {
       yesSelected: false,
