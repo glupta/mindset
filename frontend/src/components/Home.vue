@@ -3,7 +3,7 @@
     <NavBar></NavBar>
     <div class='onboarding-screen'>
     <div class='home-background flexCC align-center'>
-        <img class="logo" src="@/assets/mhlogowhite.png">
+        <img class="logo" src="@/assets/Logo-V2-White.svg">
         <p class='description white-text font-bold'>
             Unable to get yourself to meditate?
             <br>

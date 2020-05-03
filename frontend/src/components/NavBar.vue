@@ -1,6 +1,7 @@
 <template>
   <div class="navbar flexCR space-between">
-    <img class="logo" src="@/assets/mhlogo.png">
+    <img v-if="useDotLogo" class="dot-logo" src="@/assets/Logo-V2-Dot.svg">
+    <img v-else class="logo" src="@/assets/LogoV2.svg">
     <!-- <div class='hamburger-menu flexCC'>
       <div class='rounded-shape'></div>
       <div class='rounded-shape'></div>
@@ -16,7 +17,10 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  }
+  },
+  props: [
+    'useDotLogo'
+  ]
 }
 </script>
 
@@ -46,9 +50,14 @@ a {
   align-items: center;
 }
 
+.dot-logo {
+  width: 18px;
+  height: 18px;
+}
+
 .logo {
-  width: 38px;
-  height: 40px;
+  width: 103px;
+  height: 17px;
 }
 
 .hamburger-menu {

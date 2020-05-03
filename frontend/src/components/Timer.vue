@@ -54,10 +54,11 @@ export default {
   methods: {
     onTimesUp() {
       clearInterval(this.timerInterval);
+      this.$emit('timer-expired');
     },
 
     startTimer() {
-      this.timerInterval = setInterval(() => {this.timePassed += 1; console.log(this.timePassed)}, 1000);
+      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     }
   }
 }

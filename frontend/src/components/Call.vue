@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SessionTopBar></SessionTopBar>
+    <SessionTopBar timerCopy='Session ends in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
     <p>Bowenn</p>
     <SessionBottomBar></SessionBottomBar>
   </div>
@@ -9,6 +9,7 @@
 <script>
 import SessionTopBar from '@/components/SessionTopBar'
 import SessionBottomBar from '@/components/SessionBottomBar'
+import router from '../router'
 export default {
   name: "Call",
   components: {
@@ -18,6 +19,11 @@ export default {
   props: [
     'testSession'
   ],
+  methods: {
+    onTimerExpired() {
+      router.push({ name: "SessionEnd" })
+    }
+  },
   mounted () {
     let dailycoScript = document.createElement('script')
     dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js@0.9.988/dist/daily-iframe.js')

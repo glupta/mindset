@@ -1,6 +1,6 @@
 <template>
   <div class="waiting-room">
-    <SessionTopBar></SessionTopBar>
+    <SessionTopBar timerCopy='Session starts in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
     <div class='waiting-room-partner'>
         <p class='description'>
         You're here!
@@ -16,6 +16,7 @@
 <script>
 import SessionTopBar from '@/components/SessionTopBar'
 import SessionBottomBar from '@/components/SessionBottomBar'
+import router from '../router'
 export default {
   name: 'WaitingRoom',
   data () {
@@ -26,6 +27,14 @@ export default {
   components: {
     SessionTopBar,
     SessionBottomBar
+  },
+  methods: {
+    goToSession() {
+      router.push({ name: "Call" })
+    },
+    onTimerExpired() {
+      router.push({ name: "Call" })
+    }
   }
 }
 </script>

@@ -7,6 +7,7 @@ import ScheduleConfirmation from '@/components/ScheduleConfirmation'
 import AppointmentLanding from '@/components/AppointmentLanding'
 import WaitingRoom from '@/components/WaitingRoom'
 import Call from '@/components/Call'
+import SessionLanding from '@/components/SessionLanding'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       name: 'Call',
       component: Call,
       props: true
+    },
+    {
+      path: '/sessionLanding',
+      name: 'SessionLanding',
+      component: SessionLanding
     }
   ]
 })
