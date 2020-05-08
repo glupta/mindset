@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SessionTopBar timerCopy='Session ends in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
+    <SessionTopBar :timeLimit='10 * 60' timerCopy='Session ends in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
     <SessionBottomBar></SessionBottomBar>
   </div>
 </template>
@@ -29,10 +29,6 @@ export default {
     document.head.appendChild(dailycoScript)
 
     dailycoScript.addEventListener("load", function(event) {
-      //console.log('fired')
-      //let myRoom = this.createMtgRoom()
-      //console.log(myRoom)
-
       window.callFrame = window.DailyIframe.createFrame();
       callFrame.join({ url: 'https://meditation-hub.daily.co/hello' });
       var elem = document.querySelector('iframe');
@@ -41,24 +37,7 @@ export default {
       elem.style.right= "0em";
       elem.style.bottom= "0em";
     });
-
-    //console.log('akal wettakal')
-  }/*,
-  methods: {
-    createMtgRoom: function () {
-      let room = {
-        "id":"e59809f1-e025-46cf-ac4e-3ddf38f6d66b",
-        "name":"hello",
-        "api_created":false,
-        "privacy":"public",
-        "url":"https://meditation-hub.daily.co/hello",
-        "created_at":"2020-05-02T16:47:13.000Z",
-        "dialInPIN":"930940",
-        "config":{}
-      }
-      return room;
-	  }
-  }*/
+  }
 }
 </script>
 

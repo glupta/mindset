@@ -1,6 +1,6 @@
 <template>
   <div class="waiting-room">
-    <SessionTopBar timerCopy='Session starts in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
+    <SessionTopBar timeLimit='20' timerCopy='Session starts in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
     <div class='waiting-room-partner'>
         
         <p class='description' style='background-color:#2AD9FF;color:#FFFFFF;'>

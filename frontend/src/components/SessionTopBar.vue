@@ -1,9 +1,9 @@
 <template>
   <div class='session-top-bar'>
         <p class='session-time'>
-            {{timerCopy}}
+            <!-- {{timerCopy}} -->
+            <Timer :timeLimit="timeLimit" v-on:timer-expired="onTimerExpired"></Timer>
         </p>
-        <Timer v-on:timer-expired="onTimerExpired"></Timer>
         <div class='leave-button'>
             <p class='leave-text'>
             Leave
@@ -30,7 +30,8 @@ export default {
     }
   },
   props: [
-    'timerCopy'
+    'timerCopy',
+    'timeLimit'
   ]
 }
 </script>

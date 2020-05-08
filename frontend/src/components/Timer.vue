@@ -5,8 +5,6 @@
 </template>
 
 <script>
-const TIME_LIMIT = 30;
-
 export default {
   name: 'Timer',
   data () {
@@ -29,12 +27,12 @@ export default {
     },
 
     timeLeft() {
-      return TIME_LIMIT - this.timePassed;
+      return this.timeLimit - this.timePassed;
     },
 
     timeFraction() {
       const rawTimeFraction = this.timeLeft / TIME_LEFT;
-      return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+      return rawTimeFraction - (1 / this.timeLimit) * (1 - rawTimeFraction);
     }
   },
 
@@ -47,7 +45,6 @@ export default {
   },
 
   mounted() {
-    debugger
     this.startTimer();
   },
 
@@ -60,7 +57,10 @@ export default {
     startTimer() {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     }
-  }
+  },
+  props: [
+    'timeLimit'
+  ]
 }
 </script>
 
