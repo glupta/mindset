@@ -13,6 +13,7 @@ export default {
       timerInterval: null
     }
   },
+  
   computed: {
     formattedTimeLeft() {
       const timeLeft = this.timeLeft;
@@ -41,11 +42,12 @@ export default {
       if (newValue === 0) {
         this.onTimesUp();
       }
-    }
-  },
+    },
 
-  mounted() {
-    this.startTimer();
+    timeLimit(newValue) {
+      this.timePassed = 0;
+      this.startTimer();
+    }
   },
 
   methods: {
@@ -58,6 +60,7 @@ export default {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     }
   },
+
   props: [
     'timeLimit'
   ]
