@@ -1,15 +1,20 @@
 <template>
   <div class='session-top-bar'>
-        <p class='session-time'>
-            <!-- {{timerCopy}} -->
-            <Timer :timeLimit="timeLimit" v-on:timer-expired="onTimerExpired"></Timer>
-        </p>
-        <div class='leave-button'>
-            <p class='leave-text'>
-            Leave
-            </p>
-        </div>
+    <p class='session-time'>
+      <!-- {{timerCopy}} -->
+      <Timer :timeLimit="timeLimit" v-on:timer-expired="onTimerExpired"></Timer>
+    </p>
+    <div class='session-status'>
+      <p class='session-status-text'>
+        {{sessionCopy}}
+      </p>
     </div>
+    <!--div class='leave-button'>
+      <p class='leave-text'>
+        Leave
+      </p>
+    </div-->
+  </div>
 </template>
 
 <script>
@@ -18,7 +23,7 @@ export default {
   name: 'SessionTopBar',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
     }
   },
   components: {
@@ -31,7 +36,8 @@ export default {
   },
   props: [
     'timerCopy',
-    'timeLimit'
+    'timeLimit',
+    'sessionCopy'
   ]
 }
 </script>
