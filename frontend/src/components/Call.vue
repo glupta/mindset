@@ -25,8 +25,6 @@ export default {
   },
   mounted () {
     let dailycoScript = document.createElement('script')
-    dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js@0.9.988/dist/daily-iframe.js')
-    document.head.appendChild(dailycoScript)
 
     dailycoScript.addEventListener("load", function(event) {
       window.callFrame = window.DailyIframe.createFrame();
@@ -37,6 +35,9 @@ export default {
       elem.style.right= "0em";
       elem.style.bottom= "0em";
     });
+
+    dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js')
+    document.head.appendChild(dailycoScript)
   }
 }
 </script>
