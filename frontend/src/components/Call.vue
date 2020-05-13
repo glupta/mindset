@@ -37,8 +37,6 @@ export default {
   },
   mounted() {
     let dailycoScript = document.createElement('script')
-    dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js@0.9.988/dist/daily-iframe.js')
-    document.head.appendChild(dailycoScript)
 
     dailycoScript.addEventListener("load", function(event) {
       window.callFrame = window.DailyIframe.createFrame();
@@ -54,6 +52,8 @@ export default {
     this.time_limit = 1 * 60;
     this.session_copy = "Please begin meditation";
 
+    dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js')
+    document.head.appendChild(dailycoScript)
   }
 }
 </script>
