@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SessionTopBar :timeLimit='10 * 60' timerCopy='Session ends in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
+    <SessionTopBar :timeLimit=time_limit timerCopy='Session ends in ' :sessionCopy=session_copy v-on:timer-expired="onTimerExpired"></SessionTopBar>
     <SessionBottomBar></SessionBottomBar>
   </div>
 </template>
@@ -11,6 +11,11 @@ import SessionBottomBar from '@/components/SessionBottomBar'
 import router from '../router'
 export default {
   name: "Call",
+  data () {
+    return {
+      time_limit: 0
+    }
+  },
   components: {
     SessionTopBar,
     SessionBottomBar
@@ -19,11 +24,18 @@ export default {
     'testSession'
   ],
   methods: {
+
     onTimerExpired() {
-      router.push({ name: "SessionEnd" })
+      if (this.debriefNext) {
+        this.debriefNext = false;
+        this.time_limit = 2 * 60;
+        this.session_copy = "Please describe your experience.";
+      } else {
+        router.push({ name: "SessionEnd" });
+      }
     }
   },
-  mounted () {
+  mounted() {
     let dailycoScript = document.createElement('script')
     dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js@0.9.988/dist/daily-iframe.js')
     document.head.appendChild(dailycoScript)
@@ -37,6 +49,11 @@ export default {
       elem.style.right= "0em";
       elem.style.bottom= "0em";
     });
+
+    this.debriefNext = true;
+    this.time_limit = 1 * 60;
+    this.session_copy = "Please begin meditation";
+
   }
 }
 </script>
