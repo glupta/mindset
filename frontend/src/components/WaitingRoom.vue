@@ -1,6 +1,6 @@
 <template>
   <div class="waiting-room">
-    <SessionTopBar timeLimit='20' timerCopy='Session starts in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
+    <SessionTopBar :timeLimit=time_limit timerCopy='Session starts in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
     <div class='waiting-room-partner'>
         
         <p class='description' style='background-color:#2AD9FF;color:#FFFFFF;'>
@@ -32,12 +32,16 @@ export default {
   name: 'WaitingRoom',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      time_limit: 0
     }
   },
   components: {
     SessionTopBar,
     SessionBottomBar
+  },
+  mounted() {
+    this.time_limit = 30; //change this to time between current time and scheduled session time 
   },
   methods: {
     goToSession() {

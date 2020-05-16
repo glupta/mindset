@@ -29,7 +29,7 @@ export default {
       if (this.debriefNext) {
         this.debriefNext = false;
         this.time_limit = 2 * 60;
-        this.session_copy = "Please describe your experience.";
+        this.session_copy = "How was your session?";
       } else {
         router.push({ name: "SessionEnd" });
       }
