@@ -41,14 +41,67 @@ export default {
     SessionBottomBar
   },
   mounted() {
-    this.time_limit = 30; //change this to time between current time and scheduled session time 
+    
+    fetch('/api/timedetails') //calls backend to get time details
+    .then(response => {
+      if (response.status !== 200) { //server error handling
+        console.log(`Looks like there was a problem. Status code: ${response.status}`);
+        return;
+      }
+      response.json().then(data => {
+      
+        let time_current = new Date(data["time_current"]);
+        let time_sched = new Date(data["time_sched"]);
+        console.log("current time1: ",time_current," sched time1:",time_sched);
+      
+        if (time_sched.getTime() < time_current.getTime()) { //check if user joined waiting room too late
+          this.onWaitingRoomLate();
+        } else {
+          this.time_limit = parseInt((time_sched - time_current)/1000); //time until session starts
+          console.log("time limit:",this.time_limit);
+        }
+      });
+    })
+    .catch(error => { //error handling
+      console.log("Fetch error: " + error);
+    });
   },
+
   methods: {
-    goToSession() {
-      router.push({ name: "Call" })
+    onWaitingRoomLate() {
+      router.push({ name: "SessionEnd" })
     },
     onTimerExpired() {
-      router.push({ name: "Call" })
+      
+      //create json data to send to server
+      //send parameter: device/client ID (currently sending dummy data)
+      var entry = {
+        hello1: "hello1",
+        hello2: "hello2"
+      };
+      
+      //call the backend '/api/requestroom'
+      fetch('/api/requestroom', {
+        method: "POST",
+        body: JSON.stringify(entry),
+        headers: new Headers({
+        "content-type": "application/json"
+        })
+      })
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => {
+          console.log(data);
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
+      });
+
+      router.push({ name: "Call" }) //take user to call page
     }
   }
 }

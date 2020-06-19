@@ -11,9 +11,10 @@ export default {
     return {
       timePassed: 0,
       timerInterval: null
+      //timeSessionStart defines when session starts
     }
   },
-  
+
   computed: {
     formattedTimeLeft() {
       const timeLeft = this.timeLeft;

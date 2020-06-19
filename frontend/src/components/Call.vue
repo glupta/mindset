@@ -31,16 +31,25 @@ export default {
         this.time_limit = 2 * 60;
         this.session_copy = "How was your session?";
       } else {
+
+      	//remove user from active_users table
+      	callFrame.leave();
+      	callFrame.destroy();
         router.push({ name: "SessionEnd" });
       }
     }
   },
   mounted() {
-    let dailycoScript = document.createElement('script')
+
+  	//count active_users
+  	//create vid chat rooms as required for users / 2
+  	//assign room to user
+
+    let dailycoScript = document.createElement('script');
 
     dailycoScript.addEventListener("load", function(event) {
       window.callFrame = window.DailyIframe.createFrame();
-      callFrame.join({ url: 'https://meditation-hub.daily.co/hello' });
+      callFrame.join({ url: 'https://meditate-live.daily.co/hello' }); //change this to assigned room
       var elem = document.querySelector('iframe');
       elem.style.width= "375px";
       elem.style.height = "750px";
@@ -48,15 +57,22 @@ export default {
       elem.style.bottom= "0em";
     });
 
+    dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js');
+    document.head.appendChild(dailycoScript);
+
     this.debriefNext = true;
     this.time_limit = 1 * 60;
     this.session_copy = "Please begin meditation";
-
-    dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js')
-    document.head.appendChild(dailycoScript)
   }
 }
 </script>
+
+<!--script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
+<script>
+callFrame = window.DailyIframe.createFrame();
+callFrame.join({ url: 'https://meditate-live.daily.co/hello' })
+</script-->
+
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
