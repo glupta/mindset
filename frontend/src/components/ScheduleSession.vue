@@ -4,7 +4,7 @@
         <br><br><br>
         <p class="header">Pick a time that works for you</p>
         <br><br>
-        <input type="email" id ="email_input" placeholder='Email' />
+        <input type="email" id ="email_input" placeholder='Your email address' />
         <br><br>
         <select class="myselection" id="date_selection" name="dates">
           <option value="" disabled selected>Day</option>

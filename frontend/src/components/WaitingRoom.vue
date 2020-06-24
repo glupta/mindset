@@ -9,13 +9,23 @@
         <br>
         Waiting for your meditation<br>
         buddy to join.
+        <br><br>
+
+        <select v-model="user_selection">
+          <option disabled selected>Pick User</option>
+          <option>User1</option>
+          <option>User2</option>
+          <option>User3</option>
+          <option>User4</option>
+        </select>
+
         <br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br>
         <br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br>
+        <br><br><br>
         </p>
         
     </div>
@@ -33,7 +43,8 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      time_limit: 0
+      time_limit: 0,
+      user_selection: null
     }
   },
   components: {
@@ -54,10 +65,11 @@ export default {
         let time_sched = new Date(data["time_sched"]);
         console.log("current time1: ",time_current," sched time1:",time_sched);
       
-        if (time_sched.getTime() < time_current.getTime()) { //check if user joined waiting room too late
+        if (time_sched.getTime() < time_current.getTime()) { //reroute if user joined waiting room too late
           this.onWaitingRoomLate();
         } else {
-          this.time_limit = parseInt((time_sched - time_current)/1000); //time until session starts
+          //this.time_limit = parseInt((time_sched - time_current)/1000); //time until session starts
+          this.time_limit = 10
           console.log("time limit:",this.time_limit);
         }
       });
@@ -65,6 +77,12 @@ export default {
     .catch(error => { //error handling
       console.log("Fetch error: " + error);
     });
+  },
+
+  watch: {
+    user_selection(newValue) {
+      console.log("user is:",this.user_selection)
+    }
   },
 
   methods: {
@@ -77,7 +95,8 @@ export default {
       //send parameter: device/client ID (currently sending dummy data)
       var entry = {
         hello1: "hello1",
-        hello2: "hello2"
+        hello2: "hello2",
+        clientID: this.user_selection
       };
       
       //call the backend '/api/requestroom'
@@ -93,15 +112,52 @@ export default {
           console.log(`Looks like there was a problem. Status code: ${response.status}`);
           return;
         }
-        response.json().then(data => {
+        response.json().then(data => { //info about client added to active users in DB
           console.log(data);
-        });
+          //this.room_name = data['room_name'];
+
+          //dummy data
+          var room_name = "";
+          if (this.user_selection == "User1" || this.user_selection == "User2")
+            room_name = "room1";
+          else if (this.user_selection == "User3" || this.user_selection == "User4")
+            room_name = "room2";
+
+          //join video chat room (break into its own file)
+          let room_url = 'https://meditate-live.daily.co/';
+          //room_url += room_name == "" ? 'hello' : room_name;
+          if (room_name == "") {
+            room_url += 'hello';
+          } else {
+            room_url += room_name;
+          }
+          console.log("room name is",room_name);
+
+          //take user to call page
+          router.push({
+            name: "Call",
+            props: {
+              roomName: room_name
+            }
+          })
+
+          let dailycoScript = document.createElement('script');
+          dailycoScript.addEventListener("load", function(event) {
+            window.callFrame = window.DailyIframe.createFrame();
+            callFrame.join({ url: room_url});
+            var elem = document.querySelector('iframe');
+            elem.style.width= "375px";
+            elem.style.height = "750px";
+            elem.style.right= "0em";
+            elem.style.bottom= "0em";
+          });
+          dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js');
+          document.head.appendChild(dailycoScript);
+        })
       })
       .catch(error => { //error handling
         console.log("Fetch error: " + error);
       });
-
-      router.push({ name: "Call" }) //take user to call page
     }
   }
 }

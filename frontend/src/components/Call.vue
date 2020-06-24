@@ -21,7 +21,8 @@ export default {
     SessionBottomBar
   },
   props: [
-    'testSession'
+    'testSession',
+    'roomName'
   ],
   methods: {
 
@@ -41,24 +42,24 @@ export default {
   },
   mounted() {
 
-  	//count active_users
-  	//create vid chat rooms as required for users / 2
-  	//assign room to user
+  	//take room ID from DB
+    // let room_url = 'https://meditate-live.daily.co/';
+    // room_url += (this.roomName == "") ? 'hello' : this.roomName;
+    // console.log("room name",room_url);
 
-    let dailycoScript = document.createElement('script');
+    // let dailycoScript = document.createElement('script');
+    // dailycoScript.addEventListener("load", function(event) {
+    //   window.callFrame = window.DailyIframe.createFrame();
+    //   callFrame.join({ url: room_url});
+    //   var elem = document.querySelector('iframe');
+    //   elem.style.width= "375px";
+    //   elem.style.height = "750px";
+    //   elem.style.right= "0em";
+    //   elem.style.bottom= "0em";
+    // });
 
-    dailycoScript.addEventListener("load", function(event) {
-      window.callFrame = window.DailyIframe.createFrame();
-      callFrame.join({ url: 'https://meditate-live.daily.co/hello' }); //change this to assigned room
-      var elem = document.querySelector('iframe');
-      elem.style.width= "375px";
-      elem.style.height = "750px";
-      elem.style.right= "0em";
-      elem.style.bottom= "0em";
-    });
-
-    dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js');
-    document.head.appendChild(dailycoScript);
+    //dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js');
+    //document.head.appendChild(dailycoScript);
 
     this.debriefNext = true;
     this.time_limit = 1 * 60;
@@ -66,12 +67,6 @@ export default {
   }
 }
 </script>
-
-<!--script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
-<script>
-callFrame = window.DailyIframe.createFrame();
-callFrame.join({ url: 'https://meditate-live.daily.co/hello' })
-</script-->
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
