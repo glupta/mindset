@@ -18,14 +18,6 @@
           <option>User3</option>
           <option>User4</option>
         </select>
-
-        <br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br>
-        <br><br><br><br><br><br><br>
-        <br><br><br>
         </p>
         
     </div>
@@ -61,6 +53,7 @@ export default {
       }
       response.json().then(data => {
       
+        //get current and scheduled times
         let time_current = new Date(data["time_current"]);
         let time_sched = new Date(data["time_sched"]);
         console.log("current time1: ",time_current," sched time1:",time_sched);
@@ -81,21 +74,19 @@ export default {
 
   watch: {
     user_selection(newValue) {
-      console.log("user is:",this.user_selection)
+      console.log("user is:",this.user_selection);
     }
   },
 
   methods: {
     onWaitingRoomLate() {
-      router.push({ name: "SessionEnd" })
+      router.push({ name: "SessionEnd" });
     },
     onTimerExpired() {
       
       //create json data to send to server
-      //send parameter: device/client ID (currently sending dummy data)
+      //send parameter: device/client ID
       var entry = {
-        hello1: "hello1",
-        hello2: "hello2",
         clientID: this.user_selection
       };
       
@@ -124,35 +115,35 @@ export default {
             room_name = "room2";
 
           //join video chat room (break into its own file)
-          let room_url = 'https://meditate-live.daily.co/';
+          var room_url = "https://meditate-live.daily.co/";
           //room_url += room_name == "" ? 'hello' : room_name;
           if (room_name == "") {
             room_url += 'hello';
           } else {
             room_url += room_name;
           }
-          console.log("room name is",room_name);
 
+          console.log("passing URL to call:",room_url);
           //take user to call page
           router.push({
             name: "Call",
             props: {
-              roomName: room_name
+              roomURL: room_url
             }
           })
 
-          let dailycoScript = document.createElement('script');
-          dailycoScript.addEventListener("load", function(event) {
-            window.callFrame = window.DailyIframe.createFrame();
-            callFrame.join({ url: room_url});
-            var elem = document.querySelector('iframe');
-            elem.style.width= "375px";
-            elem.style.height = "750px";
-            elem.style.right= "0em";
-            elem.style.bottom= "0em";
-          });
-          dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js');
-          document.head.appendChild(dailycoScript);
+          // let dailycoScript = document.createElement('script');
+          // dailycoScript.addEventListener("load", function(event) {
+          //   window.callFrame = window.DailyIframe.createFrame();
+          //   callFrame.join({ url: room_url});
+          //   var elem = document.querySelector('iframe');
+          //   elem.style.width= "375px";
+          //   elem.style.height = "750px";
+          //   elem.style.right= "0em";
+          //   elem.style.bottom= "0em";
+          // });
+          // dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js');
+          // document.head.appendChild(dailycoScript);
         })
       })
       .catch(error => { //error handling
