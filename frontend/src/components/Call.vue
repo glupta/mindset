@@ -44,7 +44,8 @@ export default {
   },
   mounted() {
 
-    console.log("call is mounted, room url:",this.roomURL);
+    var encoded_room = String(this.roomURL);
+    console.log("call is mounted, room url:",encoded_room);
   	//take room ID from DB
     // let room_url = 'https://meditate-live.daily.co/';
     // room_url += (this.roomName == "") ? 'hello' : this.roomName;
@@ -53,7 +54,7 @@ export default {
     let dailycoScript = document.createElement('script');
     dailycoScript.addEventListener("load", function(event) {
       window.callFrame = window.DailyIframe.createFrame();
-      callFrame.join({ url: this.roomURL});
+      callFrame.join({ url: encoded_room});
       var elem = document.querySelector('iframe');
       elem.style.width= "375px";
       elem.style.height = "750px";

@@ -36,13 +36,6 @@ def requestroom():
 	if 'clientID' not in req:
 		print('missing client ID')
 
-
-	#update user in DB with current session ID & time stamp
-	#count active users with current session ID & timestamp <= user's timestamp
-	#assign chat room = count // 2
-	#update DB with assigned room
-
-
 	#dummy users
 	room_name = ""
 	if req['clientID'] == "User1" or req['clientID'] == "User2" :
@@ -50,6 +43,26 @@ def requestroom():
 
 	elif req['clientID'] == "User3" or req['clientID'] == "User4" :
 		room_name = "room2"
+
+	#update user in DB with current session ID & time stamp
+	#count active users with current session ID & timestamp <= user's timestamp
+	#assign chat room = count // 2
+	#update DB with assigned room
+
+	#gets the credentials from .aws/credentials
+	# session = boto3.Session(profile_name='default')
+	# client = boto3.client('rds')
+	# #token = client.generate_db_auth_token(DBHostname=ENDPOINT, Port=PORT, DBUsername=USR, Region=REGION)
+
+	# try:
+	# 	conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+	# 	cur = conn.cursor()
+	# 	cur.execute("""SELECT now()""")
+	# 	query_results = cur.fetchall()
+	# 	print("success!",query_results)
+	# except Exception as e:
+	# 	print("Database connection failed due to {}".format(e))
+
 
 	#check if room exists
 	url = "https://api.daily.co/v1/rooms/" #+ room_name
@@ -66,33 +79,17 @@ def requestroom():
 			response = requests.request("POST", url, data=payload, headers=headers)
 			print(response.json())
 
-	#res = make_response(jsonify(req), 200)
-	#return res
 	data = {}
 	data['room_name'] = room_name #captures room name
 	return json.dumps(data)
 
+	#get json for all rooms
 	# headers = {
 	# 	'content-type': "application/json",
 	# 	'authorization': "Bearer 05535c097075d1938caf827de2217e51a56cf2309a9c738443b8df7a47e2054b"
 	# 	}
-
 	# response = requests.request("POST", url, headers=headers)
 	#print(response.json())
-
-	#gets the credentials from .aws/credentials
-	# session = boto3.Session(profile_name='default')
-	# client = boto3.client('rds')
-	# #token = client.generate_db_auth_token(DBHostname=ENDPOINT, Port=PORT, DBUsername=USR, Region=REGION)
-
-	# try:
-	# 	conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
-	# 	cur = conn.cursor()
-	# 	cur.execute("""SELECT now()""")
-	# 	query_results = cur.fetchall()
-	# 	print("success!",query_results)
-	# except Exception as e:
-	# 	print("Database connection failed due to {}".format(e))
 
 
 

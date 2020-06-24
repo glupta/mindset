@@ -127,7 +127,7 @@ export default {
           //take user to call page
           router.push({
             name: "Call",
-            props: {
+            params: {
               roomURL: room_url
             }
           })
