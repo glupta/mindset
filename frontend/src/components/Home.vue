@@ -51,11 +51,11 @@
         <p class='description content-width margin-bottom-32'>
             Exit session and give feedback. Let's schedule the next session to build from here!
         </p>
-        <div class='get-started-button align-center justify-center flexCR margin-top-18 darker-blue'  v-on:click='getStarted()'>
+        <!--div class='get-started-button align-center justify-center flexCR margin-top-18 darker-blue'  v-on:click='getStarted()'>
             <p class='get-started-text'>
                 Get Started
             </p>
-        </div>
+        </div-->
     </div>
     <div class='home-tips-background-light'>
         <div class='home-tips-background-dark white-text flexCC justify-center align-center'>
@@ -98,7 +98,8 @@ export default {
   },
   methods: {
       getStarted() {
-          router.push({ name: "ScheduleSession" });
+          //router.push({ name: "ScheduleSession" });
+          router.push({ name: "WaitingRoom" });
       }
   }
 }

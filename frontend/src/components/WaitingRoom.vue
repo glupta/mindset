@@ -4,20 +4,23 @@
     <div class='waiting-room-partner'>
         
         <p class='description' style='background-color:#2AD9FF;color:#FFFFFF;'>
-        <br><br><br><br><br><br><br><br>
+        <br><br>
         You're here!
         <br>
-        Waiting for your meditation<br>
-        buddy to join.
+        Waiting for the session to start...
         <br><br>
 
-        <select v-model="user_selection">
+        <!--select v-model="user_selection">
           <option disabled selected>Pick User</option>
           <option>User1</option>
           <option>User2</option>
           <option>User3</option>
           <option>User4</option>
-        </select>
+        </select-->
+
+        <input v-model="user_text" placeholder="Enter your name"></input>
+        <br><br><br>
+
         </p>
         
     </div>
@@ -25,18 +28,20 @@
     <SessionBottomBar></SessionBottomBar>
   </div>
 </template>
-
+<script src="https://cdnjs.com/libraries/fingerprintjs2"></script>
 <script>
 import SessionTopBar from '@/components/SessionTopBar'
 import SessionBottomBar from '@/components/SessionBottomBar'
 import router from '../router'
+import Fingerprint2 from 'fingerprintjs2'
 export default {
   name: 'WaitingRoom',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       time_limit: 0,
-      user_selection: null
+      user_selection: null,
+      user_text: null
     }
   },
   components: {
@@ -44,7 +49,7 @@ export default {
     SessionBottomBar
   },
   mounted() {
-    
+
     fetch('/api/timedetails') //calls backend to get time details
     .then(response => {
       if (response.status !== 200) { //server error handling
@@ -61,8 +66,8 @@ export default {
         if (time_sched.getTime() < time_current.getTime()) { //reroute if user joined waiting room too late
           this.onWaitingRoomLate();
         } else {
-          //this.time_limit = parseInt((time_sched - time_current)/1000); //time until session starts
-          this.time_limit = 10
+          this.time_limit = parseInt((time_sched - time_current)/1000); //time until session starts
+          //this.time_limit = 10
           console.log("time limit:",this.time_limit);
         }
       });
@@ -74,7 +79,10 @@ export default {
 
   watch: {
     user_selection(newValue) {
-      console.log("user is:",this.user_selection);
+      console.log("user_selection is:",this.user_selection);
+    },
+    user_text(newValue){
+      console.log("user_text is:",this.user_text);
     }
   },
 
@@ -84,10 +92,27 @@ export default {
     },
     onTimerExpired() {
       
+
+          //fingerprinting to create unique client ID
+          // if (window.requestIdleCallback) {
+          //   requestIdleCallback(function () {
+          //     Fingerprint2.get(function (components) {
+          //       console.log(components) // an array of components: {key: ..., value: ...}
+          //     })
+          //   })
+          // } else {
+          //   setTimeout(function () {
+          //     Fingerprint2.get(function (components) {
+          //       console.log(components) // an array of components: {key: ..., value: ...}
+          //     })  
+          //   }, 500)
+          // }
+
       //create json data to send to server
       //send parameter: device/client ID
       var entry = {
-        clientID: this.user_selection
+        //clientID: this.user_selection
+        clientID: this.user_text
       };
       
       //call the backend '/api/requestroom'
@@ -104,20 +129,25 @@ export default {
           return;
         }
         response.json().then(data => { //info about client added to active users in DB
-          console.log(data);
+          console.log("data: ",data);
           //this.room_name = data['room_name'];
 
+          var room_name = ""; //take room name from backend call
+          if ('room_name' in data) {
+            room_name = data['room_name'];
+            console.log("room name: ",room_name);
+          }
+
           //dummy data
-          var room_name = "";
-          if (this.user_selection == "User1" || this.user_selection == "User2")
-            room_name = "room1";
-          else if (this.user_selection == "User3" || this.user_selection == "User4")
-            room_name = "room2";
+          // if (this.user_selection == "User1" || this.user_selection == "User2")
+          //   room_name = "room1";
+          // else if (this.user_selection == "User3" || this.user_selection == "User4")
+          //   room_name = "room2";
 
           //join video chat room (break into its own file)
           var room_url = "https://meditate-live.daily.co/";
           //room_url += room_name == "" ? 'hello' : room_name;
-          if (room_name == "") {
+          if (room_name === "") {
             room_url += 'hello';
           } else {
             room_url += room_name;
@@ -131,19 +161,6 @@ export default {
               roomURL: room_url
             }
           })
-
-          // let dailycoScript = document.createElement('script');
-          // dailycoScript.addEventListener("load", function(event) {
-          //   window.callFrame = window.DailyIframe.createFrame();
-          //   callFrame.join({ url: room_url});
-          //   var elem = document.querySelector('iframe');
-          //   elem.style.width= "375px";
-          //   elem.style.height = "750px";
-          //   elem.style.right= "0em";
-          //   elem.style.bottom= "0em";
-          // });
-          // dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js');
-          // document.head.appendChild(dailycoScript);
         })
       })
       .catch(error => { //error handling
