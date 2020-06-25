@@ -4,16 +4,17 @@ from datetime import datetime
 import json
 import mysql.connector
 import sys
-import boto3
 import os
 import requests
 
 ENDPOINT = "med-live-db2.c2kufiynjcx0.us-east-2.rds.amazonaws.com"
+#ENDPOINT = "aa7vyeapkrld6g.c2kufiynjcx0.us-east-2.rds.amazonaws.com"
 USR="admin"
 PWD= "meditate123"
 PORT="3306"
 REGION="us-east-2"
 DBNAME="medlivedb2"
+#DBNAME ="ebdb"
 os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
 
 app = Flask(__name__,
@@ -25,13 +26,11 @@ def timedetails():
 
 	data = {}
 	data['time_current'] = datetime.now().isoformat() #captures current time
-	data['time_sched'] = datetime(2020,6,25,2,52).isoformat() #captures scheduled time
+	data['time_sched'] = datetime(2020,6,25,13,55).isoformat() #captures scheduled time
 	return json.dumps(data)
 
 @app.route('/api/requestroom', methods=["POST"])
 def requestroom():
-
-	data = {} #data to be returned
 
 	#check for clientID
 	req = request.get_json()
@@ -42,13 +41,19 @@ def requestroom():
 		client_id = "dummy"
 	print("client ID:",client_id)
 
-	#connect to DB & run cmd
-	#gets the credentials from .aws/credentials
-	session = boto3.Session(profile_name='default')
-	client = boto3.client('rds')
-	conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
-	cur = conn.cursor(buffered=True)
-	print(client_id,": passed DB credentials")
+	data = {} #data to be returned
+	data['user_name'] = client_id
+
+	#connect to DB
+	try:
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print(client_id,": passed DB credentials")
+	except:
+		print(client_id,": did not pass DB credentials")
+		data['error'] = "unable to connect with DB"
+		return json.dumps(data)
+
 
 	#check if user is already in active_users table
 	cmd = "SELECT * FROM active_users WHERE user_name = %s"
@@ -57,9 +62,11 @@ def requestroom():
 		print("does user exist1? ","yes" if cur.rowcount > 0 else "no")
 		if cur.rowcount > 0 :
 			print("error, user already exists")
+			data['error'] = "user already exists before insert"
 			return json.dumps(data)
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
+		data['error'] = "failed to connect to DB sql1"
 		return json.dumps(data)
 
 	#insert user into active_users table
@@ -71,9 +78,10 @@ def requestroom():
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
 		conn.rollback()
+		data['error'] = "failed to connect to DB sql2"
 		return json.dumps(data)
 
-	#get entry order
+	#get entry order for user
 	cmd = "SELECT entry_order FROM active_users WHERE user_name = %s"
 	try:
 		cur.execute(cmd,(client_id,))
@@ -83,9 +91,11 @@ def requestroom():
 			print("entry order:",entry_order)
 		else :
 			print("error, user does not exist")
+			data['error'] = "user does not exist after insert"
 			return json.dumps(data)
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
+		data['error'] = "failed to connect to DB sql3"
 		return json.dumps(data)
 
 	conn.close() #close DB connection

@@ -67,8 +67,8 @@ export default {
           this.onWaitingRoomLate();
         } else {
           this.time_limit = parseInt((time_sched - time_current)/1000); //time until session starts
-          //this.time_limit = 10
-          console.log("time limit:",this.time_limit);
+          this.time_limit = 10;
+          //console.log("time limit:",this.time_limit);
         }
       });
     })
@@ -108,6 +108,8 @@ export default {
           //   }, 500)
           // }
 
+      console.log(this.user_text,": timer expired")
+
       //create json data to send to server
       //send parameter: device/client ID
       var entry = {
@@ -115,7 +117,7 @@ export default {
         clientID: this.user_text
       };
       
-      //call the backend '/api/requestroom'
+      //call the backend to get assigned room
       fetch('/api/requestroom', {
         method: "POST",
         body: JSON.stringify(entry),
@@ -130,12 +132,17 @@ export default {
         }
         response.json().then(data => { //info about client added to active users in DB
           console.log("data: ",data);
-          //this.room_name = data['room_name'];
 
           var room_name = ""; //take room name from backend call
+
+          if ('error' in data) {
+            console.log(this.user_text,": requestroom error: ",data['error']);
+            return;
+          }
+
           if ('room_name' in data) {
             room_name = data['room_name'];
-            console.log("room name: ",room_name);
+            console.log(this.user_text,": room name: ",room_name);
           }
 
           //dummy data
