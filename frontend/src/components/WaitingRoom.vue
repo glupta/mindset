@@ -9,18 +9,11 @@
         <br>
         Waiting for the session to start...
         <br><br>
-
-        <!--select v-model="user_selection">
-          <option disabled selected>Pick User</option>
-          <option>User1</option>
-          <option>User2</option>
-          <option>User3</option>
-          <option>User4</option>
-        </select-->
-
-        <input v-model="user_text" placeholder="Enter your name"></input>
+        <!--input v-model="user_text" placeholder="Enter your name"></input-->
+        Want to do a test run?
+        <br><br>
+        <a class='test-session-button' v-on:click="testSession()">Test Session</a>
         <br><br><br>
-
         </p>
         
     </div>
@@ -33,15 +26,13 @@
 import SessionTopBar from '@/components/SessionTopBar'
 import SessionBottomBar from '@/components/SessionBottomBar'
 import router from '../router'
-import Fingerprint2 from 'fingerprintjs2'
 export default {
   name: 'WaitingRoom',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       time_limit: 0,
-      user_selection: null,
-      user_text: null
+      //user_text: null
     }
   },
   components: {
@@ -49,6 +40,20 @@ export default {
     SessionBottomBar
   },
   mounted() {
+
+      this.client_id = "fake";
+      console.log("cookies1:",this.$cookies);
+      if (this.$cookies.isKey('medliveorg')) {
+        this.client_id = this.$cookies.get('medliveorg');
+        console.log("found cookie");
+      }
+      else {
+        this.client_id = Math.random().toString(36).slice(-5);
+        this.$cookies.set('medliveorg',this.client_id);
+        console.log("added cookie");
+      }
+      console.log(this.client_id,": cookies2:",this.$cookies);
+
 
     fetch('/api/timedetails') //calls backend to get time details
     .then(response => {
@@ -67,8 +72,8 @@ export default {
           this.onWaitingRoomLate();
         } else {
           this.time_limit = parseInt((time_sched - time_current)/1000); //time until session starts
-          this.time_limit = 10;
-          //console.log("time limit:",this.time_limit);
+          //this.time_limit = 30;
+          console.log("time limit:",this.time_limit);
         }
       });
     })
@@ -76,13 +81,13 @@ export default {
       console.log("Fetch error: " + error);
     });
   },
-
-  watch: {
-    user_selection(newValue) {
-      console.log("user_selection is:",this.user_selection);
-    },
-    user_text(newValue){
-      console.log("user_text is:",this.user_text);
+  
+  watch: { //set page title
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = 'Waiting Room' || 'Some Default Title';
+      }
     }
   },
 
@@ -90,31 +95,62 @@ export default {
     onWaitingRoomLate() {
       router.push({ name: "SessionEnd" });
     },
-    onTimerExpired() {
-      
-
-          //fingerprinting to create unique client ID
-          // if (window.requestIdleCallback) {
-          //   requestIdleCallback(function () {
-          //     Fingerprint2.get(function (components) {
-          //       console.log(components) // an array of components: {key: ..., value: ...}
-          //     })
-          //   })
-          // } else {
-          //   setTimeout(function () {
-          //     Fingerprint2.get(function (components) {
-          //       console.log(components) // an array of components: {key: ..., value: ...}
-          //     })  
-          //   }, 500)
-          // }
-
-      console.log(this.user_text,": timer expired")
+    testSession() {
 
       //create json data to send to server
       //send parameter: device/client ID
       var entry = {
-        //clientID: this.user_selection
-        clientID: this.user_text
+        clientID: this.client_id
+      };
+
+      fetch('/api/testroom', {
+      method: "POST",
+      body: JSON.stringify(entry),
+        headers: new Headers({
+        "content-type": "application/json"
+        })
+      })
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => { //info about client added to active users in DB
+          console.log("data: ",data);
+
+          if ('error' in data) { //error handling from testroom backend call
+            console.log(this.client_id,": requestroom error: ",data['error']);
+            alert("requestroom error: " + data['error']);
+            return;
+          }
+
+          var room_name = "hello"; //take room name from backend call
+          if ('room_name' in data) { 
+            room_name = data['room_name'];
+            console.log(this.client_id,": test room name: ",room_name);
+          }
+
+          console.log("passing test room name to call:",room_name);
+          //take user to call page
+          router.push({
+            name: "Call",
+            params: {
+              testSession: true,
+              roomName: room_name
+            }
+          })
+        })
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
+      });
+    },
+    onTimerExpired() {
+
+      //create json data to send to server
+      //send parameter: device/client ID
+      var entry = {
+        clientID: this.client_id
       };
       
       //call the backend to get assigned room
@@ -133,39 +169,24 @@ export default {
         response.json().then(data => { //info about client added to active users in DB
           console.log("data: ",data);
 
-          var room_name = ""; //take room name from backend call
-
-          if ('error' in data) {
-            console.log(this.user_text,": requestroom error: ",data['error']);
+          if ('error' in data) { //error handling from requestroom backend call
+            console.log(this.client_id,": requestroom error: ",data['error']);
+            alert("requestroom error: " + data['error']);
             return;
           }
 
-          if ('room_name' in data) {
+          var room_name = "hello"; //take room name from backend call
+          if ('room_name' in data) { 
             room_name = data['room_name'];
-            console.log(this.user_text,": room name: ",room_name);
+            console.log(this.client_id,": room name: ",room_name);
           }
 
-          //dummy data
-          // if (this.user_selection == "User1" || this.user_selection == "User2")
-          //   room_name = "room1";
-          // else if (this.user_selection == "User3" || this.user_selection == "User4")
-          //   room_name = "room2";
-
-          //join video chat room (break into its own file)
-          var room_url = "https://meditate-live.daily.co/";
-          //room_url += room_name == "" ? 'hello' : room_name;
-          if (room_name === "") {
-            room_url += 'hello';
-          } else {
-            room_url += room_name;
-          }
-
-          console.log("passing URL to call:",room_url);
+          console.log("passing room name to call:",room_name);
           //take user to call page
           router.push({
             name: "Call",
             params: {
-              roomURL: room_url
+              roomName: room__name
             }
           })
         })
@@ -183,5 +204,17 @@ export default {
 .waiting-room {
   font-family: 'DIN Condensed', sans-serif;
   font-size: 24px;
+}
+
+.test-session-button {
+  font-size: 18px;
+  font-family: 'DIN Condensed', sans-serif;
+  border-radius: 5px;
+  border: 2px solid #18A0FB;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 95px;
+  padding-left: 95px;
+  color: #18a0fb;
 }
 </style>

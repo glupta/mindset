@@ -23,38 +23,55 @@ export default {
     //VideoChat
   },
   props: {
-//    testSession,
-    roomURL: String
+    testSession: Boolean,
+    roomName: String
   },
   methods: {
 
     onTimerExpired() {
-      if (this.debriefNext) {
-        this.debriefNext = false;
-        this.time_limit = 2 * 60;
-        this.session_copy = "How was your session?";
-      } else {
 
-      	//remove user from active_users table
-      	callFrame.leave();
-      	callFrame.destroy();
+      if (this.testSession) //do not reroute if test session
+        return;
+
+      if (this.debriefNext) { //set environment for debrief
+      
+        this.debriefNext = false;
+        this.time_limit = 1 * 60;
+        this.session_copy = "How was your session?";
+      }
+      else { //if debrief ended
+
+        //remove user from active_users table
+      	//callFrame.leave();
+      	//callFrame.destroy();
         router.push({ name: "SessionEnd" });
       }
     }
   },
+
   mounted() {
 
-    var encoded_room = String(this.roomURL);
-    console.log("call is mounted, room url:",encoded_room);
-  	//take room ID from DB
-    // let room_url = 'https://meditate-live.daily.co/';
-    // room_url += (this.roomName == "") ? 'hello' : this.roomName;
-    // console.log("room name",room_url);
 
+    if (!this.roomName) { //kick out if room name not given
+      router.push({ name: "SessionEnd" });
+      return;
+    }
+
+    //set environment if not test session 
+    if (!this.testSession) {
+      this.debriefNext = true;
+      this.time_limit = 1 * 60;
+      this.session_copy = "Please begin meditation";
+    }
+
+    //call daily.co API to add user to assigned video chat room
+    var room_url = "https://meditate-live.daily.co/";
+    room_url += String(this.roomName);
+    console.log("call is mounted, room url:",room_url);
     let dailycoScript = document.createElement('script');
     dailycoScript.addEventListener("load", function(event) {
       window.callFrame = window.DailyIframe.createFrame();
-      callFrame.join({ url: encoded_room});
+      callFrame.join({ url: room_url});
       var elem = document.querySelector('iframe');
       elem.style.width= "375px";
       elem.style.height = "750px";
@@ -63,17 +80,25 @@ export default {
     });
     dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js');
     document.head.appendChild(dailycoScript);
-
-    this.debriefNext = true;
-    this.time_limit = 1 * 60;
-    this.session_copy = "Please begin meditation";
   },
-  watch: {
-    roomReady(newValue) {
-      if (roomReady) {
-        console.log("room is ready");
-        //this.$refs.onRoomReady.JoinVideoCall(roomURL);
+
+  watch: { //set page title
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = 'Meditation Room' || 'Some Default Title';
       }
+    }
+  },
+
+  destroyed() {
+    
+    //remove user from active_users table
+    var elem = document.querySelector('iframe');
+    if (elem) {
+      elem.style.display = 'none';
+      callFrame.leave();
+      callFrame.destroy();
     }
   }
 }

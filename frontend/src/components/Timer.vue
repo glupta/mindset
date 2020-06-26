@@ -11,7 +11,6 @@ export default {
     return {
       timePassed: 0,
       timerInterval: null
-      //timeSessionStart defines when session starts
     }
   },
 
@@ -30,16 +29,12 @@ export default {
 
     timeLeft() {
       return this.timeLimit - this.timePassed;
-    },
-
-    timeFraction() {
-      const rawTimeFraction = this.timeLeft / TIME_LEFT;
-      return rawTimeFraction - (1 / this.timeLimit) * (1 - rawTimeFraction);
     }
   },
 
   watch: {
     timeLeft(newValue) {
+      console.log("time left:",this.timeLeft)
       if (newValue === 0) {
         this.onTimesUp();
       }

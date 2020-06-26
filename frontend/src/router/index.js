@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueCookies from 'vue-cookies';
 import Home from '@/components/Home'
 import ScheduleSession from '@/components/ScheduleSession'
 import SessionEnd from '@/components/SessionEnd'
@@ -9,6 +10,7 @@ import Call from '@/components/Call'
 import SessionLanding from '@/components/SessionLanding'
 
 Vue.use(Router)
+Vue.use(VueCookies);
 
 export default new Router({
   routes: [

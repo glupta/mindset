@@ -31,11 +31,6 @@ import NavBar from '@/components/NavBar'
 import router from '../router'
 export default {
   name: 'SessionEnd',
-  mounted(){
-    //kill vidchat iframe after the call is done
-    var elem = document.querySelector('iframe');
-    elem.style.display = 'none';
-  },
   data () {
     return {
       yesSelected: false,
@@ -57,7 +52,16 @@ export default {
     goToScheduleSession() {
       router.push({ name: "ScheduleSession" })
     }
-  }
+  },
+
+  watch: { //set page title
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = 'Session Ended' || 'Some Default Title';
+      }
+    }
+  },
 }
 </script>
 

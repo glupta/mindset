@@ -1,3 +1,6 @@
+<head>
+  <title>Home</title>
+</head>
 <template>
   <div class="home">
     <NavBar :useDotLogo="true"></NavBar>
@@ -97,10 +100,18 @@ export default {
     NavBar
   },
   methods: {
-      getStarted() {
-          //router.push({ name: "ScheduleSession" });
-          router.push({ name: "WaitingRoom" });
+    getStarted() {
+      //router.push({ name: "ScheduleSession" });
+      router.push({ name: "WaitingRoom" });
+    }
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = 'Home' || 'Some Default Title';
       }
+    }
   }
 }
 </script>
