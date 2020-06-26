@@ -6,9 +6,11 @@
         <p class='description' style='background-color:#2AD9FF;color:#FFFFFF;'>
         <br><br>
         You're here!
-        <br>
-        Waiting for the session to start...
         <br><br>
+        The next session is at:
+        <br>
+        {{time_sched}}
+        <br><br><br>
         <!--input v-model="user_text" placeholder="Enter your name"></input-->
         Want to do a test run?
         <br><br>
@@ -32,7 +34,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       time_limit: 0,
-      //user_text: null
+      time_sched: ""
     }
   },
   components: {
@@ -66,11 +68,20 @@ export default {
         //get current and scheduled times
         let time_current = new Date(data["time_current"]);
         let time_sched = new Date(data["time_sched"]);
+        let time_sched_month = (time_sched.getMonth()+1).toString();
+        let time_sched_date = time_sched.getDate().toString();
+        let time_sched_year = time_sched.getFullYear().toString();
+        let time_sched_hour = time_sched.getHours().toString();
+        let time_sched_min = time_sched.getMinutes().toString();
+        if (time_sched.getMinutes() < 10)
+          time_sched_min = "0" + time_sched_min;
+        this.time_sched = time_sched_month + "/" + time_sched_date + "/" + time_sched_year + " " + time_sched_hour + ":" + time_sched_min + " UTC";
         console.log("current time1: ",time_current," sched time1:",time_sched);
       
         if (time_sched.getTime() < time_current.getTime()) { //reroute if user joined waiting room too late
           this.onWaitingRoomLate();
         } else {
+
           this.time_limit = parseInt((time_sched - time_current)/1000); //time until session starts
           //this.time_limit = 30;
           console.log("time limit:",this.time_limit);

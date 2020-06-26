@@ -86,7 +86,10 @@ export default {
     $route: {
       immediate: true,
       handler(to, from) {
-        document.title = 'Meditation Room' || 'Some Default Title';
+        let page_title = 'Meditation Room';
+        if (this.testSession)
+          page_title = 'Test Room';
+        document.title = page_title || 'Some Default Title';
       }
     }
   },

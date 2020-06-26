@@ -3,7 +3,7 @@
 </head>
 <template>
   <div class="home">
-    <NavBar :useDotLogo="true"></NavBar>
+    <!--NavBar :useDotLogo="true"></NavBar-->
     <div class='onboarding-screen'>
     <div class='home-background flexCC align-center'>
         <img class="logo" src="@/assets/Logo-V2-White.svg">
