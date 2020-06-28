@@ -117,7 +117,7 @@ export default {
               time_sched_min = '0' + time_sched_min;
             }
             let offset = new Date().getTimezoneOffset();
-            //let time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone
+            let time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone
             let sched_utc = new Date(data['time_sched']);
             let sched_offset = new Date(sched_utc - 1000 * 60 * offset);
             console.log("offset:",offset,", time zone:",time_zone,", sched utc:",sched_utc,", sched_offset:",sched_offset);
