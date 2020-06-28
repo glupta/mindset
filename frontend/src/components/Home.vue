@@ -24,7 +24,7 @@
             Decide when to meditate
         </p>
         <p class='description content-width margin-bottom-32'>
-            Choose from 3 daily timings. Strive to keep a consistent practice, but sporatic sessions are always better than no sessions!
+            Choose from 3 daily timings. Strive to keep a consistent practice, but some sessions are always better than none!
         </p>
         <img class='circle-icon' src='@/assets/circle2.png'></img>
         <p class='header font-bold'>
@@ -78,7 +78,7 @@
                 Direct energy towards the center of your body. If you struggle to focus, consider anchoring one of your senses: count your breaths, listen to ambient music, or stare at a lit candle.
             </p>
             <p class='description content-width padding-bottom-50'>
-                Optimize by meditating at the same time everyday, preferably in the morning or after a workout. Consider twice daily (morning and evening)7 to experience greater effects.
+                Optimize by meditating at the same time everyday, preferably in the morning or after a workout. Consider twice daily to experience greater effects.
             </p>
         </div>
     </div>

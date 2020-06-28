@@ -36,14 +36,10 @@ export default {
       if (this.debriefNext) { //set environment for debrief
       
         this.debriefNext = false;
-        this.time_limit = 1 * 60;
+        this.time_limit = 2 * 60;
         this.session_copy = "How was your session?";
       }
       else { //if debrief ended
-
-        //remove user from active_users table
-      	//callFrame.leave();
-      	//callFrame.destroy();
         router.push({ name: "SessionEnd" });
       }
     }
@@ -60,7 +56,7 @@ export default {
     //set environment if not test session 
     if (!this.testSession) {
       this.debriefNext = true;
-      this.time_limit = 1 * 60;
+      this.time_limit = 10 * 60;
       this.session_copy = "Please begin meditation";
     }
 
@@ -102,6 +98,7 @@ export default {
       elem.style.display = 'none';
       callFrame.leave();
       callFrame.destroy();
+      //delete vid chat room as well
     }
   }
 }

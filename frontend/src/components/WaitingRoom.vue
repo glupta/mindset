@@ -12,7 +12,7 @@
         {{time_sched}}
         <br><br><br>
         <!--input v-model="user_text" placeholder="Enter your name"></input-->
-        Want to do a test run?
+        Make sure your settings are good.
         <br><br>
         <a class='test-session-button' v-on:click="testSession()">Test Session</a>
         <br><br><br>
@@ -23,7 +23,6 @@
     <SessionBottomBar></SessionBottomBar>
   </div>
 </template>
-<script src="https://cdnjs.com/libraries/fingerprintjs2"></script>
 <script>
 import SessionTopBar from '@/components/SessionTopBar'
 import SessionBottomBar from '@/components/SessionBottomBar'
@@ -43,55 +42,100 @@ export default {
   },
   mounted() {
 
-      this.client_id = "fake";
-      console.log("cookies1:",this.$cookies);
-      if (this.$cookies.isKey('medliveorg')) {
-        this.client_id = this.$cookies.get('medliveorg');
-        console.log("found cookie");
+    //this.$cookies.set('medliveorg-active',0);
+
+    //use/create id from cookie
+    this.client_id = "fake";
+    console.log("cookies1:",this.$cookies);
+    if (this.$cookies.isKey('medliveorg-clientID')) {
+      this.client_id = this.$cookies.get('medliveorg-clientID');
+      //this.clients_active = parseInt(this.$cookies.get('medliveorg-active'));
+      //if (isNaN(this.clients_active)) {
+      //  this.clients_active = 0;
+      //}
+      console.log(this.client_id,": found cookie"); //", active clients:",this.clients_active);
+      if (this.clients_active > 0) {
+        this.kickOutWaitingRoom();
+      }
+    }
+    else {
+      this.client_id = Math.random().toString(36).slice(-5);
+      //this.clients_active = 0;
+      this.$cookies.set('medliveorg-clientID',this.client_id);
+      console.log("create cookie");
+    }
+
+    //this.clients_active += 1;
+    //this.$cookies.set('medliveorg-active',this.clients_active);
+    console.log(this.client_id,": cookies2:",this.$cookies);
+    //console.log(this.client_id,": increment cookie, active clients:",this.clients_active);
+
+    var fetch_time = '/api/timedata';
+    var fetch_time_bool = true;
+    if (this.$route.query.t) { //check if URL query given
+      var time_query = this.$route.query.t;
+      if (time_query.includes("-")) { //sched time given in query
+        fetch_time += "?sched=" + time_query;
+      console.log("fetch sched time:",fetch_time);
       }
       else {
-        this.client_id = Math.random().toString(36).slice(-5);
-        this.$cookies.set('medliveorg',this.client_id);
-        console.log("added cookie");
-      }
-      console.log(this.client_id,": cookies2:",this.$cookies);
-
-
-    fetch('/api/timedetails') //calls backend to get time details
-    .then(response => {
-      if (response.status !== 200) { //server error handling
-        console.log(`Looks like there was a problem. Status code: ${response.status}`);
-        return;
-      }
-      response.json().then(data => {
-      
-        //get current and scheduled times
-        let time_current = new Date(data["time_current"]);
-        let time_sched = new Date(data["time_sched"]);
-        let time_sched_month = (time_sched.getMonth()+1).toString();
-        let time_sched_date = time_sched.getDate().toString();
-        let time_sched_year = time_sched.getFullYear().toString();
-        let time_sched_hour = time_sched.getHours().toString();
-        let time_sched_min = time_sched.getMinutes().toString();
-        if (time_sched.getMinutes() < 10)
-          time_sched_min = "0" + time_sched_min;
-        this.time_sched = time_sched_month + "/" + time_sched_date + "/" + time_sched_year + " " + time_sched_hour + ":" + time_sched_min + " UTC";
-        console.log("current time1: ",time_current," sched time1:",time_sched);
-      
-        if (time_sched.getTime() < time_current.getTime()) { //reroute if user joined waiting room too late
-          this.onWaitingRoomLate();
-        } else {
-
-          this.time_limit = parseInt((time_sched - time_current)/1000); //time until session starts
-          //this.time_limit = 30;
-          console.log("time limit:",this.time_limit);
+        if (isNaN(parseInt(time_query))) { //time limit error
+          console.log("could not parse time request");
         }
+        else { //time limit given, no need to fetch time
+          this.time_limit = parseInt(time_query);
+          fetch_time_bool = false;
+        }
+      }
+    }
+
+    //if need to get time data from backend
+    if (fetch_time_bool) {
+      fetch(fetch_time)
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => {
+
+          console.log("time data:",data);
+          if ('error' in data) { //error handling from testroom backend call
+            console.log(this.client_id,": request time error: ",data['error']);
+            alert("request time error: " + data['error']);
+            return;
+          }
+
+          let time_diff = parseInt(data['time_diff']); //change to kick out flag
+          if (time_diff > 0) {
+            //this.time_limit = parseInt((time_sched - time_current)/1000);
+            this.time_limit = time_diff;
+
+            let time_sched_min = String(data['sched_min']);
+            console.log("sched length:",time_sched_min.length)
+            if (time_sched_min.length == 1) {
+              time_sched_min = '0' + time_sched_min;
+            }
+            // this.time_sched = time_sched_month + "/" + time_sched_date + "/" + time_sched_year + " " + time_sched_hour + ":" + time_sched_min + " UTC";
+            this.time_sched = data['sched_month'] + "/" + data['sched_day'] + "/" + data['sched_year'] + " " + data['sched_hour'] + ":" + time_sched_min + " UTC";
+          }
+          else { //kick out if current time is past sched time
+            console.log("currently past sched time, kicking out");
+            this.kickOutWaitingRoom();
+          }
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
       });
-    })
-    .catch(error => { //error handling
-      console.log("Fetch error: " + error);
-    });
+    }
   },
+
+  //destroyed() {
+    //this.clients_active -= 1;
+    //this.$cookies.set('medliveorg-active',this.clients_active);
+    //console.log(this.client_id,": decrement cookie, active clients:",this.clients_active);
+  //},
   
   watch: { //set page title
     $route: {
@@ -103,7 +147,7 @@ export default {
   },
 
   methods: {
-    onWaitingRoomLate() {
+    kickOutWaitingRoom() {
       router.push({ name: "SessionEnd" });
     },
     testSession() {
@@ -181,23 +225,23 @@ export default {
           console.log("data: ",data);
 
           if ('error' in data) { //error handling from requestroom backend call
-            console.log(this.client_id,": requestroom error: ",data['error']);
-            alert("requestroom error: " + data['error']);
+            console.log(this.client_id,": request room error: ",data['error']);
+            alert("request room error: " + data['error']);
             return;
           }
 
-          var room_name = "hello"; //take room name from backend call
+          this.room_name = "hello"; //take room name from backend call
           if ('room_name' in data) { 
-            room_name = data['room_name'];
-            console.log(this.client_id,": room name: ",room_name);
+            this.room_name = data['room_name'];
+            console.log(this.client_id,": room name: ",this.room_name);
           }
 
-          console.log("passing room name to call:",room_name);
+          console.log("passing room name to call:",this.room_name);
           //take user to call page
           router.push({
             name: "Call",
             params: {
-              roomName: room__name
+              roomName: this.room_name
             }
           })
         })

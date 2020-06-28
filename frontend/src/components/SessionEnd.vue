@@ -2,9 +2,13 @@
     <div class='session-end-screen'>
       <NavBar></NavBar>
         <br><br><br>
-        <p class="header">Your session has ended!</p>
+        <p class="header">
+          Your session has ended.
+          <br><br>
+          Best of luck in your meditation journey!
+        </p>
         <br><br>
-        <p class='smalltext'>
+        <!--p class='smalltext'>
             Did your buddy participate in the meditation practice?
         </p>
         <br>
@@ -22,7 +26,7 @@
           </div>
         </div>
         <br><br>
-        <a class='schedule-appointment-button'  v-on:click='goToScheduleSession()'>New Session</a>
+        <a class='schedule-appointment-button'  v-on:click='goToScheduleSession()'>New Session</a-->
     </div>
 </template>
 

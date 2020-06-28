@@ -17,14 +17,27 @@ export default {
   computed: {
     formattedTimeLeft() {
       const timeLeft = this.timeLeft;
-      const minutes = Math.floor(timeLeft / 60);
+      let minutes = Math.floor(timeLeft / 60);
+      let hours = Math.floor(minutes / 60);
+      minutes = minutes % 60;
       let seconds = timeLeft % 60;
+
+      if (hours == 0) {
+        hours = '';
+      }
+      else {
+        hours += ':';
+      }
+
+      if (minutes < 10) {
+        minutes = `0${minutes}`;
+      }
 
       if (seconds < 10) {
         seconds = `0${seconds}`;
       }
 
-      return `${minutes}:${seconds}`;
+      return `${hours}${minutes}:${seconds}`;
     },
 
     timeLeft() {
@@ -35,7 +48,7 @@ export default {
   watch: {
     timeLeft(newValue) {
       console.log("time left:",this.timeLeft)
-      if (newValue === 0) {
+      if (newValue <= 0) {
         this.onTimesUp();
       }
     },
