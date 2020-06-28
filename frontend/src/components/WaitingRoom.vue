@@ -10,12 +10,12 @@
         The next session is at:
         <br>
         {{time_sched}}
-        <br><br><br>
+        <br><br>
         <!--input v-model="user_text" placeholder="Enter your name"></input-->
         Make sure your settings are good.
         <br><br>
         <a class='test-session-button' v-on:click="testSession()">Test Session</a>
-        <br><br><br>
+        <br><br><br><br><br><br>
         </p>
         
     </div>
@@ -116,8 +116,14 @@ export default {
             if (time_sched_min.length == 1) {
               time_sched_min = '0' + time_sched_min;
             }
+            let offset = new Date().getTimezoneOffset();
+            //let time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone
+            let sched_utc = new Date(data['time_sched']);
+            let sched_offset = new Date(sched_utc - 1000 * 60 * offset);
+            console.log("offset:",offset,", time zone:",time_zone,", sched utc:",sched_utc,", sched_offset:",sched_offset);
+            this.time_sched = sched_offset;
             // this.time_sched = time_sched_month + "/" + time_sched_date + "/" + time_sched_year + " " + time_sched_hour + ":" + time_sched_min + " UTC";
-            this.time_sched = data['sched_month'] + "/" + data['sched_day'] + "/" + data['sched_year'] + " " + data['sched_hour'] + ":" + time_sched_min + " UTC";
+            //this.time_sched = data['sched_month'] + "/" + data['sched_day'] + "/" + data['sched_year'] + " " + data['sched_hour'] + ":" + time_sched_min + " UTC";
           }
           else { //kick out if current time is past sched time
             console.log("currently past sched time, kicking out");
