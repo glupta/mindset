@@ -5,7 +5,9 @@
         
         <p class='description' style='background-color:#2AD9FF;color:#FFFFFF;'>
         <br><br>
-        You're here!
+        You're here! 
+        <br><br>
+        Sessions are at {{n_sched_times}} timings daily.
         <br><br>
         The next session is at:
         <br>
@@ -15,7 +17,7 @@
         Make sure your settings are good.
         <br><br>
         <a class='test-session-button' v-on:click="testSession()">Test Session</a>
-        <br><br><br><br><br><br>
+        <br><br><br><br><br>
         </p>
         
     </div>
@@ -33,7 +35,8 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       time_limit: 0,
-      time_sched: ""
+      time_sched: "",
+      n_sched_times: 0
     }
   },
   components: {
@@ -106,6 +109,8 @@ export default {
             return;
           }
 
+          this.n_sched_times = parseInt(data['n_sched_times']);
+
           let time_diff = parseInt(data['time_diff']); //change to kick out flag
           if (time_diff > 0) {
             //this.time_limit = parseInt((time_sched - time_current)/1000);
@@ -161,10 +166,11 @@ export default {
       //create json data to send to server
       //send parameter: device/client ID
       var entry = {
-        clientID: this.client_id
+        clientID: this.client_id,
+        testRoom: true
       };
 
-      fetch('/api/testroom', {
+      fetch('/api/requestroom', {
       method: "POST",
       body: JSON.stringify(entry),
         headers: new Headers({
@@ -242,12 +248,22 @@ export default {
             console.log(this.client_id,": room name: ",this.room_name);
           }
 
+          var med_time = 0;
+          if (this.$route.query.m) { //check if URL query given for med time
+            var med_query = parseInt(this.$route.query.m);
+            console.log("med time given: ",med_query);
+            if (!isNaN(parseInt(med_time))) { //time limit error
+              med_time = med_query;
+            }
+          }
+
           console.log("passing room name to call:",this.room_name);
           //take user to call page
           router.push({
             name: "Call",
             params: {
-              roomName: this.room_name
+              roomName: this.room_name,
+              medTime: med_time
             }
           })
         })

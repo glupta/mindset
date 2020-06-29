@@ -19,15 +19,10 @@ export default {
       const timeLeft = this.timeLeft;
       let minutes = Math.floor(timeLeft / 60);
       let hours = Math.floor(minutes / 60);
-      minutes = minutes % 60;
+      minutes %= 60;
       let seconds = timeLeft % 60;
 
-      if (hours == 0) {
-        hours = '';
-      }
-      else {
-        hours += ':';
-      }
+      hours = (hours == 0) ? '' : hours += ':'
 
       if (minutes < 10) {
         minutes = `0${minutes}`;
