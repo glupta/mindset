@@ -1,22 +1,25 @@
 <template>
   <div class="waiting-room">
-    <SessionTopBar :timeLimit=time_limit timerCopy='Session starts in ' v-on:timer-expired="onTimerExpired"></SessionTopBar>
+    <!--SessionTopBar :timeLimit=time_limit timerCopy='Session starts in ' @timer-expired="onTimerExpired"></SessionTopBar-->
     <div class='waiting-room-partner'>
         
-        <p class='description' style='background-color:#2AD9FF;color:#FFFFFF;'>
+        <p class='description'>
         <br><br>
-        You're here! 
+        Welcome!
         <br><br>
-        Sessions are at {{n_sched_times}} timings daily.
-        <br><br>
-        The next session is at:
+        <!--Sessions are at {{n_sched_times}} timings daily.
+        <br><br-->
+        The next session starts at:
         <br>
         {{time_sched}}
         <br><br>
-        <!--input v-model="user_text" placeholder="Enter your name"></input-->
-        Make sure your settings are good.
-        <br><br>
-        <a class='test-session-button' v-on:click="testSession()">Test Session</a>
+        Time remaining until then:
+        <br>
+        <Timer :timeLimit='time_limit' @timer-expired='onTimerExpired()'></Timer>
+        <br>
+        Check your settings:
+        <br>
+        <button class='test-session-button' @click="testSession()">Launch Test Session</button>
         <br><br><br><br><br>
         </p>
         
@@ -27,6 +30,7 @@
 </template>
 <script>
 import SessionTopBar from '@/components/SessionTopBar'
+import Timer from '@/components/Timer'
 import SessionBottomBar from '@/components/SessionBottomBar'
 import router from '../router'
 export default {
@@ -35,14 +39,20 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       time_limit: 0,
-      time_sched: "",
+      time_sched: "N/A",
       n_sched_times: 0
     }
   },
   components: {
     SessionTopBar,
+    Timer,
     SessionBottomBar
   },
+
+  onTimerExpired() {
+      this.$emit('timer-expired');
+  },
+  
   mounted() {
 
     //this.$cookies.set('medliveorg-active',0);
@@ -281,17 +291,21 @@ export default {
 .waiting-room {
   font-family: 'DIN Condensed', sans-serif;
   font-size: 24px;
+  background-color:#2AD9FF;
+  color:#FFFFFF;
 }
 
 .test-session-button {
-  font-size: 18px;
+  font-size: 20px;
   font-family: 'DIN Condensed', sans-serif;
   border-radius: 5px;
   border: 2px solid #18A0FB;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-right: 95px;
-  padding-left: 95px;
-  color: #18a0fb;
+  padding-right: 20px;
+  padding-left: 20px;
+  color: #FFFFFF;
+  background-color: #18A0FB;
 }
+
 </style>

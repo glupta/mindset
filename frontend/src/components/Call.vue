@@ -1,23 +1,24 @@
 <template>
-  <div>
-    <SessionTopBar :timeLimit=time_limit timerCopy='Session ends in ' :sessionCopy=session_copy v-on:timer-expired="onTimerExpired"></SessionTopBar>
-    <!---audio id="meditationbell" src='../assets/meditationbell.flac' muted></audio--->
-    <a id='med-button' class='begin-meditation-button' v-on:click="unMuteButton()">Ready to meet your partner and start?</a>
+  <div class='call'>
+    <SessionTopBar :timeLimit=time_limit timerCopy='Session ends in ' :sessionCopy=session_copy @timer-expired="onTimerExpired"></SessionTopBar>
+
+    <button id='med-button' class='get-started-button' @click='unMuteButton()'>Click here to start</button>
     <audio id="meditationbell" src='https://ia800607.us.archive.org/28/items/LovelyMeditationBell/STE-015.flac' muted></audio>
-    <SessionBottomBar></SessionBottomBar>
+    
+    <!--SessionBottomBar></SessionBottomBar-->
   </div>
 </template>
 
 <script>
 import SessionTopBar from '@/components/SessionTopBar'
 import SessionBottomBar from '@/components/SessionBottomBar'
-//import VideoChat from '@/components/VideoChat'
 import router from '../router'
 export default {
   name: "Call",
   data () {
     return {
       time_limit: 0,
+      session_copy: ''
     }
   },
   components: {
@@ -34,21 +35,18 @@ export default {
 
     unMuteButton() {
       document.getElementById('meditationbell').muted = false;
-      document.getElementById('med-button').style.display = 'none';;
+      document.getElementById('med-button').style.display = 'none';
       document.querySelector('iframe').style.visibility = "visible";
+      this.session_copy = (this.testSession) ? "Audio/video settings working?" : "Say hi & begin meditation";
     },
 
     onTimerExpired() {
 
       if (this.debriefNext) { //set environment for debrief  
 
-        //set noise for bell   
-        //var audio = new Audio('../assets/meditationbell.flac')
-        //var audio = new Audio('https://ia800607.us.archive.org/28/items/LovelyMeditationBell/STE-015.flac')
-        //audio.play()
-        //this.$refs.meditationbell.play();
+        //play ending bell
         document.getElementById('meditationbell').play();
-        //document.getElementById('meditationbell').muted = false;
+         
         this.debriefNext = false;
         this.time_limit = 2 * 60;
         this.session_copy = "How was your session?";
@@ -68,13 +66,14 @@ export default {
 
     //set environment if test session 
     if (this.testSession) {
-      this.session_copy = "Are your video and audio settings working?"
+      //this.session_copy = "Are your video and audio settings working?";
+      console.log("test session");
     }
     else { //set environment if meditation session
       this.debriefNext = true;
       console.log("med time is:",this.medTime);
       this.time_limit = (this.medTime > 0) ? this.medTime : 10 * 60;
-      this.session_copy = "Please begin meditation";
+      //this.session_copy = "Please begin meditation";
     }
 
     //call daily.co API to add user to assigned video chat room
@@ -86,14 +85,29 @@ export default {
       window.callFrame = window.DailyIframe.createFrame();
       callFrame.join({ url: room_url});
       var elem = document.querySelector('iframe');
-      elem.style.width = "375px";
-      elem.style.height = "750px";
+      elem.style.width = "100%";
+      elem.style.height = "90%";
+      //elem.style.height = "100%";
+      //elem.style.margin = "10px";
+      //elem.style.right = "-10px";
+      //elem.style.bottom = "-10px";
+      //elem.style.left = "-10px";
+      //elem.style.top = "-10px";
+      //elem.style.bottom = "auto";     
+      //elem.style.width = "375px";
+      //elem.style.height = "750px";
+      elem.style.top = "50px";
       elem.style.right = "0em";
       elem.style.bottom = "0em";
+      //elem.style.bottom = "10px";
       elem.style.visibility = "hidden";
+      //elem.style.overflow = "scroll";
+      //elem.style.display = 'none';
     });
     dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js');
-    document.head.appendChild(dailycoScript);
+    dailycoScript.setAttribute('crossorigin','');
+    dailycoScript.setAttribute('allowfullscreen',true);
+    document.body.appendChild(dailycoScript);
   },
 
   watch: { //set page title
@@ -125,16 +139,37 @@ h1 {
   font-weight: normal;
 }
 
-.begin-meditation-button {
-  font-size: 18px;
-  font-family: 'DIN Condensed', sans-serif;
-  border-radius: 5px;
-  border: 2px solid #18A0FB;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-right: 95px;
-  padding-left: 95px;
-  color: #18a0fb;
+.call {
+  position: relative;
+  height: 200px;
+}
+
+.get-started-button {
+  background-color: #2AD9FF;
+  border: 1px solid #2AD9FF;
+  box-sizing: border-box;
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-size: 24px;
+/*
+  width: 271px;
+  line-height: 22px;
+  height: 58px;
+
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+*/
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 40px;
+  padding-left: 40px;
+}
+
+.iframe-container {
+  margin-top: 50px;
 }
 
 </style>

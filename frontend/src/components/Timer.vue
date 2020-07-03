@@ -73,7 +73,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.timer {
-  float:left;
-}
+
 </style>

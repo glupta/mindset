@@ -12,7 +12,7 @@
             <br>
             Meditate virtually with an accountability partner.
         </p>
-        <div class='get-started-button align-center justify-center flexCR' v-on:click='getStarted()'>
+        <div class='get-started-button align-center justify-center flexCR' @click='getStarted()'>
             <p class='get-started-text'>
                 Get Started
             </p>
@@ -24,7 +24,7 @@
             Decide when to meditate
         </p>
         <p class='description content-width margin-bottom-32'>
-            Choose from 3 daily timings. Strive to keep a consistent practice, but some sessions are always better than none!
+            Choose from 3 daily timings. Strive to keep a consistent practice, but sporatic sessions are better than none.
         </p>
         <img class='circle-icon' src='@/assets/circle2.png'></img>
         <p class='header font-bold'>
@@ -38,14 +38,14 @@
             Meet partner, start meditation
         </p>
         <p class='description content-width margin-bottom-32'>
-            When the session starts, you are randomly assigned a buddy. Greet and check in with each other. Decide whether to mute audio. Begin meditation!
+            When the session starts, you are randomly assigned a buddy. Greet each other. Decide whether to mute audio. Begin meditation.
         </p>    
         <img class='circle-icon' src='@/assets/circle4.png'></img>
         <p class='header font-bold'>
             Timer ends, debrief
         </p>
         <p class='description content-width margin-bottom-32'>
-            Bells chime after a succesful session. Take your time returning to your senses. Describe the session experience to each other.
+            Bells chime after the session completes. Take your time returning to your senses. Describe the meditation experience to your partner.
         </p>    
         <img class='circle-icon' src='@/assets/circle5.png'></img>
         <p class='header font-bold'>
@@ -204,7 +204,7 @@ a {
 
 .home-tips-background-dark .description {
     margin-top: 30px;
-    font-size: 14px;
+    font-size: 18px;
 }
 .padding-bottom-50 {
     padding-bottom: 50px;

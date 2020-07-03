@@ -2,11 +2,13 @@
   <div class='session-top-bar'>
     <p class='session-time'>
       <!-- {{timerCopy}} -->
-      <Timer :timeLimit="timeLimit" v-on:timer-expired="onTimerExpired"></Timer>
+      <br>
+      {{timeleftCopy}}
+      <Timer :timeLimit="timeLimit" @timer-expired="onTimerExpired"></Timer>
     </p>
     <div class='session-status'>
       <p class='session-status-text'>
-        {{sessionCopy}}
+        <br>{{sessionCopy}}
       </p>
     </div>
     <!--div class='leave-button'>
@@ -24,6 +26,8 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
+      sessionCopy: '',
+      timeLeftCopy: 'Time Left: '
     }
   },
   components: {
@@ -45,11 +49,17 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .session-top-bar {
-  height: 40px;
+  height: 50px;
 }
 
-.session-time{
+.session-time {
   float: left;
+  font-size: 16px;
+
+}
+
+.session-status-text {
+  font-size: 16px;
 }
 
 .leave-button {
