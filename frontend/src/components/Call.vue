@@ -186,7 +186,7 @@ h1 {
   left: 50%;
 */
 
-  padding-top: 20px;
+  padding-top: 18px;
   padding-bottom: 20px;
   padding-right: 40px;
   padding-left: 40px;

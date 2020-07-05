@@ -16,7 +16,7 @@ DBNAME = "medlivedb2"
 os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
 BEARER = '05535c097075d1938caf827de2217e51a56cf2309a9c738443b8df7a47e2054b'
 DAILY_API = "https://api.daily.co/v1/rooms/"
-SCHED_TIMES_UTC = [12]
+SCHED_TIMES_UTC = [18]
 
 app = Flask(__name__,
             static_folder="./dist/static",
@@ -81,6 +81,38 @@ def timedata():
 		data['kick_out'] = True
 
 	return json.dumps(data)
+
+@app.route('/api/flushactiveusersdb') ##returns time data
+def flushactiveusersdb():
+
+	data = {} #data to be returned
+
+	#connect to DB
+	try:
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("flush: passed DB credentials")
+	except:
+		print("flush: did not pass DB credentials")
+		data['error'] = "unable to connect with DB"
+		return json.dumps(data)
+
+	#delete all entries from active users DB
+	try:
+		cur.execute("DELETE FROM active_users;")
+		cur.execute("ALTER TABLE active_users AUTO_INCREMENT = 1;")
+		conn.commit()
+		print("flushed active users")
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "failed to connect to DB on flush"
+		return json.dumps(data)
+
+	data['flush'] = True
+	return json.dumps(data)
+
+
 
 @app.route('/api/requestroom', methods=["POST"]) #returns assigned room data
 def requestroom():

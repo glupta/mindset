@@ -6,7 +6,7 @@
     <p class='leave-button-div'>
     <br>
       <button id='leave-button-cont' class='leave-button' @click='leaveSession'>
-        Bye
+        Leave
       </button>
     </p>
     <!--div class='session-status'-->
@@ -59,7 +59,7 @@ export default {
       }
     }
   },
-  
+
   props: [
     'timeLimit',
     'showTimer',
@@ -87,7 +87,7 @@ export default {
 
 .leave-button-div {
   float: right;
-  width: 140px;
+  width: 80px;
   height: 50px;
   /*position: relative;*/
   text-align: center;
@@ -99,8 +99,8 @@ export default {
 	color:#ffffff;
   cursor:pointer;
 
-  width: 100px;
-  height: 25px;
+  width: 80px;
+  height: 20px;
   border: none;
 
 /*

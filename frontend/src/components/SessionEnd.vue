@@ -24,9 +24,9 @@
               <p style="margin-top:1.5em; color:#696969;">No</p>
             </div>
           </div>
-        </div>
+        </div-->
         <br><br>
-        <a class='schedule-appointment-button'  v-on:click='goToScheduleSession()'>New Session</a-->
+        <button class='homepage-button'  @click='goToHomepage'>Back to Home</button>
     </div>
 </template>
 
@@ -54,7 +54,10 @@ export default {
       this.noSelected = true;
     },
     goToScheduleSession() {
-      router.push({ name: "ScheduleSession" })
+      router.push({ name: "ScheduleSession" });
+    },
+    goToHomepage() {
+      router.push({ name: "Home" });
     }
   },
 
@@ -118,6 +121,21 @@ export default {
   padding-right: 95px;
   padding-left: 95px;
   color: #18a0fb;
+}
+
+.homepage-button {
+  font-size: 18px;
+  border-radius: 6px;
+  border: 1px solid #18A0FB;
+  color: #FFFFFF;
+  background-color: #18A0FB;
+
+  box-sizing: border-box;
+  line-height: 22px;
+  width: 271px;
+  height: 58px;
+
+  cursor:pointer;
 }
 
 .active {

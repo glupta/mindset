@@ -90,7 +90,8 @@ export default {
       var time_query = this.$route.query.t;
       if (time_query.includes("-")) { //sched time given in query
         fetch_time += "?sched=" + time_query;
-      console.log("fetch sched time:",fetch_time);
+        console.log("fetch sched time:",fetch_time);
+        this.flushActiveUsersDB();
       }
       else {
         if (isNaN(parseInt(time_query))) { //time limit error
@@ -99,6 +100,7 @@ export default {
         else { //time limit given, no need to fetch time
           this.time_limit = parseInt(time_query);
           fetch_time_bool = false;
+          this.flushActiveUsersDB();
         }
       }
     }
@@ -169,9 +171,37 @@ export default {
   },
 
   methods: {
+    flushActiveUsersDB() {
+      fetch('api/flushactiveusersdb')
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => {
+
+          console.log("time data:",data);
+          if ('error' in data) { //error handling from testroom backend call
+            console.log(this.client_id,": flush active users DB error: ",data['error']);
+            alert("flush active users DB error: " + data['error']);
+            return;
+          }
+
+          if ('flush' in data) {
+            console.log("flushed active users");
+            return;
+          }
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
+      });
+    },
+
     kickOutWaitingRoom() {
       router.push({ name: "SessionEnd" });
     },
+
     testSession() {
 
       //create json data to send to server

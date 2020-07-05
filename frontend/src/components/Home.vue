@@ -3,16 +3,16 @@
     <!--NavBar :useDotLogo="true"></NavBar-->
     <div class='onboarding-screen'>
         <div class='home-top-background-light'>
-            <div class='home-background flexCC align-center'>
+            <div class='home-background flexCC align-center justify-center'>
                 <img class="logo" src="@/assets/Logo-V2-White.svg">
-                <p class='description white-text font-bold'>
-                    Unable to get yourself to practice meditation consistently?
+                <p class='description white-text'>
+                    Struggling to practice meditation consistently?
                     <br>
-                    Try meditating for 10 min in random 1on1 video chats.
+                    Meditate for 10 min in random 1on1 video chats.
                     <br>
                     Let's help each other improve our mental health!
                     <br>
-                    Sessions are scheduled daily at 8 AM ET.
+                    Sessions are scheduled for everyday at 2 PM ET.
                 </p>
                 <div class='get-started-button align-center justify-center flexCR' @click='getStarted()'>
                     <p class='get-started-text'>
@@ -28,7 +28,7 @@
             </p>
             <img class='circle-icon' src='@/assets/circle1.png'></img>
             <p class='header font-bold'>
-                Get Prepared
+                Get Ready
             </p>
             <p class='description content-width margin-bottom-32'>
                 Join the waiting room and test your settings.
@@ -45,7 +45,7 @@
                 Begin Meditation
             </p>
             <p class='description content-width margin-bottom-32'>
-                When both are ready, begin your practice.
+                Practice meditation until the bell rings.
             </p>    
             <img class='circle-icon' src='@/assets/circle4.png'></img>
             <p class='header font-bold'>
@@ -72,10 +72,11 @@
                     Imagine your thoughts are clouds. You want your mind to be a clear blue sky. If thoughts appear, observe them without judgement and let them float away.
                 </p>
                 <p class='description content-width margin-bottom-32'>
-                    If you struggle to focus and find your mind racing, try counting your breaths, listening to ambient music, or lighting a scented candle.
+                    If you are unable to focus and find your mind racing, try counting your breaths, listening to ambient music, or lighting a scented candle.
+                    <br><br><br>
                 </p>
                 <!--p class='description content-width margin-bottom-32'>
-                    Minimize background noise. If required, mute the session and use headphones to block out outside distractions.
+                    Try to minimize background noise. If required, mute the session and use headphones to block out outside distractions.
                 </p>
                 <p class='description content-width padding-bottom-50'>
                     Optimize by meditating at the same time everyday, preferably in the morning or after a workout. Consider twice daily to experience greater effects.
@@ -131,7 +132,7 @@ export default {
     margin-bottom: 40px;
 }
 .home-background .description {
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 48px;
     line-height: 1.5;
 }
