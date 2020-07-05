@@ -2,9 +2,9 @@
   <div class='call'>
     <SessionTopBar :showTimer=show_timer :showLeave=show_leave :timeLimit=time_limit :sessionCopy=session_copy @timer-expired="onTimerExpired" @leave-session="leaveSession"></SessionTopBar>
 
-    <button id='med-button' class='get-started-button' @click='unMuteButton()'>Click here to start</button>
-    <!--audio id="meditationbell" src='https://ia800607.us.archive.org/28/items/LovelyMeditationBell/STE-015.flac' muted></audio-->
-    <audio id="meditationbell" src='@/assets/meditationbell.flac' muted></audio>
+    <button id='med-button' class='get-started-button' @click='unMuteButton'>Click here to start</button>
+    <audio id="meditationbell" src='https://ia800607.us.archive.org/28/items/LovelyMeditationBell/STE-015.flac' muted></audio>
+    <!--audio id="meditationbell" src='@/assets/meditationbell.flac' muted></audio-->
     
     <!--SessionBottomBar></SessionBottomBar-->
   </div>
