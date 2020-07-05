@@ -1,28 +1,27 @@
 <template>
   <div class="waiting-room">
-    <!--SessionTopBar :timeLimit=time_limit timerCopy='Session starts in ' @timer-expired="onTimerExpired"></SessionTopBar-->
+    <!--SessionTopBar :timeLimit=time_limit @timer-expired="onTimerExpired"></SessionTopBar-->
     <div class='waiting-room-partner'>
-        
-        <p class='description'>
+      <NavBar></NavBar>
+      <p class='description'>
         <br><br>
         Welcome!
         <br><br>
         <!--Sessions are at {{n_sched_times}} timings daily.
-        <br><br-->
+        <br><br>
         The next session starts at:
         <br>
         {{time_sched}}
-        <br><br>
-        Time remaining until then:
+        <br><br-->
+        The next session starts in:
         <br>
-        <Timer :timeLimit='time_limit' @timer-expired='onTimerExpired()'></Timer>
-        <br>
+        <Timer :timeLimit='time_limit' @timer-expired='onTimerExpired'></Timer>
+        <br><br><br>
         Check your settings:
         <br>
-        <button class='test-session-button' @click="testSession()">Launch Test Session</button>
-        <br><br><br><br><br>
-        </p>
-        
+        <button class='test-session-button' @click="testSession">Launch Test Session</button>
+        <br><br><br><br><br><br><br><br><br><br>
+      </p>
     </div>
     <div class='video-chat-self'></div>
     <SessionBottomBar></SessionBottomBar>
@@ -32,6 +31,7 @@
 import SessionTopBar from '@/components/SessionTopBar'
 import Timer from '@/components/Timer'
 import SessionBottomBar from '@/components/SessionBottomBar'
+import NavBar from '@/components/NavBar'
 import router from '../router'
 export default {
   name: 'WaitingRoom',
@@ -46,7 +46,8 @@ export default {
   components: {
     SessionTopBar,
     Timer,
-    SessionBottomBar
+    SessionBottomBar,
+    NavBar
   },
 
   onTimerExpired() {
@@ -289,23 +290,33 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .waiting-room {
-  font-family: 'DIN Condensed', sans-serif;
+  /*font-family: 'DIN Condensed', sans-serif;*/
   font-size: 24px;
   background-color:#2AD9FF;
   color:#FFFFFF;
+  line-height: 1.5;
 }
 
 .test-session-button {
-  font-size: 20px;
+  font-size: 18px;
+  border-radius: 6px;
+  border: 1px solid #18A0FB;
+  /*
   font-family: 'DIN Condensed', sans-serif;
-  border-radius: 5px;
-  border: 2px solid #18A0FB;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-right: 20px;
-  padding-left: 20px;
+  padding-right: 40px;
+  padding-left: 40px;
+  */
   color: #FFFFFF;
   background-color: #18A0FB;
+
+  box-sizing: border-box;
+  line-height: 22px;
+  width: 271px;
+  height: 58px;
+
+  cursor:pointer;
 }
 
 </style>

@@ -5,7 +5,7 @@
         <p class="header">
           Your session has ended.
           <br><br>
-          Best of luck in your meditation journey!
+          Best of luck on your meditation journey!
         </p>
         <br><br>
         <!--p class='smalltext'>

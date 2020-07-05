@@ -1,9 +1,10 @@
 <template>
   <div class='call'>
-    <SessionTopBar :timeLimit=time_limit timerCopy='Session ends in ' :sessionCopy=session_copy @timer-expired="onTimerExpired"></SessionTopBar>
+    <SessionTopBar :showTimer=show_timer :showLeave=show_leave :timeLimit=time_limit :sessionCopy=session_copy @timer-expired="onTimerExpired" @leave-session="leaveSession"></SessionTopBar>
 
     <button id='med-button' class='get-started-button' @click='unMuteButton()'>Click here to start</button>
-    <audio id="meditationbell" src='https://ia800607.us.archive.org/28/items/LovelyMeditationBell/STE-015.flac' muted></audio>
+    <!--audio id="meditationbell" src='https://ia800607.us.archive.org/28/items/LovelyMeditationBell/STE-015.flac' muted></audio-->
+    <audio id="meditationbell" src='@/assets/meditationbell.flac' muted></audio>
     
     <!--SessionBottomBar></SessionBottomBar-->
   </div>
@@ -18,7 +19,9 @@ export default {
   data () {
     return {
       time_limit: 0,
-      session_copy: ''
+      session_copy: '',
+      show_timer: true,
+      show_leave: true
     }
   },
   components: {
@@ -33,11 +36,31 @@ export default {
   },
   methods: {
 
-    unMuteButton() {
-      document.getElementById('meditationbell').muted = false;
+    unMuteButton() { //button clicked to start session
+      
+      document.getElementById('meditationbell').muted = false; //rule to override audio autoplay
       document.getElementById('med-button').style.display = 'none';
-      document.querySelector('iframe').style.visibility = "visible";
-      this.session_copy = (this.testSession) ? "Audio/video settings working?" : "Say hi & begin meditation";
+      
+      document.querySelector('iframe').style.visibility = "visible"; //show vid chat
+
+      this.show_leave = true;
+
+      if (this.testSession) { //show copy at top for test session
+        this.session_copy = "Audio & video settings good?" 
+      }
+      else { ////show timer and copy at top for real session
+        this.session_copy = "Say hello & begin meditation.";
+        this.show_timer = true;
+      }
+    },
+
+    leaveSession() {
+      if (this.testSession) {
+        router.push({ name: 'WaitingRoom' });
+      }
+      else {
+        router.push({ name: 'SessionEnd' });
+      }
     },
 
     onTimerExpired() {
@@ -63,6 +86,10 @@ export default {
       router.push({ name: "SessionEnd" });
       return;
     }
+
+    //hide timer & leave button to start with
+    this.show_timer = false;
+    this.show_leave = false;
 
     //set environment if test session 
     if (this.testSession) {
@@ -139,10 +166,6 @@ h1 {
   font-weight: normal;
 }
 
-.call {
-  position: relative;
-  height: 200px;
-}
 
 .get-started-button {
   background-color: #2AD9FF;
@@ -151,6 +174,7 @@ h1 {
   border-radius: 6px;
   color: #FFFFFF;
   font-size: 24px;
+
 /*
   width: 271px;
   line-height: 22px;
@@ -166,6 +190,7 @@ h1 {
   padding-bottom: 20px;
   padding-right: 40px;
   padding-left: 40px;
+  cursor:pointer;
 }
 
 .iframe-container {

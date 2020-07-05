@@ -16,7 +16,7 @@ DBNAME = "medlivedb2"
 os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
 BEARER = '05535c097075d1938caf827de2217e51a56cf2309a9c738443b8df7a47e2054b'
 DAILY_API = "https://api.daily.co/v1/rooms/"
-SCHED_TIMES_UTC = [0,12,18]
+SCHED_TIMES_UTC = [12]
 
 app = Flask(__name__,
             static_folder="./dist/static",

@@ -1,89 +1,89 @@
-<head>
-  <title>Home</title>
-</head>
 <template>
-  <div class="home">
+<div class="home">
     <!--NavBar :useDotLogo="true"></NavBar-->
     <div class='onboarding-screen'>
-    <div class='home-background flexCC align-center'>
-        <img class="logo" src="@/assets/Logo-V2-White.svg">
-        <p class='description white-text font-bold'>
-            Unable to get yourself to meditate?
-            <br>
-            Meditate virtually with an accountability partner.
-        </p>
-        <div class='get-started-button align-center justify-center flexCR' @click='getStarted()'>
-            <p class='get-started-text'>
-                Get Started
-            </p>
+        <div class='home-top-background-light'>
+            <div class='home-background flexCC align-center'>
+                <img class="logo" src="@/assets/Logo-V2-White.svg">
+                <p class='description white-text font-bold'>
+                    Unable to get yourself to practice meditation consistently?
+                    <br>
+                    Try meditating for 10 min in random 1on1 video chats.
+                    <br>
+                    Let's help each other improve our mental health!
+                    <br>
+                    Sessions are scheduled daily at 8 AM ET.
+                </p>
+                <div class='get-started-button align-center justify-center flexCR' @click='getStarted()'>
+                    <p class='get-started-text'>
+                        Get Started
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="main-body flexCC align-center justify-content">
-        <img class='circle-icon' src='@/assets/circle1.png'></img>
-        <p class='header font-bold'>
-            Decide when to meditate
-        </p>
-        <p class='description content-width margin-bottom-32'>
-            Choose from 3 daily timings. Strive to keep a consistent practice, but sporatic sessions are better than none.
-        </p>
-        <img class='circle-icon' src='@/assets/circle2.png'></img>
-        <p class='header font-bold'>
-            Get ready, launch session
-        </p>
-        <p class='description content-width margin-bottom-32'>
-            Before the session, join the waiting room and ensure your settings are good. Prepare your environment and your state of mind.
-        </p>    
-        <img class='circle-icon' src='@/assets/circle3.png'></img>
-        <p class='header font-bold'>
-            Meet partner, start meditation
-        </p>
-        <p class='description content-width margin-bottom-32'>
-            When the session starts, you are randomly assigned a buddy. Greet each other. Decide whether to mute audio. Begin meditation.
-        </p>    
-        <img class='circle-icon' src='@/assets/circle4.png'></img>
-        <p class='header font-bold'>
-            Timer ends, debrief
-        </p>
-        <p class='description content-width margin-bottom-32'>
-            Bells chime after the session completes. Take your time returning to your senses. Describe the meditation experience to your partner.
-        </p>    
-        <img class='circle-icon' src='@/assets/circle5.png'></img>
-        <p class='header font-bold'>
-            Finish up, schedule next
-        </p>
-        <p class='description content-width margin-bottom-32'>
-            Exit session and give feedback. Let's schedule the next session to build from here!
-        </p>
-        <!--div class='get-started-button align-center justify-center flexCR margin-top-18 darker-blue'  v-on:click='getStarted()'>
-            <p class='get-started-text'>
-                Get Started
-            </p>
-        </div-->
-    </div>
-    <div class='home-tips-background-light'>
-        <div class='home-tips-background-dark white-text flexCC justify-center align-center'>
+        <div class="main-body flexCC align-center justify-content">
             <p class='header'>
-                Our Meditation Tips
+                How This Works
+                <br><br>
+            </p>
+            <img class='circle-icon' src='@/assets/circle1.png'></img>
+            <p class='header font-bold'>
+                Get Prepared
             </p>
             <p class='description content-width margin-bottom-32'>
-                Try to minimize background noise. If not possible, play ambient music through your headphones and mute the session.
+                Join the waiting room and test your settings.
+            </p>    
+            <img class='circle-icon' src='@/assets/circle2.png'></img>
+            <p class='header font-bold'>
+                Meet Partner 
             </p>
             <p class='description content-width margin-bottom-32'>
-                Sit comfortably in a chair or on a cushion. Straighten your back, and place your hands and feet in a relaxed manner. 
+                Session starts. Greet your assigned partner.
+            </p>    
+            <img class='circle-icon' src='@/assets/circle3.png'></img>
+            <p class='header font-bold'>
+                Begin Meditation
             </p>
             <p class='description content-width margin-bottom-32'>
-                Imagine your thoughts are clouds. You want your mind to be a clear blue sky. If clouds appear, observe them without judgement and let them float away.
+                When both are ready, begin your practice.
+            </p>    
+            <img class='circle-icon' src='@/assets/circle4.png'></img>
+            <p class='header font-bold'>
+                Debrief & Exit
             </p>
             <p class='description content-width margin-bottom-32'>
-                Direct energy towards the center of your body. If you struggle to focus, consider anchoring one of your senses: count your breaths, listen to ambient music, or stare at a lit candle.
+                Return to your senses. Thank your buddy.
             </p>
-            <p class='description content-width padding-bottom-50'>
-                Optimize by meditating at the same time everyday, preferably in the morning or after a workout. Consider twice daily to experience greater effects.
-            </p>
+            <!--div class='get-started-button align-center justify-center flexCR margin-top-18 darker-blue'  v-on:click='getStarted()'>
+                <p class='get-started-text'>
+                    Get Started
+                </p>
+            </div-->
+        </div>
+        <div class='home-tips-background-light'>
+            <div class='home-tips-background-dark white-text flexCC justify-center align-center'>
+                <p class='header'>
+                    Our Meditation Tips
+                </p>
+                <p class='description content-width margin-bottom-32'>
+                    Sit comfortably in a chair or on a cushion with your eyes closed. Straighten your back, and place your hands and feet in a relaxed position. 
+                </p>
+                <p class='description content-width margin-bottom-32'>
+                    Imagine your thoughts are clouds. You want your mind to be a clear blue sky. If thoughts appear, observe them without judgement and let them float away.
+                </p>
+                <p class='description content-width margin-bottom-32'>
+                    If you struggle to focus and find your mind racing, try counting your breaths, listening to ambient music, or lighting a scented candle.
+                </p>
+                <!--p class='description content-width margin-bottom-32'>
+                    Minimize background noise. If required, mute the session and use headphones to block out outside distractions.
+                </p>
+                <p class='description content-width padding-bottom-50'>
+                    Optimize by meditating at the same time everyday, preferably in the morning or after a workout. Consider twice daily to experience greater effects.
+                </p-->
+            </div>
         </div>
     </div>
 </div>
-  </div>
 </template>
 
 <script>
@@ -131,12 +131,22 @@ export default {
     margin-bottom: 40px;
 }
 .home-background .description {
-    font-size: 24px;
-    line-height: 28px;
+    font-size: 20px;
     margin-bottom: 48px;
+    line-height: 1.5;
 }
+
+.home-top-background-light {
+    padding-top: 20px;
+    background-color: #2AD9FF;
+}
+
+.get-started-text {
+    font-size: 24px;
+}
+
 .main-body .description {
-    font-size: 14px;
+    font-size: 16px;
 }
 .circle-icon {
     width: 38px;
@@ -167,6 +177,7 @@ export default {
     color: #FFFFFF;
     font-size: 18px;
     line-height: 22px;
+    cursor:pointer;
 }
 h1, h2 {
   font-weight: normal;
