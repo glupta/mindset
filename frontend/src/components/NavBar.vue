@@ -1,7 +1,7 @@
 <template>
   <div class="navbar flexCR space-between">
     <img v-if="useDotLogo" class="dot-logo" src="@/assets/Logo-V2-Dot.svg">
-    <img v-else class="logo" src="@/assets/LogoV2.svg">
+    <img v-else class="logo" @click='goToHomepage' src="@/assets/LogoV2.svg">
     <!-- <div class='hamburger-menu flexCC'>
       <div class='rounded-shape'></div>
       <div class='rounded-shape'></div>
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import router from '../router'
 export default {
   name: 'Navbar',
   data () {
@@ -18,9 +19,16 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
+  
   props: [
     'useDotLogo'
-  ]
+  ],
+  
+  methods: {
+    goToHomepage() {
+      router.push({ name: "Home" });
+    }
+  } 
 }
 </script>
 

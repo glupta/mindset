@@ -8,11 +8,11 @@
                 <p class='description white-text'>
                     Struggling to practice meditation consistently?
                     <br>
-                    Meditate for 10 min in random 1on1 video chats.
+                    Meditate for 15 min in random 1on1 video chats.
+                    <br>
+                    Sessions are scheduled everyday at 3:00 PM ET.
                     <br>
                     Let's help each other improve our mental health!
-                    <br>
-                    Sessions are scheduled for everyday at 2 PM ET.
                 </p>
                 <div class='get-started-button align-center justify-center flexCR' @click='getStarted()'>
                     <p class='get-started-text'>
@@ -54,7 +54,7 @@
             <p class='description content-width margin-bottom-32'>
                 Return to your senses. Thank your buddy.
             </p>
-            <!--div class='get-started-button align-center justify-center flexCR margin-top-18 darker-blue'  v-on:click='getStarted()'>
+            <!--div class='get-started-button align-center justify-center flexCR margin-top-18 darker-blue'  @click='getStarted'>
                 <p class='get-started-text'>
                     Get Started
                 </p>
@@ -69,16 +69,16 @@
                     Sit comfortably in a chair or on a cushion with your eyes closed. Straighten your back, and place your hands and feet in a relaxed position. 
                 </p>
                 <p class='description content-width margin-bottom-32'>
-                    Imagine your thoughts are clouds. You want your mind to be a clear blue sky. If thoughts appear, observe them without judgement and let them float away.
+                    Imagine your thoughts are clouds. You want your mind to be a clear blue sky. Notice when thoughts appear and gently let them float away.
                 </p>
                 <p class='description content-width margin-bottom-32'>
-                    If you are unable to focus and find your mind racing, try counting your breaths, listening to ambient music, or lighting a scented candle.
+                    If you find your mind racing, anchor one of your senses by counting your breaths, listening to ambient music, or lighting a scented candle.
+                </p>
+                <p class='description content-width margin-bottom-32'>
+                    Try to minimize background sounds. In a noisy environment, mute your audio during the session and use headphones to block out distractions.
                     <br><br><br>
                 </p>
-                <!--p class='description content-width margin-bottom-32'>
-                    Try to minimize background noise. If required, mute the session and use headphones to block out outside distractions.
-                </p>
-                <p class='description content-width padding-bottom-50'>
+                <!--p class='description content-width padding-bottom-50'>
                     Optimize by meditating at the same time everyday, preferably in the morning or after a workout. Consider twice daily to experience greater effects.
                 </p-->
             </div>
@@ -166,7 +166,7 @@ export default {
     width: 315px;
 }
 .margin-bottom-32 {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
 }
 .get-started-button {
     background-color: #2AD9FF;

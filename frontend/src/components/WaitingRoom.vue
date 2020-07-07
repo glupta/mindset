@@ -6,21 +6,26 @@
       <p class='description'>
         <br><br>
         Welcome!
-        <br><br>
+        <br>
+        <br>
         <!--Sessions are at {{n_sched_times}} timings daily.
         <br><br>
         The next session starts at:
         <br>
         {{time_sched}}
         <br><br-->
-        The next session starts in:
+        The next meditation starts in:
         <br>
         <Timer :timeLimit='time_limit' @timer-expired='onTimerExpired'></Timer>
-        <br><br><br>
+        <br>
+        Please wait here until the timer hits 0.
+        <br>
+        You will automatically join the session.
+        <br><br>
         Check your settings:
         <br>
         <button class='test-session-button' @click="testSession">Launch Test Session</button>
-        <br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
       </p>
     </div>
     <div class='video-chat-self'></div>
@@ -91,7 +96,6 @@ export default {
       if (time_query.includes("-")) { //sched time given in query
         fetch_time += "?sched=" + time_query;
         console.log("fetch sched time:",fetch_time);
-        this.flushActiveUsersDB();
       }
       else {
         if (isNaN(parseInt(time_query))) { //time limit error
@@ -100,8 +104,13 @@ export default {
         else { //time limit given, no need to fetch time
           this.time_limit = parseInt(time_query);
           fetch_time_bool = false;
-          this.flushActiveUsersDB();
         }
+      }
+    }
+
+    if (this.$route.query.f) { //if query given f=1, delete all active users
+      if (this.$route.query.f == "1") {
+        this.flushActiveUsersDB();
       }
     }
 
@@ -321,10 +330,12 @@ export default {
 <style scoped>
 .waiting-room {
   /*font-family: 'DIN Condensed', sans-serif;*/
-  font-size: 24px;
+  font-size: 20px;
   background-color:#2AD9FF;
   color:#FFFFFF;
   line-height: 1.5;
+  height: 100vh;
+  width: 100%;
 }
 
 .test-session-button {

@@ -4,7 +4,7 @@
         <br><br><br>
         <p class="header">
           Your session has ended.
-          <br><br>
+          <br>
           Best of luck on your meditation journey!
         </p>
         <br><br>
@@ -77,6 +77,7 @@ export default {
 .session-end-screen {
   font-family: 'DIN Condensed', sans-serif;
   font-size: 24px;
+  line-height: 1.5;
 }
 
 .smalltext {
