@@ -42,13 +42,15 @@ export default {
 
   watch: {
     timeLeft(newValue) {
-      console.log("time left:",this.timeLeft)
-      if (newValue <= 0) {
+      console.log("time left:",this.timeLeft);
+      if (newValue == 0) {
         this.onTimesUp();
+        //this.timePassed = 0;
       }
     },
 
     timeLimit(newValue) {
+      console.log("time limit:",this.timeLimit);
       this.timePassed = 0;
       this.startTimer();
     }
@@ -61,6 +63,7 @@ export default {
     },
 
     startTimer() {
+      clearInterval(this.timerInterval);
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     }
   },

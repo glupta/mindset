@@ -16,7 +16,7 @@ DBNAME = "medlivedb2"
 os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
 BEARER = '05535c097075d1938caf827de2217e51a56cf2309a9c738443b8df7a47e2054b'
 DAILY_API = "https://api.daily.co/v1/rooms/"
-SCHED_TIMES_UTC = [19]
+SCHED_TIMES_UTC = [0, 19]
 
 app = Flask(__name__,
             static_folder="./dist/static",
@@ -27,8 +27,8 @@ def timedata():
 	
 	data = {} #json response
 	time_current = datetime.utcnow() #captures current time
-	data['time_current'] = time_current.isoformat() #captures current time
-	data['n_sched_times'] = len(SCHED_TIMES_UTC)
+	#data['time_current'] = time_current.isoformat() #captures current time
+	#data['n_sched_times'] = len(SCHED_TIMES_UTC)
 
 	#determine sched time from get request
 	sched_query = request.args.get('sched', default = None, type = str)
@@ -51,7 +51,7 @@ def timedata():
 		sched_year = time_current.year
 		sched_month = time_current.month
 		sched_min = 0
-		for t in SCHED_TIMES_UTC:
+		for t in SCHED_TIMES_UTC: #decides next session
 			if time_current.hour < t:
 				print("next sched time:",t)
 				sched_day = time_current.day
@@ -65,20 +65,20 @@ def timedata():
 	
 	#build time sched object and add to data json
 	time_sched = datetime(sched_year,sched_month,sched_day,sched_hour,sched_min)
-	data['time_sched'] = time_sched.isoformat() #captures scheduled time
-	data['sched_year'] = sched_year
-	data['sched_month'] = sched_month
-	data['sched_day'] = sched_day
-	data['sched_hour'] = sched_hour
-	data['sched_min'] = sched_min
+	#data['time_sched'] = time_sched.isoformat() #captures scheduled time
+	#data['sched_year'] = sched_year
+	#data['sched_month'] = sched_month
+	#data['sched_day'] = sched_day
+	#data['sched_hour'] = sched_hour
+	#data['sched_min'] = sched_min
 	
 	time_diff = (time_sched-time_current).total_seconds() #captures time difference
 	data['time_diff'] = time_diff
 
-	if time_current < time_sched: #if sched time has passed, set bool to kick out
-		data['kick_out'] = False
-	else:
-		data['kick_out'] = True
+	# if time_current < time_sched: #if sched time has passed, set bool to kick out
+	# 	data['kick_out'] = False
+	# else:
+	# 	data['kick_out'] = True
 
 	return json.dumps(data)
 

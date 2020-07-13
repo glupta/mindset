@@ -6,13 +6,22 @@
             <div class='home-background flexCC align-center justify-center'>
                 <img class="logo" src="@/assets/Logo-V2-White.svg">
                 <p class='description white-text'>
-                    Struggling to practice meditation consistently?
                     <br>
-                    Meditate for 15 min in random 1on1 video chats.
+                    Science proves the many benefits of meditation.
                     <br>
-                    Sessions are scheduled everyday at 3:00 PM ET.
+                    Do you still struggle to practice it consistently?
                     <br>
-                    Let's help each other improve our mental health!
+                    Try meditating in fun random 1on1 video chats.
+                    <br>
+                    Sessions are for 15 min daily at 3 PM & 8 PM ET.
+                    <br>
+                    Let's help each other better our mental health!
+                </p>
+                <p class='white-text font-36'>
+                    Next Session
+                    <br>
+                    <Timer class='timer-clock' :timeLimit='time_limit'></Timer>
+                    <br><br>
                 </p>
                 <div class='get-started-button align-center justify-center flexCR' @click='getStarted()'>
                     <p class='get-started-text'>
@@ -31,29 +40,37 @@
                 Get Ready
             </p>
             <p class='description content-width margin-bottom-32'>
-                Join the waiting room and test your settings.
+                Go in the waiting room and test your settings.
             </p>    
             <img class='circle-icon' src='@/assets/circle2.png'></img>
             <p class='header font-bold'>
-                Meet Partner 
+                Session Starts 
             </p>
             <p class='description content-width margin-bottom-32'>
-                Session starts. Greet your assigned partner.
+                Enter video chat. Greet your assigned mate.
             </p>    
             <img class='circle-icon' src='@/assets/circle3.png'></img>
             <p class='header font-bold'>
-                Begin Meditation
+                Practice Meditation
             </p>
             <p class='description content-width margin-bottom-32'>
-                Practice meditation until the bell rings.
+                Start timer to meditate together until the bell.
             </p>    
             <img class='circle-icon' src='@/assets/circle4.png'></img>
             <p class='header font-bold'>
-                Debrief & Exit
+                Express Gratitude
             </p>
             <p class='description content-width margin-bottom-32'>
                 Return to your senses. Thank your buddy.
             </p>
+            <img class='circle-icon' src='@/assets/circle5.png'></img>
+            <p class='header font-bold'>
+                Leave Feedback
+            </p>
+            <p class='description content-width margin-bottom-32'>
+                Exit session and review the experience.
+            </p>
+
             <!--div class='get-started-button align-center justify-center flexCR margin-top-18 darker-blue'  @click='getStarted'>
                 <p class='get-started-text'>
                     Get Started
@@ -63,7 +80,7 @@
         <div class='home-tips-background-light'>
             <div class='home-tips-background-dark white-text flexCC justify-center align-center'>
                 <p class='header'>
-                    Our Meditation Tips
+                    Our Technique Advice
                 </p>
                 <p class='description content-width margin-bottom-32'>
                     Sit comfortably in a chair or on a cushion with your eyes closed. Straighten your back, and place your hands and feet in a relaxed position. 
@@ -76,6 +93,9 @@
                 </p>
                 <p class='description content-width margin-bottom-32'>
                     Try to minimize background sounds. In a noisy environment, mute your audio during the session and use headphones to block out distractions.
+                </p>
+                <p class='description content-width margin-bottom-32'>
+                    Compatible with desktop, mobile, and tablet. For portable devices, turn on the 'Do Not Disturb' setting and consider using a stand.
                     <br><br><br>
                 </p>
                 <!--p class='description content-width padding-bottom-50'>
@@ -89,16 +109,20 @@
 
 <script>
 import NavBar from '@/components/NavBar';
+import Timer from '@/components/Timer'
 import router from '../router';
 export default {
   name: 'Home',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      time_limit: 0,
+      time_sched: "N/A"
     }
   },
   components: {
-    NavBar
+    NavBar,
+    Timer
   },
   methods: {
     getStarted() {
@@ -113,6 +137,37 @@ export default {
         document.title = 'Home' || 'Some Default Title';
       }
     }
+  },
+  mounted() {
+
+    // var link = document.createElement('link');
+    // link.rel = 'shortcut icon';
+    // link.href = 'favicon-1.png';
+    // document.getElementsByTagName('head')[0].appendChild(link);
+
+
+    fetch('/api/timedata')
+    .then(response => {
+      if (response.status !== 200) { //server error handling
+        console.log(`Looks like there was a problem. Status code: ${response.status}`);
+        return;
+      }
+      response.json().then(data => {
+
+        console.log("time data:",data);
+        if ('error' in data) { //error handling from testroom backend call
+          console.log("request time error: ",data['error']);
+          alert("request time error: " + data['error']);
+          return;
+        }
+
+        let time_diff = parseInt(data['time_diff']); //change to 
+        this.time_limit = time_diff;
+      });
+    })
+    .catch(error => { //error handling
+      console.log("Fetch error: " + error);
+    });
   }
 }
 </script>
@@ -144,6 +199,14 @@ export default {
 
 .get-started-text {
     font-size: 24px;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.font-36 {
+  font-size: 24px;
 }
 
 .main-body .description {

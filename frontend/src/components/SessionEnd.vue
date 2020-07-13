@@ -1,31 +1,45 @@
 <template>
     <div class='session-end-screen'>
       <NavBar></NavBar>
-        <br><br><br>
-        <p class="header">
-          Your session has ended.
-          <br>
-          Best of luck on your meditation journey!
-        </p>
-        <br><br>
-        <!--p class='smalltext'>
-            Did your buddy participate in the meditation practice?
-        </p>
-        <br>
-        <div class='rating-section'>
-          <br><br>
-          <div style="position:relative; height:100%;">
-            <div style="float: left; width: 15%;height: 40px;width: 40px;"></div>
-            <div class='yes-button' v-bind:class="{ active: yesSelected}"  v-on:click='onSelectYes()'>
-              <p style="margin-top:1.5em; color:#696969;">Yes</p>
-            </div>
-            <div style="float: left; width: 5%;height: 40px;width: 40px;"></div>
-            <div class='no-button' v-bind:class="{ active: noSelected }"  v-on:click='onSelectNo()'>
-              <p style="margin-top:1.5em; color:#696969;">No</p>
+        <div>
+          <p class="header">
+            <br>
+            Your session has ended.
+            <br>
+            Thank you for your participation.
+            <br><br>
+          </p>
+        </div>
+        <div>
+          <!--p>
+            Did your partner meditate in the session?
+          </p-->
+          <div class='rating-section'>
+            <div style="position:relative; height:100%;">
+              <p class='rating-section-text'>
+                <br>
+                Did your partner meditate in the session?
+              </p>
+              <div style="float: left; height: 16px; width: 40px;"></div>
+              <div class="yes-button" :class="{active: yesSelected}" @click='onSelectYes()'>
+                <img :src='thumbsUp'/>
+              </div>
+              <div style="float: left; height: 16px; width: 40px;"></div>
+              <div class='no-button' :class="{active: noSelected}" @click='onSelectNo()'>
+                <img :src="thumbsDown"/>
+              </div>
+              <div style="float: left; height: 16px; width: 40px;"></div>
             </div>
           </div>
-        </div-->
-        <br><br>
+        </div>
+        <p>
+          <br>
+          What did you notice about your thoughts?
+          <br>
+          Keep a log of your observations in a journal.
+          <br><br>
+          We hope you enjoy the benefits of meditation!
+          <br><br><br>
         <button class='homepage-button'  @click='goToHomepage'>Back to Home</button>
     </div>
 </template>
@@ -38,7 +52,9 @@ export default {
   data () {
     return {
       yesSelected: false,
-      noSelected: false
+      noSelected: false,
+      thumbsUp: require('@/assets/thumbsupblue.png'),
+      thumbsDown: require('@/assets/thumbsdownblue.png')
     }
   },
   components: {
@@ -47,11 +63,17 @@ export default {
   methods: {
     onSelectYes() {
       this.noSelected = false;
+      this.thumbsDown = require('@/assets/thumbsdownblue.png');
+
       this.yesSelected = true;
+      this.thumbsUp = require('@/assets/thumbsupwhite.png');
     },
     onSelectNo() {
       this.yesSelected = false;
+      this.thumbsUp = require('@/assets/thumbsupblue.png');
+
       this.noSelected = true;
+      this.thumbsDown = require('@/assets/thumbsdownwhite.png');
     },
     goToScheduleSession() {
       router.push({ name: "ScheduleSession" });
@@ -69,15 +91,41 @@ export default {
       }
     }
   },
+
+  // mounted() {
+
+  //   var link = document.createElement('link');
+  //   link.rel = 'icon';
+  //   link.href = 'https://www.dropbox.com/s/wal7owvpfnsz1s8/ak93l-iosff-003.png';
+  //   document.getElementsByTagName('head')[0].appendChild(link);
+  // }
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .session-end-screen {
-  font-family: 'DIN Condensed', sans-serif;
-  font-size: 24px;
+  /*font-family: 'DIN Condensed', sans-serif;*/
+  font-size: 18px;
   line-height: 1.5;
+  background-color: #18A0FB;
+  color: #FFFFFF;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.session-end-top {
+  background-color: #18A0FB;
+  color: #FFFFFF;
+}
+
+.session-end-bottom {
+  background-color: #FFFFFF;
+  color: #696969;
 }
 
 .smalltext {
@@ -85,14 +133,23 @@ export default {
 }
 
 .rating-section {
-  width: 317px;
+  width: 328px;
   height: 194px;
   left: 26px;
   top: 322px;
-  background: rgba(196, 196, 196, 0.15);
+  background-color: #FFFFFF;
+  /*background: rgba(196, 196, 196, 0.15);*/
   border-radius: 6px;
   margin: 0 auto;
   text-align: center;
+
+  display: flex;               /* establish flex container */
+  align-items: center;
+}
+
+.rating-section-text {
+  color: #18A0FB;
+  font-size: 16px;
 }
 
 .yes-button, .no-button{
@@ -103,6 +160,14 @@ export default {
   border-radius: 6px;
   background-color: #c7e9ff;
   color: #18A0FB;
+
+  position:relative;
+  top: 21px;
+  text-align: center;
+  vertical-align: middle;
+
+  display: flex;
+  justify-content: center;
 }
 
 .yes-button {
@@ -112,9 +177,19 @@ export default {
   
 }
 
+.yes-button img {
+  display: block;
+  margin: auto;
+}
+
+.no-button img {
+  display: block;
+  margin: auto;
+}
+
 .schedule-appointment-button {
   font-size: 18px;
-  font-family: 'DIN Condensed', sans-serif;
+  /*font-family: 'DIN Condensed', sans-serif;*/
   border-radius: 5px;
   border: 2px solid #18A0FB;
   padding-top: 10px;
@@ -127,9 +202,9 @@ export default {
 .homepage-button {
   font-size: 18px;
   border-radius: 6px;
-  border: 1px solid #18A0FB;
+  border: 1px solid #2AD9FF;
   color: #FFFFFF;
-  background-color: #18A0FB;
+  background-color: #2AD9FF;
 
   box-sizing: border-box;
   line-height: 22px;

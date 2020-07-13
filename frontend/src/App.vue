@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <!--<img src="./assets/logo.png">-->
+    <!--img src="@/assets/Logo-V2-Dot.svg"-->
+    <link rel="shortcut icon" href="/assets/favicon.ico"/>
     <router-view/>
   </div>
 </template>

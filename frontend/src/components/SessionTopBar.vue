@@ -3,12 +3,12 @@
     <!--p class='session-time'>
       <br><
     </p-->
-    <p class='bell-button-wrapper'>
+    <div class='left-wrapper' id='left-wrapper'>
       <Timer id='timer-clock' :timeLimit="timeLimit" @timer-expired="onTimerExpired"></Timer>
-      <button id='bell-button' class='bell-button' @click='bellRings'>
-        Bell
+      <button id='left-button' class='left-button' @click='leftAction'>
+        {{leftCopy}}
       </button>
-    </p>
+    </div>
     <p class='leave-button-wrapper'>
     <br>
       <button id='leave-button' class='leave-button' @click='leaveSession'>
@@ -16,9 +16,9 @@
       </button>
     </p>
     <!--div class='session-status'-->
-      <p class='session-status-text'>
-        <br>{{sessionCopy}}
-      </p>
+    <p class='session-status-text'>
+      <br>{{sessionCopy}}
+    </p>
     <!--/div-->
   </div>
 </template>
@@ -38,8 +38,8 @@ export default {
   },
   methods: {
 
-    bellRings() {
-      this.$emit('bell-rings')
+    leftAction() {
+      this.$emit('left-action')
     },
 
     leaveSession() {
@@ -58,14 +58,18 @@ export default {
       }
       else {
         document.getElementById('timer-clock').style.display = "none";
+        if (this.leftCopy == '') {
+          document.getElementById('left-wrapper').style.display = "none";
+        }
       }
     },
-    showBell(newValue) {
-      if (this.showBell) {
-        document.getElementById('bell-button').style.display = "block";
+    leftCopy(newValue) {
+      if (this.leftCopy !== '') {
+        document.getElementById('left-wrapper').style.display = "flex";
+        document.getElementById('left-button').style.display = "block";
       }
       else {
-        document.getElementById('bell-button').style.display = "none";
+        document.getElementById('left-button').style.display = "none";
       }
     },
     showLeave(newValue) {
@@ -81,7 +85,7 @@ export default {
   props: [
     'timeLimit',
     'showTimer',
-    'showBell',
+    'leftCopy',
     'showLeave',
     'sessionCopy'
   ]
@@ -94,7 +98,7 @@ export default {
   height: 50px;
 }
 
-.bell-button-wrapper {
+.left-wrapper {
   float: left;
   width: 100px;
   height: 50px;
@@ -105,7 +109,7 @@ export default {
   display: flex;
 }
 
-.bell-button {
+.left-button {
   background-color:#18a0fb;
   border-radius:6px;
   color:#ffffff;
