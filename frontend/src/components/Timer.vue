@@ -45,14 +45,13 @@ export default {
       console.log("time left:",this.timeLeft);
       if (newValue == 0) {
         this.onTimesUp();
-        //this.timePassed = 0;
       }
     },
 
     timeLimit(newValue) {
       console.log("time limit:",this.timeLimit);
-      this.timePassed = 0;
       this.startTimer();
+      this.refreshTimer();
     }
   },
 
@@ -63,8 +62,19 @@ export default {
     },
 
     startTimer() {
+      this.timePassed = 0;
       clearInterval(this.timerInterval);
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+    },
+
+    refreshTimer() {
+      //run in a loop
+      //capture current time
+      //cal end time = start time + time limit
+      //when screen becomes active, check current time
+      //every min, check current time
+      //calc diff = end time - current time
+      //set new timeLeft
     }
   },
 

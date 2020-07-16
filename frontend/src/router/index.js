@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import VueCookies from 'vue-cookies';
 import Home from '@/components/Home'
 import ScheduleSession from '@/components/ScheduleSession'
 import SessionEnd from '@/components/SessionEnd'
@@ -8,6 +7,8 @@ import ScheduleConfirmation from '@/components/ScheduleConfirmation'
 import WaitingRoom from '@/components/WaitingRoom'
 import Call from '@/components/Call'
 import SessionLanding from '@/components/SessionLanding'
+import VueCookies from 'vue-cookies';
+import NoSleep from 'nosleep.js';
 
 Vue.use(Router)
 Vue.use(VueCookies);

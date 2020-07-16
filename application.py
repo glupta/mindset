@@ -181,7 +181,6 @@ def requestroom():
 			if cur.rowcount > 0 :
 				entry_order = cur.fetchone()[0]
 				data['entry_order'] = entry_order #captures entry order
-				print("entry order:",entry_order)
 			else :
 				print("error, user does not exist")
 				data['error'] = "you are missing from DB"
@@ -196,7 +195,6 @@ def requestroom():
 		#assigns room based on entry_order
 		room_number = (entry_order + 1) // 2
 		room_name = "room" + str(room_number)
-		print("room name:",room_name)
 
 	#check if room exists
 	data['room_name'] = room_name #captures room name
@@ -208,9 +206,84 @@ def requestroom():
 		print(response['info']) #error handling
 		
 		if response['error'] == 'not-found' : #if room does not exist, create new room
-			payload = "{\"properties\":{\"max_participants\":2},\"name\":\"%s\"}" % room_name
+			payload = "{\"properties\":{\"enable_screenshare\":false,\"max_participants\":2,\"start_audio_off\":false,\"start_video_off\":false},\"name\":\"%s\",\"privacy\":\"private\"}" % room_name
 			response = requests.request("POST", DAILY_API, data=payload, headers=headers)
 			print(response.json())
+
+	return json.dumps(data)
+
+@app.route('/api/checkroom', methods=["POST"]) #finds room data based on client ID
+def checkroom():
+
+	data = {} #data to be returned
+
+	#check for clientID
+	req = request.get_json()
+	if 'clientID' in req:
+		client_id = req['clientID']
+	else:
+		data['error'] = "client ID missing"
+		return json.dumps(data)
+
+	data['user_name'] = client_id
+
+	try:
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print(client_id,": passed DB credentials")
+	except:
+		print(client_id,": did not pass DB credentials")
+		data['error'] = "unable to connect with DB"
+		return json.dumps(data)
+
+
+	#check if user is already in active_users table
+	cmd = "SELECT * FROM active_users WHERE user_name = %s"
+	try:
+		cur.execute(cmd,(client_id,))
+		print(client_id, ": does user exist? ","yes" if cur.rowcount > 0 else "no")
+		if cur.rowcount > 0 :
+			record = cur.fetchone()
+			print("client ID:",record[2],", order:",record[0])
+			
+			room_number = (record[0] + 1) // 2 #assigns room based on entry_order
+			room_name = "room" + str(room_number)
+			print("room name:",room_name)
+			data['room_name'] = room_name
+		else :
+			data['room_name'] = client_id #otherwise room name is client ID
+	except Exception as e:
+			print("Database connection failed due to {}".format(e))
+			data['error'] = "failed to connect to DB on query"
+			return json.dumps(data)
+
+	conn.close() #close DB connection
+
+	return json.dumps(data)
+
+@app.route('/api/roomtoken', methods=["POST"]) #generate room token
+def roomtoken():
+
+	data = {} #data to be returned
+
+	#check for room name
+	req = request.get_json()
+	if 'room_name' not in req :
+		data['error'] = "room name missing"
+		return json.dumps(data)
+
+	#generate token
+	url = "https://api.daily.co/v1/meeting-tokens"
+	payload = "{\"properties\":{\"room_name\":\"%s\"}}" % req['room_name']
+	headers = {'authorization': 'Bearer %s' % BEARER}
+	response = requests.request("POST", url, data=payload, headers=headers).json()
+
+	if 'token' in response :
+		print(response['token'])
+		data['token'] = response['token']
+	else:
+		data['error'] = "generating token failed"
+		return json.dumps(data)
 
 	return json.dumps(data)
 

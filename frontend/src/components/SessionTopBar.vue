@@ -12,14 +12,14 @@
     <p class='leave-button-wrapper'>
     <br>
       <button id='leave-button' class='leave-button' @click='leaveSession'>
-        Leave
+        LEAVE
       </button>
     </p>
-    <!--div class='session-status'-->
-    <p class='session-status-text'>
-      <br>{{sessionCopy}}
-    </p>
-    <!--/div-->
+    <div class='session-status'>
+      <p class='session-status-text'>
+        {{sessionCopy}}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -124,6 +124,15 @@ export default {
 .session-time {
   float: left;
   font-size: 16px;
+}
+
+.session-status {
+  height: 50px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  display: flex;
 }
 
 .session-status-text {

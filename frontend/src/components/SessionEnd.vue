@@ -21,11 +21,11 @@
                 Did your partner meditate in the session?
               </p>
               <div style="float: left; height: 16px; width: 40px;"></div>
-              <div class="yes-button" :class="{active: yesSelected}" @click='onSelectYes()'>
+              <div class="yes-button" :class="{active: yesSelected}" @click='onSelectYes'>
                 <img :src='thumbsUp'/>
               </div>
               <div style="float: left; height: 16px; width: 40px;"></div>
-              <div class='no-button' :class="{active: noSelected}" @click='onSelectNo()'>
+              <div class='no-button' :class="{active: noSelected}" @click='onSelectNo'>
                 <img :src="thumbsDown"/>
               </div>
               <div style="float: left; height: 16px; width: 40px;"></div>
@@ -39,7 +39,7 @@
           Keep a log of your observations in a journal.
           <br><br>
           We hope you enjoy the benefits of meditation!
-          <br><br><br>
+          <br><br>
         <button class='homepage-button'  @click='goToHomepage'>Back to Home</button>
     </div>
 </template>
@@ -92,14 +92,13 @@ export default {
     }
   },
 
-  // mounted() {
+  mounted() {
+    document.body.style.backgroundColor = "#18A0FB";
+  },
 
-  //   var link = document.createElement('link');
-  //   link.rel = 'icon';
-  //   link.href = 'https://www.dropbox.com/s/wal7owvpfnsz1s8/ak93l-iosff-003.png';
-  //   document.getElementsByTagName('head')[0].appendChild(link);
-  // }
-
+  beforeDestroyed() {
+    document.body.style.backgroundColor = "#FFFFFF";
+  }
 }
 </script>
 

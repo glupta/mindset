@@ -21,13 +21,11 @@
         Please wait here until the timer hits 0.
         <br>
         You will automatically join the session.
-        <br><br><br>
-        Test your video chat settings or
-        <br>
-        practice meditation on your own:
+        <br><br>
+        Quick demo to check your settings:
         <br>
       </p>
-      <button class='test-session-button' @click="testSession">Launch Private Session</button>
+      <button class='test-session-button' @click="testSession">Launch Test Run</button>
       <!--br><br><br><br><br><br><br><br><br><br><br><br-->
       
     <!--/div>
@@ -41,6 +39,7 @@ import Timer from '@/components/Timer'
 import SessionBottomBar from '@/components/SessionBottomBar'
 import NavBar from '@/components/NavBar'
 import router from '../router'
+import NoSleep from 'nosleep.js';
 export default {
   name: 'WaitingRoom',
   data () {
@@ -60,9 +59,16 @@ export default {
   
   mounted() {
 
+
+    //var noSleep = new NoSleep();
+    //console.log(noSleep);
+    //this.lock = navigator.requestWakeLock('screen');
+
+    document.body.style.backgroundColor = "#2AD9FF";
+
     //use or create id from cookie
     this.client_id = "fake";
-    console.log("cookies1:",this.$cookies);
+    //console.log("cookies1:",this.$cookies);
     if (this.$cookies.isKey('medliveorg')) {
       this.client_id = this.$cookies.get('medliveorg');
       console.log(this.client_id,": found cookie");
@@ -80,7 +86,7 @@ export default {
       var time_query = this.$route.query.t;
       if (time_query.includes("-")) { //sched time given in query
         this.fetch_time += "?sched=" + time_query;
-        console.log("fetch sched time:",fetch_time);
+        console.log("fetch sched time:",this.fetch_time);
       }
       else {
         if (isNaN(parseInt(time_query))) { //time limit error
@@ -102,6 +108,7 @@ export default {
     //if need to get time data from backend
     if (fetch_time_bool) {
       this.timePassed = 0;
+      this.refreshTimer();
       this.timerInterval = setInterval(() => this.refreshTimer(), 1000);
     }
   },
@@ -109,6 +116,8 @@ export default {
   beforeDestroy() {
 
     clearInterval(this.timerInterval); //stop refresh timer
+    document.body.style.backgroundColor = "#FFFFFF";
+    //this.lock.unlock();
 
   },
   
@@ -134,7 +143,7 @@ export default {
 
           console.log("time data:",data);
           if ('error' in data) { //error handling from testroom backend call
-            console.log(this.client_id,": flush active users DB error: ",data['error']);
+            //console.log(this.client_id,": flush active users DB error: ",data['error']);
             alert("flush active users DB error: " + data['error']);
             return;
           }
@@ -181,7 +190,7 @@ export default {
           return;
         }
         response.json().then(data => { //info about client added to active users in DB
-          console.log("data: ",data);
+          //console.log("data: ",data);
 
           if ('error' in data) { //error handling from testroom backend call
             console.log(this.client_id,": requestroom error: ",data['error']);
@@ -246,7 +255,7 @@ export default {
 
     refreshTimer() { //refresh timer every minute
     
-      console.log("time passed:",this.timePassed);
+      //console.log("time passed:",this.timePassed);
 
       if (this.timePassed % 60 == 0) {
 

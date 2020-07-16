@@ -17,12 +17,12 @@
                     <br>
                     Let's help each other better our mental health!
                 </p>
-                <p class='white-text font-36'>
+                <!--p class='white-text font-36'>
                     Next Session
                     <br>
                     <Timer class='timer-clock' :timeLimit='time_limit'></Timer>
                     <br><br>
-                </p>
+                </p-->
                 <div class='get-started-button align-center justify-center flexCR' @click='getStarted()'>
                     <p class='get-started-text'>
                         Get Started
@@ -137,39 +137,35 @@ export default {
         document.title = 'Home' || 'Some Default Title';
       }
     }
-  },
-  mounted() {
-
-    // var link = document.createElement('link');
-    // link.rel = 'shortcut icon';
-    // link.href = 'favicon-1.png';
-    // document.getElementsByTagName('head')[0].appendChild(link);
-
-
-    fetch('/api/timedata')
-    .then(response => {
-      if (response.status !== 200) { //server error handling
-        console.log(`Looks like there was a problem. Status code: ${response.status}`);
-        return;
-      }
-      response.json().then(data => {
-
-        console.log("time data:",data);
-        if ('error' in data) { //error handling from testroom backend call
-          console.log("request time error: ",data['error']);
-          alert("request time error: " + data['error']);
-          return;
-        }
-
-        let time_diff = parseInt(data['time_diff']); //change to 
-        this.time_limit = time_diff;
-      });
-    })
-    .catch(error => { //error handling
-      console.log("Fetch error: " + error);
-    });
   }
+  // },
+  // mounted() {
+
+  //   fetch('/api/timedata')
+  //   .then(response => {
+  //     if (response.status !== 200) { //server error handling
+  //       console.log(`Looks like there was a problem. Status code: ${response.status}`);
+  //       return;
+  //     }
+  //     response.json().then(data => {
+
+  //       console.log("time data:",data);
+  //       if ('error' in data) { //error handling from testroom backend call
+  //         console.log("request time error: ",data['error']);
+  //         alert("request time error: " + data['error']);
+  //         return;
+  //       }
+
+  //       let time_diff = parseInt(data['time_diff']); //change to 
+  //       this.time_limit = time_diff;
+  //     });
+  //   })
+  //   .catch(error => { //error handling
+  //     console.log("Fetch error: " + error);
+  //   });
+  // }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
