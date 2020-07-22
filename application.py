@@ -27,7 +27,7 @@ app = Flask(__name__,
 def before_request():
 
 	if "localhost" not in request.url and request.url.startswith('http://'):
-		print("URL:",request.url)
+		#print("URL:",request.url)
 		url = request.url.replace('http://', 'https://', 1)
 		code = 301
 		return redirect(url, code=code)
@@ -44,7 +44,7 @@ def timedata():
 	#data['n_sched_times'] = len(SCHED_TIMES_UTC)
 
 	#determine sched time from get request
-	sched_query = request.args.get('sched', default = None, type = str)
+	sched_query = request.args.get('sched')
 	if (sched_query):
 		try:
 		  	sched_parse = sched_query.split("-")
@@ -125,26 +125,50 @@ def flushactiveusersdb():
 	data['flush'] = True
 	return json.dumps(data)
 
+@app.route('/api/roomtoken', methods=["POST"]) #generate room token
+def roomtoken():
 
+	data = {} #data to be returned
 
-@app.route('/api/requestroom', methods=["POST"]) #returns assigned room data
+	#check for room name
+	req = request.get_json()
+	if 'room_name' not in req :
+		data['error'] = "room name missing"
+		return json.dumps(data)
+
+	#generate token
+	url = "https://api.daily.co/v1/meeting-tokens"
+	payload = "{\"properties\":{\"room_name\":\"%s\"}}" % req['room_name']
+	headers = {'authorization': 'Bearer %s' % BEARER}
+	response = requests.request("POST", url, data=payload, headers=headers).json()
+
+	if 'token' in response :
+		print(response['token'])
+		data['token'] = response['token']
+	else:
+		data['error'] = "generating token failed"
+		return json.dumps(data)
+
+	return json.dumps(data)
+
+@app.route('/api/requestroom') #returns assigned room data
 def requestroom():
 
-	#check for clientID
-	req = request.get_json()
-	if 'clientID' in req:
-		client_id = req['clientID']
+	client_id = request.args.get('clientID')
+	test_bool = request.args.get('test')
 
 	if client_id == None:
-		client_id = "dummy"
+		print("client_id missing")
+		data['error'] = "client_id missing"
+		return json.dumps(data)
 
-	print("client ID:",client_id)
+	print("client ID:",client_id,", test:",test_bool)
 
 	data = {} #data to be returned
 	data['user_name'] = client_id
 
 	#if test room, use user ID to name vid room
-	if 'testRoom' in req:
+	if test_bool == '1':
 		room_name = client_id
 
 	#otherwise use DB for real rooms	
@@ -225,20 +249,19 @@ def requestroom():
 
 	return json.dumps(data)
 
-@app.route('/api/checkroom', methods=["POST"]) #finds room data based on client ID
+@app.route('/api/checkroom') #finds room data based on client ID
 def checkroom():
 
 	data = {} #data to be returned
 
 	#check for clientID
-	req = request.get_json()
-	if 'clientID' in req:
-		client_id = req['clientID']
-	else:
-		data['error'] = "client ID missing"
+	client_id = request.args.get('clientID')
+	if client_id == None:
+		print("client_id missing")
+		data['error'] = "client_id missing"
 		return json.dumps(data)
 
-	try:
+	try: #connect to DB
 		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
 		cur = conn.cursor(buffered=True)
 		print(client_id,": passed DB credentials")
@@ -261,43 +284,90 @@ def checkroom():
 			room_name = "room" + str(room_number)
 			print("room name:",room_name)
 			data['room_name'] = room_name
-		else :
-			data['room_name'] = client_id #otherwise room name is client ID
+		# else :
+		# 	data['room_name'] = client_id #otherwise room name is client ID
 	except Exception as e:
 			print("Database connection failed due to {}".format(e))
 			data['error'] = "failed to connect to DB on query"
 			return json.dumps(data)
 
 	conn.close() #close DB connection
-
 	return json.dumps(data)
 
-@app.route('/api/roomtoken', methods=["POST"]) #generate room token
-def roomtoken():
+@app.route('/api/checkstartdb')
+def checkstartdb():
 
 	data = {} #data to be returned
 
-	#check for room name
-	req = request.get_json()
-	if 'room_name' not in req :
-		data['error'] = "room name missing"
+	#check for clientID
+	client_id = request.args.get('clientID')
+	if client_id == None:
+		print("client_id missing")
+		data['error'] = "client_id missing"
 		return json.dumps(data)
 
-	#generate token
-	url = "https://api.daily.co/v1/meeting-tokens"
-	payload = "{\"properties\":{\"room_name\":\"%s\"}}" % req['room_name']
-	headers = {'authorization': 'Bearer %s' % BEARER}
-	response = requests.request("POST", url, data=payload, headers=headers).json()
+	try: #connect to DB
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print(client_id,": passed DB credentials")
+	except:
+		print(client_id,": did not pass DB credentials")
+		data['error'] = "unable to connect with DB"
+		return json.dumps(data)
 
-	if 'token' in response :
-		print(response['token'])
-		data['token'] = response['token']
+	#update start_ready to true in DB
+	if request.args.get('start') == '1':
+		cmd = "UPDATE active_users SET start_ready = 1 WHERE user_name = %s"
+		try:
+			cur.execute(cmd,(client_id,))
+			conn.commit()
+			print("updated user start ready")
+		except Exception as e:
+			print("Database connection failed due to {}".format(e))
+			conn.rollback()
+			data['error'] = "failed to update user start ready"
+			return json.dumps(data)
+
+	#get user entry order
+	if request.args.get('order') == None:
+		cmd = "SELECT * FROM active_users WHERE user_name = %s"
+		try:
+			cur.execute(cmd,(client_id,))
+			print(client_id, ": does user exist? ","yes" if cur.rowcount > 0 else "no")
+			if cur.rowcount > 0 :
+				record = cur.fetchone()
+				print("client ID:",record[2],", order:",record[0])			
+				entry_order = int(record[0])
+				data['entry_order'] = entry_order
+		except Exception as e:
+				print("Database connection failed due to {}".format(e))
+				data['error'] = "failed to check active users"
+				return json.dumps(data)
 	else:
-		data['error'] = "generating token failed"
-		return json.dumps(data)
+		entry_order = int(request.args.get('order'))
 
+	#figure out partner entry order
+	if entry_order % 2 == 0:
+		partner_order = entry_order - 1
+	else:
+		partner_order = entry_order + 1
+
+	#check if partner is ready
+	cmd = "SELECT * FROM active_users WHERE entry_order = %s"
+	try:
+		cur.execute(cmd,(partner_order,))
+		print(client_id, ": does partner exist? ","yes" if cur.rowcount > 0 else "no")
+		if cur.rowcount > 0 :
+			record = cur.fetchone()
+			print("partner ID:",record[2],", order:",record[0])			
+			data['partner_start'] = record[3]
+	except Exception as e:
+			print("Database connection failed due to {}".format(e))
+			data['error'] = "failed to check active users"
+			return json.dumps(data)
+
+	conn.close() #close DB connection
 	return json.dumps(data)
-
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')

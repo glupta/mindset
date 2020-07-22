@@ -31,8 +31,10 @@ export default {
     Timer
   },
   props: {
+    clientID: String,
     roomName: String,
-    medTime: Number
+    medTime: Number,
+    skipStart: Number
   },
 
   mounted() {
@@ -42,8 +44,9 @@ export default {
     this.left_copy = '';
     this.session_kick = true;
 
-    if (this.roomName) { //connect if room name given
+    if (this.clientID && this.roomName) { //connect if client ID & room name given
 
+      this.client_id = this.clientID;
       this.room_name = this.roomName;
       
       //hide everything to start with
@@ -62,47 +65,7 @@ export default {
       this.client_id = this.$cookies.get('medliveorg');
       console.log(this.client_id,": found cookie");
 
-      var entry = {
-          clientID: this.client_id
-      };
-
-      fetch('/api/checkroom', { //call backend to get room data
-      method: "POST",
-      body: JSON.stringify(entry),
-        headers: new Headers({
-        "content-type": "application/json"
-        })
-      })
-      .then(response => {
-        if (response.status !== 200) { //server error handling
-          console.log(`Looks like there was a problem. Status code: ${response.status}`);
-          return;
-        }
-        response.json().then(data => { //info about client added to active users in DB
-          //console.log("data: ",data);
-
-          if ('error' in data) { //error handling from testroom backend call
-            console.log(this.client_id,": checkroom error: ",data['error']);
-            alert("checkroom error: " + data['error']);
-            return;
-          }
-
-          //take room name from backend call
-          if ('room_name' in data) { 
-            this.room_name = String(data['room_name']);
-            //console.log(this.client_id,": room name: ",this.room_name);
-          }
-          else {
-            alert("room data missing");
-            return;
-          }
-          this.sessionLoad(); //load session now
-          //this.onTimerExpired();
-        });
-      })
-      .catch(error => { //error handling
-        console.log("Fetch error: " + error);
-      });
+      this.checkRoom(true); //get room data and load session
     }
     else { //kick user out if no cookie
       console.log("no cookie, kick out");
@@ -138,6 +101,39 @@ export default {
   },
 
   methods: {
+
+    checkRoom(load_bool) { //call backend to get room data
+      fetch('/api/checkroom?clientID=' + this.client_id)
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => { //info about client added to active users in DB
+          //console.log("data: ",data);
+
+          if ('error' in data) { //error handling from testroom backend call
+            console.log(this.client_id,": checkroom error: ",data['error']);
+            alert("checkroom error: " + data['error']);
+            return;
+          }
+
+          //take room name from backend call
+          if ('room_name' in data) { 
+            this.room_name = String(data['room_name']);
+            //console.log(this.client_id,": room name: ",this.room_name);
+          }
+          else {
+            alert("room data missing");
+            return;
+          }
+          if (load_bool) this.sessionLoad(); //load session if requested
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
+      });
+    },
 
     sessionLoad() { //load video chat with room name
 
@@ -201,9 +197,11 @@ export default {
       });
     },
 
-    startTimer() { //timer starts when button clicked
+    startTimer() { //timer starts when both users press START
 
       this.session_kick = false;
+      this.left_copy = '';
+
       //load audio file, overcome autoplay issue
       if (!this.med_bell) {
         this.med_bell = new Audio(require('@/assets/meditationbell.mp3'));
@@ -215,7 +213,72 @@ export default {
       this.med_bell.loop = true;
       this.med_bell.play();
 
-      this.left_copy = '';
+      if (this.skipStart > 0) { //query given d=1, then skip
+        this.beginMeditation();
+      }
+      else { //start with partner
+
+        //let user know to wait on partner
+        this.session_copy = "Waiting for your partner to press START.";
+
+        //update DB & check DB if both users pressed start
+        this.start_bool = false;
+        this.checkStartDB(true); //update DB ready = true
+
+        //check every sec if both users pressed start
+        this.startInterval = setInterval(() => this.checkStartDB(false,this.entry_order), 1000);
+      }
+    },
+
+    checkStartDB(update_start,entry_order) {
+
+      if (this.start_bool) { //both ready, terminate check
+        clearInterval(this.startInterval);
+        return;
+      }
+
+      //create get URL
+      var request_url = '/api/checkstartdb?clientID=' + this.client_id;
+      if (update_start) request_url += '&start=1';
+      if (entry_order) request_url += '&order=' + entry_order;
+
+      fetch(request_url)
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => { //info about client added to active users in DB
+          console.log("start data: ",data);
+          
+          if ('error' in data) { //error handling
+            console.log(this.client_id,": checkStartDB error: ",data['error']);
+            alert("checkStartDB error: " + data['error']);
+            return;
+          }
+
+          if ('entry_order' in data) { //get entry order
+            this.entry_order = parseInt(data['entry_order']);
+            console.log("entry order:",this.entry_order);
+          }
+
+          if ('partner_start' in data) { //check if partner started
+            let partner_start = parseInt(data['partner_start']);
+            console.log("partner_start:",partner_start);
+            if (partner_start > 0) { //both pressed start, begin meditation
+              this.start_bool = true;
+              this.beginMeditation();
+            }
+          }
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
+      });
+    },
+
+    beginMeditation() {
+
       this.show_timer = true;
       this.session_copy = "Please begin meditation.";
 

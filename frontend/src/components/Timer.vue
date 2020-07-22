@@ -58,6 +58,7 @@ export default {
   methods: {
     onTimesUp() {
       clearInterval(this.timerInterval);
+      clearInterval(this.refreshInterval);
       this.$emit('timer-expired');
     },
 

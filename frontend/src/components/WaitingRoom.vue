@@ -97,10 +97,9 @@ export default {
       }
     }
 
-    if (this.$route.query.f) { //if query given f=1, delete all active users
-      if (this.$route.query.f == "1") {
-        this.flushActiveUsersDB();
-      }
+    //if query given f=1, delete all active users
+    if (this.$route.query.f && this.$route.query.f == "1") {
+      this.flushActiveUsersDB();
     }
 
     //if need to get time data from backend
@@ -160,25 +159,11 @@ export default {
 
     requestRoom(testRoom) { //set up video chat room
 
-      if (testRoom) {
-        var entry = {
-          clientID: this.client_id,
-          testRoom: true
-        };
-      }
-      else {
-        var entry = {
-          clientID: this.client_id
-        };
-      }
+      //pass client ID and testRoom params to backend
+      var request_url = '/api/requestroom?clientID=' + this.client_id;
+      if (testRoom) request_url += '&test=1';
 
-      fetch('/api/requestroom', {
-      method: "POST",
-      body: JSON.stringify(entry),
-        headers: new Headers({
-        "content-type": "application/json"
-        })
-      })
+      fetch(request_url)
       .then(response => {
         if (response.status !== 200) { //server error handling
           console.log(`Looks like there was a problem. Status code: ${response.status}`);
@@ -221,13 +206,21 @@ export default {
               }
             }
 
+            //if query given d=1, does not wait on partner to start
+            let skip_start = 0;
+            if (this.$route.query.d && this.$route.query.d == "1") {
+              skip_start = 1;
+            }
+
             console.log("passing room name to call:",room_name);
             //take user to call page
             router.push({
               name: "Call",
               params: {
+                clientID: this.client_id,
                 roomName: room_name,
-                medTime: med_time
+                medTime: med_time,
+                skipStart: skip_start
               }
             })
           }
