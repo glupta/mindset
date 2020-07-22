@@ -26,6 +26,8 @@
         <br>
       </p>
       <button class='test-session-button' @click="testSession">Launch Test Run</button>
+      <!--br><br><br><br><br><br><br><br><br><br><br><br-->
+      
     <!--/div>
     <div class='video-chat-self'></div>
     <SessionBottomBar></SessionBottomBar-->
@@ -105,7 +107,9 @@ export default {
 
     //if need to get time data from backend
     if (fetch_time_bool) {
-      this.getSchedTime();
+      this.timePassed = 0;
+      this.refreshTimer();
+      this.timerInterval = setInterval(() => this.refreshTimer(), 1000);
     }
   },
 
@@ -113,6 +117,7 @@ export default {
 
     clearInterval(this.timerInterval); //stop refresh timer
     document.body.style.backgroundColor = "#FFFFFF";
+    //this.lock.unlock();
 
   },
   
@@ -136,7 +141,7 @@ export default {
         }
         response.json().then(data => {
 
-          //console.log("wr time data:",data);
+          console.log("time data:",data);
           if ('error' in data) { //error handling from testroom backend call
             //console.log(this.client_id,": flush active users DB error: ",data['error']);
             alert("flush active users DB error: " + data['error']);
@@ -246,55 +251,61 @@ export default {
       this.requestRoom();
     },
 
-    getSchedTime() { //get time diff til sched time
+    refreshTimer() { //refresh timer every minute
     
       //console.log("time passed:",this.timePassed);
 
-      fetch(this.fetch_time)
-      .then(response => {
-        if (response.status !== 200) { //server error handling
-          console.log(`Looks like there was a problem. Status code: ${response.status}`);
-          return;
-        }
-        response.json().then(data => {
+      if (this.timePassed % 60 == 0) {
 
-          console.log("wr1 time data:",data);
-          if ('error' in data) { //error handling from testroom backend call
-            console.log(this.client_id,": request time error: ",data['error']);
-            alert("request time error: " + data['error']);
+        console.log("refresh time");
+
+        fetch(this.fetch_time)
+        .then(response => {
+          if (response.status !== 200) { //server error handling
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
             return;
           }
+          response.json().then(data => {
 
-          //this.n_sched_times = parseInt(data['n_sched_times']);
+            console.log("time data:",data);
+            if ('error' in data) { //error handling from testroom backend call
+              console.log(this.client_id,": request time error: ",data['error']);
+              alert("request time error: " + data['error']);
+              return;
+            }
 
-          let time_diff = parseInt(data['time_diff']); //change to kick out flag
-          if (time_diff > 0) {
-            //this.time_limit = parseInt((time_sched - time_current)/1000);
-            this.time_limit = time_diff;
+            //this.n_sched_times = parseInt(data['n_sched_times']);
 
-            //let time_sched_min = String(data['sched_min']);
-            //console.log("sched length:",time_sched_min.length)
-            //if (time_sched_min.length == 1) {
-            //  time_sched_min = '0' + time_sched_min;
-            //}
-            //let offset = new Date().getTimezoneOffset();
-            //let time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone
-            //let sched_utc = new Date(data['time_sched']);
-            //let sched_offset = new Date(sched_utc - 1000 * 60 * offset);
-            //console.log("offset:",offset,", time zone:",time_zone,", sched utc:",sched_utc,", sched_offset:",sched_offset);
-            //this.time_sched = sched_offset;
-            // this.time_sched = time_sched_month + "/" + time_sched_date + "/" + time_sched_year + " " + time_sched_hour + ":" + time_sched_min + " UTC";
-            //this.time_sched = data['sched_month'] + "/" + data['sched_day'] + "/" + data['sched_year'] + " " + data['sched_hour'] + ":" + time_sched_min + " UTC";
-          }
-          else { //kick out if current time is past sched time
-            console.log("currently past sched time, kicking out");
-            this.kickOutWaitingRoom();
-          }
+            let time_diff = parseInt(data['time_diff']); //change to kick out flag
+            if (time_diff > 0) {
+              //this.time_limit = parseInt((time_sched - time_current)/1000);
+              this.time_limit = time_diff;
+
+              //let time_sched_min = String(data['sched_min']);
+              //console.log("sched length:",time_sched_min.length)
+              //if (time_sched_min.length == 1) {
+              //  time_sched_min = '0' + time_sched_min;
+              //}
+              //let offset = new Date().getTimezoneOffset();
+              //let time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone
+              //let sched_utc = new Date(data['time_sched']);
+              //let sched_offset = new Date(sched_utc - 1000 * 60 * offset);
+              //console.log("offset:",offset,", time zone:",time_zone,", sched utc:",sched_utc,", sched_offset:",sched_offset);
+              //this.time_sched = sched_offset;
+              // this.time_sched = time_sched_month + "/" + time_sched_date + "/" + time_sched_year + " " + time_sched_hour + ":" + time_sched_min + " UTC";
+              //this.time_sched = data['sched_month'] + "/" + data['sched_day'] + "/" + data['sched_year'] + " " + data['sched_hour'] + ":" + time_sched_min + " UTC";
+            }
+            else { //kick out if current time is past sched time
+              console.log("currently past sched time, kicking out");
+              this.kickOutWaitingRoom();
+            }
+          });
+        })
+        .catch(error => { //error handling
+          console.log("Fetch error: " + error);
         });
-      })
-      .catch(error => { //error handling
-        console.log("Fetch error: " + error);
-      });
+      }
+      this.timePassed += 1;
     }
   }
 }

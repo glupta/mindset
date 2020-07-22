@@ -13,7 +13,7 @@
                     <br>
                     Try meditating in fun random 1on1 video chats.
                     <br>
-                    Sessions are for 15 min daily at 3 PM & 8 PM ET.
+                    Sessions are for 15 min daily at 8 AM & 8 PM ET.
                     <br>
                     Let's help each other better our mental health!
                 </p>
@@ -137,9 +137,10 @@ export default {
         document.title = 'Home' || 'Some Default Title';
       }
     }
-  }
-  // },
-  // mounted() {
+  },
+  mounted() {
+
+    document.body.style.backgroundColor = "#FFFFFF";
 
   //   fetch('/api/timedata')
   //   .then(response => {
@@ -163,7 +164,7 @@ export default {
   //   .catch(error => { //error handling
   //     console.log("Fetch error: " + error);
   //   });
-  // }
+  }
 }
 
 </script>

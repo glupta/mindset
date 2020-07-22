@@ -1,11 +1,12 @@
 from flask import Flask, render_template
-from flask import request, jsonify, make_response
+from flask import request, jsonify, make_response, redirect
 from datetime import datetime
 import json
 import requests
 import sys
 import os
 import mysql.connector
+import ipaddress
 
 ENDPOINT = "med-live-db2.c2kufiynjcx0.us-east-2.rds.amazonaws.com"
 USR = "admin"
@@ -16,18 +17,30 @@ DBNAME = "medlivedb2"
 os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
 BEARER = '05535c097075d1938caf827de2217e51a56cf2309a9c738443b8df7a47e2054b'
 DAILY_API = "https://api.daily.co/v1/rooms/"
-SCHED_TIMES_UTC = [0, 19]
+SCHED_TIMES_UTC = [0, 12]
 
 app = Flask(__name__,
             static_folder="./dist/static",
             template_folder="./dist")
 
-@app.route('/api/timedata') ##returns time data
+@app.before_request #redirects http to https
+def before_request():
+
+	if "localhost" not in request.url and request.url.startswith('http://'):
+		print("URL:",request.url)
+		url = request.url.replace('http://', 'https://', 1)
+		code = 301
+		return redirect(url, code=code)
+	else:
+	 	print('URL local:',request.url)
+	 	return
+
+@app.route('/api/timedata') #returns time data
 def timedata():
 	
 	data = {} #json response
 	time_current = datetime.utcnow() #captures current time
-	#data['time_current'] = time_current.isoformat() #captures current time
+	data['time_current'] = time_current.isoformat() #captures current time
 	#data['n_sched_times'] = len(SCHED_TIMES_UTC)
 
 	#determine sched time from get request
@@ -224,8 +237,6 @@ def checkroom():
 	else:
 		data['error'] = "client ID missing"
 		return json.dumps(data)
-
-	data['user_name'] = client_id
 
 	try:
 		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)

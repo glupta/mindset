@@ -39,6 +39,8 @@
           Keep a log of your observations in a journal.
           <br><br>
           We hope you enjoy the benefits of meditation!
+          <br>
+          Email your feedback to <a href="mailto:hello@meditatelive.org">hello@meditatelive.org</a>
           <br><br>
         <button class='homepage-button'  @click='goToHomepage'>Back to Home</button>
     </div>

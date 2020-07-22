@@ -6,6 +6,7 @@ import SessionEnd from '@/components/SessionEnd'
 import ScheduleConfirmation from '@/components/ScheduleConfirmation'
 import WaitingRoom from '@/components/WaitingRoom'
 import Call from '@/components/Call'
+import Test from '@/components/Test'
 import SessionLanding from '@/components/SessionLanding'
 import VueCookies from 'vue-cookies';
 import NoSleep from 'nosleep.js';
@@ -21,7 +22,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/scheduleSession',
+      path: '/plan',
       name: 'ScheduleSession',
       component: ScheduleSession
     },
@@ -31,12 +32,12 @@ export default new Router({
       component: ScheduleConfirmation
     },
     {
-      path: '/waitingRoom',
+      path: '/wait',
       name: 'WaitingRoom',
       component: WaitingRoom
     },
     {
-      path: '/sessionEnd',
+      path: '/end',
       name: 'SessionEnd',
       component: SessionEnd
     },
@@ -44,6 +45,12 @@ export default new Router({
       path: '/call',
       name: 'Call',
       component: Call,
+      props: true
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test,
       props: true
     },
     {

@@ -2,3 +2,4 @@ frontend/node_modules
 virt1
 dailyco
 .ebextensions
+.platform

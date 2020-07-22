@@ -1,5 +1,5 @@
 <template>
-  <div class="schedule-session">
+  <div class="waiting-room" id="waiting-room">
       <NavBar></NavBar>
       <p class='description'>
         <br><br>
@@ -20,17 +20,26 @@
         <br><br>
         Check your settings in a quick demo:
         <br>
+    </p>
+    <p class='description'>
+        <br><br>
+        Joining in...
+        <br><br>
+        <Timer class='timer-clock' :timeLimit='time_limit' @timer-expired='onTimerExpired'></Timer>
+        <br>
+        Please wait here until the timer hits 0.
+        <br>
+        You will automatically join the session.
       </p>
-      <button class='test-session-button' @click="testSession">Launch Test Run</button>
   </div>
-  <!-- at 2 min mark, takes you to waiting room -->
 </template>
 <script>
 import Timer from '@/components/Timer'
 import NavBar from '@/components/NavBar'
 import router from '../router'
+import NoSleep from 'nosleep.js';
 export default {
-  name: 'ScheduleSession',
+  name: 'WaitingRoom',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -40,7 +49,9 @@ export default {
     }
   },
   components: {
+    SessionTopBar,
     Timer,
+    SessionBottomBar,
     NavBar
   },
   
