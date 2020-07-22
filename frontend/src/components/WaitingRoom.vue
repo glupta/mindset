@@ -194,7 +194,6 @@ export default {
             })
           }
           else {
-
             var med_time = 0;
             if (this.$route.query.m) { //if query given m, set meditation duration
               let med_query = this.$route.query.m;
