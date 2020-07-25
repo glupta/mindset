@@ -15,7 +15,8 @@ PORT = "3306"
 REGION = "us-east-2"
 DBNAME = "medlivedb2"
 os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
-BEARER = '05535c097075d1938caf827de2217e51a56cf2309a9c738443b8df7a47e2054b'
+#BEARER = '05535c097075d1938caf827de2217e51a56cf2309a9c738443b8df7a47e2054b' #meditate-live
+BEARER = '430bfe053ef86e871e12cd960f51996b429fd032612926becd766becdef03963' #meditate
 DAILY_API = "https://api.daily.co/v1/rooms/"
 SCHED_TIMES_UTC = [0, 12]
 
@@ -24,16 +25,16 @@ app = Flask(__name__,
             template_folder="./dist")
 
 @app.before_request #redirects http to https
-def before_request():
+# def before_request():
 
-	if "localhost" not in request.url and request.url.startswith('http://'):
-		#print("URL:",request.url)
-		url = request.url.replace('http://', 'https://', 1)
-		code = 301
-		return redirect(url, code=code)
-	else:
-	 	print('URL local:',request.url)
-	 	return
+# 	if "localhost" not in request.url and request.url.startswith('http://'):
+# 		#print("URL:",request.url)
+# 		url = request.url.replace('http://', 'https://', 1)
+# 		code = 301
+# 		return redirect(url, code=code)
+# 	else:
+# 	 	print('URL local:',request.url)
+# 	 	return
 
 @app.route('/api/timedata') #returns time data
 def timedata():

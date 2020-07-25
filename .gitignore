@@ -3,10 +3,6 @@ ngrok
 __pycache__
 dist
 npm-debug.log
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
 
 
 #files
@@ -15,3 +11,8 @@ frontend/src/components/ScheduleSession\ copy.vue
 frontend/src/components/WaitingRoom\ copy.vue
 frontend/src/components/WaitingRoom1.vue
 frontend/src/components/VideoChat.vue
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

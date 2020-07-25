@@ -1,7 +1,7 @@
 
 <template>
   <div class='call'>
-    <SessionTopBar :showTimer=show_timer :leftCopy=left_copy :showLeave=show_leave :timeLimit=time_limit :sessionCopy=session_copy @timer-expired="onTimerExpired" @left-action="startTimer" @leave-session="leaveSession"></SessionTopBar>
+    <SessionTopBar :showTimer=show_timer :showLeft=show_left :leftCopy=left_copy :showLeave=show_leave :timeLimit=time_limit :sessionCopy=session_copy @timer-expired="onTimerExpired" @left-action="startTimer" @leave-session="leaveSession"></SessionTopBar>
   </div>
 </template>
 
@@ -14,9 +14,11 @@ export default {
     return {
       time_limit: 0,
       session_copy: '',
-      left_copy: ' ',
+      left_copy: '',
       show_timer: true,
-      show_leave: true
+      show_leave: true,
+      show_left: true,
+      DAILYID: 'meditate' //use meditate or meditatelive
     }
   },
   components: {
@@ -32,9 +34,10 @@ export default {
     document.body.style.backgroundColor = "#FFFFFF";
 
     this.show_timer = false;
+    this.show_left = true;
     this.left_copy = 'START';
     this.show_leave = true;
-    this.session_copy = "When you appear at the bottom, press START.";
+    this.session_copy = "Press START when you appear at the bottom";
     this.time_limit = 30;
     this.timer_kick = true;
 
@@ -81,11 +84,11 @@ export default {
           //console.log("token: ",data['token']);
           
           //call daily.co API to add user to assigned video chat room
-          var room_url = "https://meditate-live.daily.co/" + this.room_name + "?t=" + data['token'];
+          var room_url = "https://" + this.DAILYID + ".daily.co/" + this.room_name + "?t=" + data['token'];
           //console.log(this.room_name,", call is mounted, room url:",room_url);
           let dailycoScript = document.createElement('script');
           dailycoScript.addEventListener("load", event => {
-            window.callFrame = window.DailyIframe.createFrame();
+            window.callFrame = window.DailyIframe.createFrame({showFullscreenButton: true});
             callFrame.join({ url: room_url});
             var elem = document.querySelector('iframe');
             elem.style.position = "absolute";
@@ -152,11 +155,14 @@ export default {
       this.med_bell.loop = true;
       this.med_bell.play();
 
+      //this.show_left = false;
       this.left_copy = '';
       this.show_timer = true;
-      this.session_copy = "Let the timer run out.";
+      this.session_copy = "Let the timer run out";
       this.timer_kick = false;
       this.time_limit = 10;
+
+      setTimeout(() => this.session_copy = 'Meditations are for 15 min',5000);
     },
 
     bellRings() { //bell rings after timer expires
@@ -192,7 +198,8 @@ export default {
         this.timer_kick = true;
         this.time_limit = 11;
         this.show_timer = false;
-        this.session_copy = "Did the bell ring? Press LEAVE to exit.";
+        this.show_left = false;
+        this.session_copy = "Did the bell ring? Press LEAVE to exit";
 
         //play ending bell
         this.bellRings();

@@ -49,6 +49,7 @@ export default {
     },
 
     timeLimit(newValue) {
+      this.timePassed = 0;
       console.log("time limit:",this.timeLimit);
       this.startTimer();
       this.refreshTimer();
@@ -63,7 +64,6 @@ export default {
     },
 
     startTimer() {
-      this.timePassed = 0;
       clearInterval(this.timerInterval);
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },

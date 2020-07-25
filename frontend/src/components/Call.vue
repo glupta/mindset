@@ -1,7 +1,7 @@
 
 <template>
   <div class='call'>
-    <SessionTopBar :showTimer=show_timer :leftCopy=left_copy :showLeave=show_leave :timeLimit=time_limit :sessionCopy=session_copy @timer-expired="onTimerExpired" @left-action="startTimer" @leave-session="leaveSession"></SessionTopBar>
+    <SessionTopBar :showTimer=show_timer :showLeft=show_left :leftCopy=left_copy :showLeave=show_leave :timeLimit=time_limit :sessionCopy=session_copy @timer-expired="onTimerExpired" @left-action="startTimer" @leave-session="leaveSession"></SessionTopBar>
     <div class='load-wrapper' id='load-wrapper'>
       <p>
         Connecting...
@@ -21,9 +21,11 @@ export default {
     return {
       time_limit: 0,
       session_copy: '',
-      left_copy: ' ',
+      left_copy: '',
       show_timer: true,
-      show_leave: true
+      show_left: true,
+      show_leave: true,
+      DAILYID: 'meditate' //use meditate or meditatelive
     }
   },
   components: {
@@ -41,7 +43,7 @@ export default {
 
     this.killVidChat(); //delete any loose iframe
     document.body.style.backgroundColor = "#FFFFFF";
-    this.left_copy = '';
+    this.show_left = false;
     this.session_kick = true;
 
     if (this.clientID && this.roomName) { //connect if client ID & room name given
@@ -61,6 +63,7 @@ export default {
       //reset session environment 
       document.getElementById('load-wrapper').style.display = 'none';
       this.session_copy = 'Connection lost, timer stopped.';
+      this.time_limit = 20 * 60; 
 
       this.client_id = this.$cookies.get('medliveorg');
       console.log(this.client_id,": found cookie");
@@ -167,11 +170,11 @@ export default {
             //console.log("token: ",data['token']);
             
             //call daily.co API to add user to assigned video chat room
-            var room_url = "https://meditate-live.daily.co/" + this.room_name + "?t=" + data['token'];
+            var room_url = "https://" + this.DAILYID + ".daily.co/" + this.room_name + "?t=" + data['token'];
             //console.log(this.room_name,", call is mounted, room url:",room_url);
             let dailycoScript = document.createElement('script');
             dailycoScript.addEventListener("load", event => {
-              window.callFrame = window.DailyIframe.createFrame();
+              window.callFrame = window.DailyIframe.createFrame({showFullscreenButton: true});
               callFrame.join({ url: room_url});
               var elem = document.querySelector('iframe');
               elem.style.position = "absolute";
@@ -200,7 +203,7 @@ export default {
     startTimer() { //timer starts when both users press START
 
       this.session_kick = false;
-      this.left_copy = '';
+      this.show_left = false;
 
       //load audio file, overcome autoplay issue
       if (!this.med_bell) {
@@ -219,7 +222,8 @@ export default {
       else { //start with partner
 
         //let user know to wait on partner
-        this.session_copy = "Waiting for your partner to press START.";
+        this.show_left = false;
+        this.session_copy = "Waiting for your partner to START";
 
         //update DB & check DB if both users pressed start
         this.start_bool = false;
@@ -279,8 +283,10 @@ export default {
 
     beginMeditation() {
 
+      this.show_left = true;
+      this.left_copy = "";
       this.show_timer = true;
-      this.session_copy = "Please begin meditation.";
+      this.session_copy = "Please begin meditation";
 
       console.log("med time is:",this.medTime);
       this.time_limit = (this.medTime > 0) ? this.medTime : 15 * 60;
@@ -311,9 +317,10 @@ export default {
       
       document.getElementById('load-wrapper').style.display = 'none';
       if (document.querySelector('iframe')) document.querySelector('iframe').style.visibility = "visible";
-      this.session_copy = 'Say hello & press START together.';
+      this.session_copy = 'Say hello to each other';
       this.show_leave = true;
       this.show_timer = false;
+      this.show_left = true;
       this.left_copy = "START";
     },
 
@@ -326,7 +333,7 @@ export default {
         this.session_kick = true;
         this.time_limit = 5 * 60;
         this.show_timer = false;
-        this.session_copy = "Thank your partner. Good bye!";
+        this.session_copy = "Thank your partner";
         this.bellRings(); //play ending bell
       }
     },

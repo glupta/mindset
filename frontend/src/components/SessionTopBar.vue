@@ -58,18 +58,9 @@ export default {
       }
       else {
         document.getElementById('timer-clock').style.display = "none";
-        if (this.leftCopy == '') {
-          document.getElementById('left-wrapper').style.display = "none";
-        }
-      }
-    },
-    leftCopy(newValue) {
-      if (this.leftCopy !== '') {
-        document.getElementById('left-wrapper').style.display = "flex";
-        document.getElementById('left-button').style.display = "block";
-      }
-      else {
-        document.getElementById('left-button').style.display = "none";
+        // if (this.leftCopy == '') {
+        //   document.getElementById('left-wrapper').style.display = "none";
+        // }
       }
     },
     showLeave(newValue) {
@@ -79,14 +70,33 @@ export default {
       else {
         document.getElementById('leave-button').style.display = "none";
       }
-    }
+    },
+    showLeft(newValue) {
+      if (this.showLeft) {
+        document.getElementById('left-wrapper').style.display = "flex";
+        document.getElementById('left-button').style.display = "block";
+      }
+      else {
+        document.getElementById('left-wrapper').style.display = "none";
+      }
+    },
+    leftCopy(newValue) {
+      if (this.leftCopy == '') {
+        //document.getElementById('left-wrapper').style.display = "flex";
+        document.getElementById('left-button').style.display = "none";
+      }
+      else {
+        document.getElementById('left-button').style.display = "block";
+      }
+    },
   },
 
   props: [
     'timeLimit',
     'showTimer',
-    'leftCopy',
     'showLeave',
+    'showLeft',
+    'leftCopy',
     'sessionCopy'
   ]
 }
