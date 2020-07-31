@@ -25,16 +25,16 @@ app = Flask(__name__,
             template_folder="./dist")
 
 @app.before_request #redirects http to https
-# def before_request():
+def before_request():
 
-# 	if "localhost" not in request.url and request.url.startswith('http://'):
-# 		#print("URL:",request.url)
-# 		url = request.url.replace('http://', 'https://', 1)
-# 		code = 301
-# 		return redirect(url, code=code)
-# 	else:
-# 	 	print('URL local:',request.url)
-# 	 	return
+	if "localhost" not in request.url and request.url.startswith('http://'):
+		#print("URL:",request.url)
+		url = request.url.replace('http://', 'https://', 1)
+		code = 301
+		return redirect(url, code=code)
+	else:
+	 	print('URL local:',request.url)
+	 	return
 
 @app.route('/api/timedata') #returns time data
 def timedata():
@@ -155,7 +155,7 @@ def roomtoken():
 @app.route('/api/requestroom') #returns assigned room data
 def requestroom():
 
-	client_id = request.args.get('clientID')
+	client_id = str(request.args.get('clientID'))
 	test_bool = request.args.get('test')
 
 	if client_id == None:

@@ -16,16 +16,16 @@
         <br><br-->
         The next meditation starts in:
         <br><br>
-        <Timer class='timer-clock' :timeLimit='time_limit' @timer-expired='onTimerExpired'></Timer>
+        <Timer class='timer-clock' :timeLimit='time_limit' @timer-expired='onTimerExpired' @five-min='onFiveMin' @more-five='onMoreFive'></Timer>
         <br>
         Please wait here until the timer hits 0.
         <br>
         You will automatically join the session.
         <br><br>
-        Check your settings in a quick demo:
+        {{desc_copy}}
         <br>
       </p>
-      <button class='test-session-button' @click="testSession">Launch Test Run</button>
+      <button class='test-session-button' @click="joinSession">{{button_copy}}</button>
     <!--/div>
     <div class='video-chat-self'></div>
     <SessionBottomBar></SessionBottomBar-->
@@ -44,6 +44,8 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       time_limit: 0,
+      desc_copy: 'Check your settings in a quick demo:',
+      button_copy: 'Launch Test Run'
       //time_sched: "N/A",
       //n_sched_times: 0
     }
@@ -63,6 +65,7 @@ export default {
     //this.lock = navigator.requestWakeLock('screen');
 
     document.body.style.backgroundColor = "#2AD9FF";
+    this.can_join = false;
 
     //use or create id from cookie
     this.client_id = "fake";
@@ -230,12 +233,33 @@ export default {
       });
     },
 
-    testSession() { //open private video chat room
-      this.requestRoom(true);
-    }, 
+    // testSession() { //open private video chat room
+    //   this.requestRoom(true);
+    // }, 
 
     onTimerExpired() { //loads meditation room when timer ends
-      this.requestRoom();
+    	this.getSchedTime();
+    },
+
+    onFiveMin() {
+    	this.can_join = true;
+    	this.desc_copy = 'Enter meditation room and meet partner:'
+    	this.button_copy = 'Meditate Live'
+    },
+
+    onMoreFive() {
+    	this.can_join = false;
+    	this.desc_copy = 'Check your settings in a quick demo:'
+    	this.button_copy = 'Launch Test Run'
+    },
+
+    joinSession() {
+    	if (this.can_join) {
+      	this.requestRoom();
+      }
+      else {
+      	this.requestRoom(true);
+      }
     },
 
     getSchedTime() { //get time diff til sched time
@@ -263,6 +287,16 @@ export default {
           if (time_diff > 0) {
             //this.time_limit = parseInt((time_sched - time_current)/1000);
             this.time_limit = time_diff;
+
+            // //set less of time diff or until 5 minutes
+            // if (time_diff > 300) {
+            // 	this.time_limit = time_diff - 300;
+            // }
+            // else {
+            // 	this.time_limit = time_diff;
+            // 	this.can_join = true;
+            // }
+            // console.log("limit:",this.time_limit,"status:",this.can_join);
 
             //let time_sched_min = String(data['sched_min']);
             //console.log("sched length:",time_sched_min.length)

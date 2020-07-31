@@ -10,47 +10,64 @@ export default {
   data () {
     return {
       timePassed: 0,
-      timerInterval: null
+      formattedTimeLeft: ''
     }
   },
 
-  computed: {
-    formattedTimeLeft() {
-      const timeLeft = this.timeLeft;
-      let minutes = Math.floor(timeLeft / 60);
-      let hours = Math.floor(minutes / 60);
-      minutes %= 60;
-      let seconds = timeLeft % 60;
+  // computed: {
+  //   formattedTimeLeft() {
+  //     const timeLeft = this.timeLeft;
+  //     let minutes = Math.floor(timeLeft / 60);
+  //     let hours = Math.floor(minutes / 60);
+  //     minutes %= 60;
+  //     let seconds = timeLeft % 60;
 
-      hours = (hours == 0) ? '' : hours += ':'
+  //     hours = (hours == 0) ? '' : hours += ':'
 
-      if (minutes < 10) {
-        minutes = `0${minutes}`;
-      }
+  //     if (minutes < 10) {
+  //       minutes = `0${minutes}`;
+  //     }
 
-      if (seconds < 10) {
-        seconds = `0${seconds}`;
-      }
+  //     if (seconds < 10) {
+  //       seconds = `0${seconds}`;
+  //     }
 
-      return `${hours}${minutes}:${seconds}`;
-    },
+  //     return `${hours}${minutes}:${seconds}`;
+  //   },
 
-    timeLeft() {
-      return this.timeLimit - this.timePassed;
-    }
-  },
+  //   // timeLeft() {
+  //   //   return this.timeLimit - this.timePassed;
+  //   // }
+  // },
 
   watch: {
-    timeLeft(newValue) {
-      console.log("time left:",this.timeLeft);
-      if (newValue == 0) {
-        this.onTimesUp();
-      }
-    },
+    // timeLeft(newValue) {
+
+    //   //const timeLeft = this.timeLeft;
+    //   let minutes = Math.floor(this.timeLeft / 60);
+    //   let hours = Math.floor(minutes / 60);
+    //   minutes %= 60;
+    //   let seconds = this.timeLeft % 60;
+
+    //   hours = (hours == 0) ? '' : hours += ':';
+
+    //   if (minutes < 10) {
+    //     minutes = `0${minutes}`;
+    //   }
+
+    //   if (seconds < 10) {
+    //     seconds = `0${seconds}`;
+    //   }      
+    //   this.formattedTimeLeft = hours + minutes + ':' + seconds;
+    //   //this.formattedTimeLeft = `${hours}${minutes}:${seconds}`;
+
+    //   console.log("time left2:",this.timeLeft);
+    //   if (newValue == 0) {
+    //     this.onTimesUp();
+    //   }
+    // },
 
     timeLimit(newValue) {
-      this.timePassed = 0;
-      console.log("time limit:",this.timeLimit);
       this.startTimer();
       this.refreshTimer();
     }
@@ -64,14 +81,58 @@ export default {
     },
 
     startTimer() {
+			this.timePassed = 0;
+      this.timeLeft = this.timeLimit;
+      this.formatTimeLeft();
       clearInterval(this.timerInterval);
-      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+      clearInterval(this.refreshInterval);
+      console.log("time limit:",this.timeLimit);
+      this.timerInterval = setInterval(() => this.updateTimer(), 1000);
+    },
+
+    updateTimer() {
+      this.timePassed += 1;
+      this.timeLeft = this.timeLimit - this.timePassed;
+      console.log("left:",this.timeLeft,"passed:",this.timePassed,"limit:",this.timeLimit);
+      this.formatTimeLeft();
+
+      /*
+			if first time, set start & end time.
+			every 60 seconds
+				if timeLeft does not match diff
+					reset timePassed
+
+			*/
+
+      if (this.timeLeft == 0) {
+        this.onTimesUp();
+        this.$emit('more-five');
+      }
+      else if (this.timeLeft <= 300)
+      	this.$emit('five-min');
+      else if (this.timeLeft > 300)
+      	this.$emit('more-five');
+    },
+
+    formatTimeLeft() { //creates string of time left
+    	let minutes = Math.floor(this.timeLeft / 60);
+      let hours = Math.floor(minutes / 60);
+      minutes %= 60;
+      let seconds = this.timeLeft % 60;
+      hours = (hours == 0) ? '' : hours += ':';
+      if (minutes < 10) {
+        minutes = `0${minutes}`;
+      }
+      if (seconds < 10) {
+        seconds = `0${seconds}`;
+      }      
+      this.formattedTimeLeft = hours + minutes + ':' + seconds;
     },
 
     refreshTimer() { //keeps timer in sync with server
 
-      delete this.timeEnd; 
-      this.getCurrentTime(); //set end time = current time + time limit
+      delete this.timeStart; 
+      this.getCurrentTime(); //set start time = current time + time limit
 
       //every min, set timeLeft = end time - current time
       clearInterval(this.refreshInterval);
@@ -96,13 +157,13 @@ export default {
             return;
           }
           this.timeCurrent = new Date(data['time_current']); //get current time
-          if (this.timeEnd) { //update timeLeft if end time exists
-            this.timeLeft = parseInt(this.timeEnd - this.timeCurrent) / 1000; 
-            console.log("current:",this.timeCurrent,", left:",this.timeLeft);
+          if (this.timeStart) { //update timeLeft if end time exists
+            this.timePassed = Math.round(parseInt(this.timeCurrent - this.timeStart) / 1000); 
+            console.log("start:",this.timeStart,"current:",this.timeCurrent,"passed:",this.timePassed);
           }
           else { //set end time if first refresh
-            this.timeEnd = new Date(this.timeCurrent.getTime() + this.timeLimit * 1000);
-            console.log("current:",this.timeCurrent,", end:",this.timeEnd);
+            this.timeStart = this.timeCurrent;
+            console.log("start:",this.timeStart);
           }
         });
       })

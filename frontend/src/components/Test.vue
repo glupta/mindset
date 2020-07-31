@@ -38,7 +38,7 @@ export default {
     this.left_copy = 'START';
     this.show_leave = true;
     this.session_copy = "Press START when you appear at the bottom";
-    this.time_limit = 30;
+    this.time_limit = 60;
     this.timer_kick = true;
 
     if (this.roomName) { //connect if room name given
@@ -144,6 +144,9 @@ export default {
 
     startTimer() { //timer starts when button clicked
 
+      this.timer_kick = false;
+      this.time_limit = 10;
+
       //load audio file, overcome autoplay issue
       if (!this.med_bell) {
         this.med_bell = new Audio(require('@/assets/meditationbell.mp3'));
@@ -159,10 +162,8 @@ export default {
       this.left_copy = '';
       this.show_timer = true;
       this.session_copy = "Let the timer run out";
-      this.timer_kick = false;
-      this.time_limit = 10;
 
-      setTimeout(() => this.session_copy = 'Meditations are for 15 min',5000);
+      setTimeout(() => this.session_copy = 'Sessions last 15 minutes',5000);
     },
 
     bellRings() { //bell rings after timer expires

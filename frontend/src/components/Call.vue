@@ -43,8 +43,13 @@ export default {
 
     this.killVidChat(); //delete any loose iframe
     document.body.style.backgroundColor = "#FFFFFF";
-    this.show_left = false;
+    //this.show_left = false;
     this.session_kick = true;
+
+    document.getElementById('load-wrapper').style.display = 'none';
+    this.session_copy = 'Say hello to each other';
+    this.show_timer = false;
+    this.left_copy = "START";
 
     if (this.clientID && this.roomName) { //connect if client ID & room name given
 
@@ -52,9 +57,9 @@ export default {
       this.room_name = this.roomName;
       
       //hide everything to start with
-      this.show_timer = false;
-      this.show_leave = false;
-      this.time_start = 9; //load time
+      //this.show_timer = false;
+      //this.show_leave = false;
+      //this.time_start = 9; //load time
       this.time_limit = 5 * 60; 
       this.sessionLoad();
     }
@@ -182,7 +187,7 @@ export default {
               elem.style.right = "0";
               elem.style.width = "100%";
               elem.style.height = "calc(100% - 50px)";
-              elem.style.visibility = (this.roomName) ? "hidden" : "visible";
+              //elem.style.visibility = (this.roomName) ? "hidden" : "visible";
             });
             dailycoScript.setAttribute('src', 'https://unpkg.com/@daily-co/daily-js/dist/daily-iframe.js');
             dailycoScript.setAttribute('crossorigin','');
@@ -313,16 +318,16 @@ export default {
       router.push({ name: 'SessionEnd' });
     },
 
-    onLoadTimerExpired() { //load timer triggers this which redirects to main expire function
+    // onLoadTimerExpired() { //load timer triggers this which redirects to main expire function
       
-      document.getElementById('load-wrapper').style.display = 'none';
-      if (document.querySelector('iframe')) document.querySelector('iframe').style.visibility = "visible";
-      this.session_copy = 'Say hello to each other';
-      this.show_leave = true;
-      this.show_timer = false;
-      this.show_left = true;
-      this.left_copy = "START";
-    },
+    //   document.getElementById('load-wrapper').style.display = 'none';
+    //   if (document.querySelector('iframe')) document.querySelector('iframe').style.visibility = "visible";
+    //   this.session_copy = 'Say hello to each other';
+    //   this.show_leave = true;
+    //   this.show_timer = false;
+    //   this.show_left = true;
+    //   this.left_copy = "START";
+    // },
 
     onTimerExpired() { //function runs based on stage of session when timer expires
 
