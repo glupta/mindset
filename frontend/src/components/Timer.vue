@@ -13,63 +13,17 @@ export default {
       formattedTimeLeft: ''
     }
   },
-
-  // computed: {
-  //   formattedTimeLeft() {
-  //     const timeLeft = this.timeLeft;
-  //     let minutes = Math.floor(timeLeft / 60);
-  //     let hours = Math.floor(minutes / 60);
-  //     minutes %= 60;
-  //     let seconds = timeLeft % 60;
-
-  //     hours = (hours == 0) ? '' : hours += ':'
-
-  //     if (minutes < 10) {
-  //       minutes = `0${minutes}`;
-  //     }
-
-  //     if (seconds < 10) {
-  //       seconds = `0${seconds}`;
-  //     }
-
-  //     return `${hours}${minutes}:${seconds}`;
-  //   },
-
-  //   // timeLeft() {
-  //   //   return this.timeLimit - this.timePassed;
-  //   // }
-  // },
-
   watch: {
-    // timeLeft(newValue) {
-
-    //   //const timeLeft = this.timeLeft;
-    //   let minutes = Math.floor(this.timeLeft / 60);
-    //   let hours = Math.floor(minutes / 60);
-    //   minutes %= 60;
-    //   let seconds = this.timeLeft % 60;
-
-    //   hours = (hours == 0) ? '' : hours += ':';
-
-    //   if (minutes < 10) {
-    //     minutes = `0${minutes}`;
-    //   }
-
-    //   if (seconds < 10) {
-    //     seconds = `0${seconds}`;
-    //   }      
-    //   this.formattedTimeLeft = hours + minutes + ':' + seconds;
-    //   //this.formattedTimeLeft = `${hours}${minutes}:${seconds}`;
-
-    //   console.log("time left2:",this.timeLeft);
-    //   if (newValue == 0) {
-    //     this.onTimesUp();
-    //   }
-    // },
-
     timeLimit(newValue) {
       this.startTimer();
       this.refreshTimer();
+    },
+
+    stopTimer(newValue) {
+    	if (this.stopTimer) {
+    		clearInterval(this.timerInterval);
+      	clearInterval(this.refreshInterval);
+    	}
     }
   },
 
@@ -83,6 +37,7 @@ export default {
     startTimer() {
 			this.timePassed = 0;
       this.timeLeft = this.timeLimit;
+      this.fiveTrigger();
       this.formatTimeLeft();
       clearInterval(this.timerInterval);
       clearInterval(this.refreshInterval);
@@ -90,28 +45,26 @@ export default {
       this.timerInterval = setInterval(() => this.updateTimer(), 1000);
     },
 
-    updateTimer() {
+    updateTimer() { //update clock every second
       this.timePassed += 1;
       this.timeLeft = this.timeLimit - this.timePassed;
       console.log("left:",this.timeLeft,"passed:",this.timePassed,"limit:",this.timeLimit);
       this.formatTimeLeft();
-
-      /*
-			if first time, set start & end time.
-			every 60 seconds
-				if timeLeft does not match diff
-					reset timePassed
-
-			*/
-
+			this.fiveTrigger();
       if (this.timeLeft == 0) {
         this.onTimesUp();
-        this.$emit('more-five');
       }
-      else if (this.timeLeft <= 300)
-      	this.$emit('five-min');
-      else if (this.timeLeft > 300)
+    },
+
+    fiveTrigger() { //emits when less or more than 5 minutes
+    	if (this.timeLeft <= 300 && !this.fiveBool) {
+      	this.$emit('less-five');
+      	this.fiveBool = true;
+      }
+      else if (this.timeLeft > 300 && this.fiveBool) {
       	this.$emit('more-five');
+      	this.fiveBool = false;
+      }
     },
 
     formatTimeLeft() { //creates string of time left
@@ -174,7 +127,8 @@ export default {
   },
 
   props: [
-    'timeLimit'
+    'timeLimit',
+    'stopTimer'
   ]
 }
 </script>

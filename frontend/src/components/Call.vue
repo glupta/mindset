@@ -2,18 +2,10 @@
 <template>
   <div class='call'>
     <SessionTopBar :showTimer=show_timer :showLeft=show_left :leftCopy=left_copy :showLeave=show_leave :timeLimit=time_limit :sessionCopy=session_copy @timer-expired="onTimerExpired" @left-action="startTimer" @leave-session="leaveSession"></SessionTopBar>
-    <div class='load-wrapper' id='load-wrapper'>
-      <p>
-        Connecting...
-        <br><br>
-        <Timer :timeLimit='time_start' @timer-expired='onLoadTimerExpired'>
-      </p>
-    </div>
 </template>
 
 <script>
 import SessionTopBar from '@/components/SessionTopBar'
-import Timer from '@/components/Timer'
 import router from '../router'
 export default {
   name: "Call",
@@ -29,8 +21,7 @@ export default {
     }
   },
   components: {
-    SessionTopBar,
-    Timer
+    SessionTopBar
   },
   props: {
     clientID: String,
@@ -43,37 +34,68 @@ export default {
 
     this.killVidChat(); //delete any loose iframe
     document.body.style.backgroundColor = "#FFFFFF";
-    //this.show_left = false;
-    this.session_kick = true;
-
-    document.getElementById('load-wrapper').style.display = 'none';
-    this.session_copy = 'Say hello to each other';
-    this.show_timer = false;
     this.left_copy = "START";
 
     if (this.clientID && this.roomName) { //connect if client ID & room name given
 
       this.client_id = this.clientID;
       this.room_name = this.roomName;
-      
-      //hide everything to start with
-      //this.show_timer = false;
-      //this.show_leave = false;
-      //this.time_start = 9; //load time
-      this.time_limit = 5 * 60; 
+      this.show_timer = false;
+      this.session_copy = 'Say hello to each other';
+      this.time_limit = 5 * 60;
+      this.session_kick = true; 
       this.sessionLoad();
+
+      //set cookie session status as load
     }
-    else if (this.$cookies.isKey('medliveorg')) { //use cookie to find room
+    else if (this.$cookies.isKey('medlive')) { //use cookie to find room
 
-      //reset session environment 
-      document.getElementById('load-wrapper').style.display = 'none';
-      this.session_copy = 'Connection lost, timer stopped.';
-      this.time_limit = 20 * 60; 
-
-      this.client_id = this.$cookies.get('medliveorg');
+      let cookie_obj = this.$cookies.get('medlive');
+      this.client_id = cookie_obj.client_id;
       console.log(this.client_id,": found cookie");
 
-      this.checkRoom(true); //get room data and load session
+      //if start_time exists
+      //  let time_left = 15 - (current_time - start_time)
+      //  beginMeditation(time_left)
+      if (cookie_obj.start_time) {
+        fetch('/api/timedata')
+        .then(response => {
+          if (response.status !== 200) { //server error handling
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
+            return;
+          }
+          response.json().then(data => {
+
+            console.log("call time data:",data);
+            if ('error' in data) { //error handling from testroom backend call
+              console.log(this.client_id,": meditation time error: ",data['error']);
+              alert("meditation time error: " + data['error']);
+              return;
+            }
+
+            //set cookie session status as meditation
+
+            let time_current = new Date(data['time_current']);
+            let time_start = new Date(cookie_obj.start_time);
+            let time_diff = 15 * 60 - parseInt((time_current - time_start) / 1000);
+            console.log('start:',time_start,'current:',time_current,'diff:',time_diff);
+
+            if (time_diff > 0) {
+              this.checkRoom(); //get room data and load session
+              this.beginMeditation(time_diff); //set environment for meditation
+            }
+            else {
+              this.connectionLost();
+            }
+          });
+        })
+        .catch(error => { //error handling
+          console.log("Fetch error: " + error);
+        });
+      }
+      else {
+        this.connectionLost();
+      }
     }
     else { //kick user out if no cookie
       console.log("no cookie, kick out");
@@ -101,6 +123,8 @@ export default {
       this.med_bell.pause();
       console.log('bell paused at exit');
     }
+
+    //remove cookie session status
   },
 
   Destroyed() {
@@ -110,7 +134,7 @@ export default {
 
   methods: {
 
-    checkRoom(load_bool) { //call backend to get room data
+    checkRoom() { //call backend to get room data
       fetch('/api/checkroom?clientID=' + this.client_id)
       .then(response => {
         if (response.status !== 200) { //server error handling
@@ -135,7 +159,7 @@ export default {
             alert("room data missing");
             return;
           }
-          if (load_bool) this.sessionLoad(); //load session if requested
+          this.sessionLoad();
         });
       })
       .catch(error => { //error handling
@@ -205,6 +229,14 @@ export default {
       });
     },
 
+    connectionLost() { //sets environment if connection lost
+      //reset session environment 
+      this.show_left = false;
+      this.session_copy = 'Connection lost, timer stopped.';
+      this.time_limit = 20 * 60; 
+      this.checkRoom(); //get room data and load session
+    },
+
     startTimer() { //timer starts when both users press START
 
       this.session_kick = false;
@@ -230,6 +262,8 @@ export default {
         this.show_left = false;
         this.session_copy = "Waiting for your partner to START";
 
+        //set cookie session status as start
+
         //update DB & check DB if both users pressed start
         this.start_bool = false;
         this.checkStartDB(true); //update DB ready = true
@@ -239,7 +273,7 @@ export default {
       }
     },
 
-    checkStartDB(update_start,entry_order) {
+    checkStartDB(update_start,entry_order) { //check every sec if both users pressed start
 
       if (this.start_bool) { //both ready, terminate check
         clearInterval(this.startInterval);
@@ -286,15 +320,50 @@ export default {
       });
     },
 
-    beginMeditation() {
+    beginMeditation(time_left) { //begin meditation for duration
 
       this.show_left = true;
-      this.left_copy = "";
+      this.left_copy = '';
       this.show_timer = true;
       this.session_copy = "Please begin meditation";
 
-      console.log("med time is:",this.medTime);
-      this.time_limit = (this.medTime > 0) ? this.medTime : 15 * 60;
+      if (time_left) {
+        this.time_limit = time_left;
+      }
+      else {
+        console.log("med time is:",this.medTime);
+        this.time_limit = (this.medTime > 0) ? this.medTime : 15 * 60;
+
+        //set cookie for start time
+        if (this.$cookies.isKey('medlive')) {
+          fetch('/api/timedata')
+          .then(response => {
+            if (response.status !== 200) { //server error handling
+              console.log(`Looks like there was a problem. Status code: ${response.status}`);
+              return;
+            }
+            response.json().then(data => {
+
+              console.log("call time data:",data);
+              if ('error' in data) { //error handling from testroom backend call
+                console.log(this.client_id,": meditation time error: ",data['error']);
+                alert("meditation time error: " + data['error']);
+                return;
+              }
+              //set cookie session status as meditation
+
+              let cookie_obj = this.$cookies.get('medlive');
+              cookie_obj.start_time = data['time_current'];
+              let cookie_json = JSON.stringify(cookie_obj);
+              this.$cookies.set('medlive',cookie_json,-1);
+              console.log("medlivetime:",this.$cookies.get('medlive'));
+            });
+          })
+          .catch(error => { //error handling
+            console.log("Fetch error: " + error);
+          });
+        }
+      }
     },
 
     bellRings() { //bell rings after timer expires
@@ -311,23 +380,14 @@ export default {
       });
 
       this.med_bell.play();
+
+      //set cookie session status as debrief
     },
 
     //if test session, take user to waiting room. otherwise, session end page.
     leaveSession() {
       router.push({ name: 'SessionEnd' });
     },
-
-    // onLoadTimerExpired() { //load timer triggers this which redirects to main expire function
-      
-    //   document.getElementById('load-wrapper').style.display = 'none';
-    //   if (document.querySelector('iframe')) document.querySelector('iframe').style.visibility = "visible";
-    //   this.session_copy = 'Say hello to each other';
-    //   this.show_leave = true;
-    //   this.show_timer = false;
-    //   this.show_left = true;
-    //   this.left_copy = "START";
-    // },
 
     onTimerExpired() { //function runs based on stage of session when timer expires
 

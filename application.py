@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask import request, jsonify, make_response, redirect
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import requests
 import sys
@@ -62,19 +62,23 @@ def timedata():
 	else: #by default, set sched as next sched time in list
 		print("using default sched time")
 		sched_time_bool = False
-		sched_year = time_current.year
-		sched_month = time_current.month
 		sched_min = 0
 		for t in SCHED_TIMES_UTC: #decides next session
 			if time_current.hour < t:
 				print("next sched time:",t)
+				sched_year = time_current.year
+				sched_month = time_current.month
 				sched_day = time_current.day
 				sched_hour = t
 				sched_time_bool = True
 				break
 		if not sched_time_bool: #set sched as next day first time
 			print("sched time next day")
-			sched_day = time_current.day + 1
+			#sched_day = time_current.day + 1
+			next_day = time_current + timedelta(1)
+			sched_year = next_day.year
+			sched_month = next_day.month
+			sched_day = next_day.day
 			sched_hour = SCHED_TIMES_UTC[0]
 	
 	#build time sched object and add to data json
@@ -113,8 +117,9 @@ def flushactiveusersdb():
 
 	#delete all entries from active users DB
 	try:
-		cur.execute("DELETE FROM active_users;")
-		cur.execute("ALTER TABLE active_users AUTO_INCREMENT = 1;")
+		cur.execute("DELETE FROM active;")
+		cur.execute("ALTER TABLE active AUTO_INCREMENT = 1;")
+		cur.execute("DELETE FROM users;") #temporary until user table is fleshed out
 		conn.commit()
 		print("flushed active users")
 	except Exception as e:
@@ -185,8 +190,8 @@ def requestroom():
 			return json.dumps(data)
 
 
-		#check if user is already in active_users table
-		cmd = "SELECT * FROM active_users WHERE user_name = %s"
+		#check if user is already in active table
+		cmd = "SELECT * FROM active WHERE user_id = %s"
 		try:
 			cur.execute(cmd,(client_id,))
 			print(client_id, ": does user exist1? ","yes" if cur.rowcount > 0 else "no")
@@ -199,8 +204,20 @@ def requestroom():
 			data['error'] = "failed to connect to DB on query 1"
 			return json.dumps(data)
 
-		#insert user into active_users table
-		cmd = "INSERT INTO active_users(user_name) VALUES (%s)" #add to active_users table
+		#insert user into users table
+		cmd = "INSERT INTO users(user_id) VALUES (%s)" #add to active_users table
+		try:
+			cur.execute(cmd,(client_id,))
+			conn.commit()
+			print("inserted in user table")
+		except Exception as e:
+			print("Database connection failed due to {}".format(e))
+			conn.rollback()
+			data['error'] = "failed to connect to user table"
+			return json.dumps(data)
+
+		#insert user into active table
+		cmd = "INSERT INTO active(user_id) VALUES (%s)" #add to active_users table
 		try:
 			cur.execute(cmd,(client_id,))
 			conn.commit()
@@ -212,7 +229,7 @@ def requestroom():
 			return json.dumps(data)
 
 		#get entry order for user
-		cmd = "SELECT entry_order FROM active_users WHERE user_name = %s"
+		cmd = "SELECT entry_order FROM active WHERE user_id = %s"
 		try:
 			cur.execute(cmd,(client_id,))
 			print("does user exist2? ","yes" if cur.rowcount > 0 else "no")
@@ -273,13 +290,13 @@ def checkroom():
 
 
 	#check if user is already in active_users table
-	cmd = "SELECT * FROM active_users WHERE user_name = %s"
+	cmd = "SELECT * FROM active WHERE user_id = %s"
 	try:
 		cur.execute(cmd,(client_id,))
 		print(client_id, ": does user exist? ","yes" if cur.rowcount > 0 else "no")
 		if cur.rowcount > 0 :
 			record = cur.fetchone()
-			print("client ID:",record[2],", order:",record[0])
+			print("client ID:",record[1],", order:",record[0])
 			
 			room_number = (record[0] + 1) // 2 #assigns room based on entry_order
 			room_name = "room" + str(room_number)
@@ -318,7 +335,7 @@ def checkstartdb():
 
 	#update start_ready to true in DB
 	if request.args.get('start') == '1':
-		cmd = "UPDATE active_users SET start_ready = 1 WHERE user_name = %s"
+		cmd = "UPDATE active SET start_ready = 1 WHERE user_id = %s"
 		try:
 			cur.execute(cmd,(client_id,))
 			conn.commit()
@@ -331,13 +348,13 @@ def checkstartdb():
 
 	#get user entry order
 	if request.args.get('order') == None:
-		cmd = "SELECT * FROM active_users WHERE user_name = %s"
+		cmd = "SELECT * FROM active WHERE user_id = %s"
 		try:
 			cur.execute(cmd,(client_id,))
 			print(client_id, ": does user exist? ","yes" if cur.rowcount > 0 else "no")
 			if cur.rowcount > 0 :
 				record = cur.fetchone()
-				print("client ID:",record[2],", order:",record[0])			
+				print("client ID:",record[1],", order:",record[0])			
 				entry_order = int(record[0])
 				data['entry_order'] = entry_order
 		except Exception as e:
@@ -354,13 +371,13 @@ def checkstartdb():
 		partner_order = entry_order + 1
 
 	#check if partner is ready
-	cmd = "SELECT * FROM active_users WHERE entry_order = %s"
+	cmd = "SELECT * FROM active WHERE entry_order = %s"
 	try:
 		cur.execute(cmd,(partner_order,))
 		print(client_id, ": does partner exist? ","yes" if cur.rowcount > 0 else "no")
 		if cur.rowcount > 0 :
 			record = cur.fetchone()
-			print("partner ID:",record[2],", order:",record[0])			
+			print("partner ID:",record[1],", order:",record[0])			
 			data['partner_start'] = record[3]
 	except Exception as e:
 			print("Database connection failed due to {}".format(e))

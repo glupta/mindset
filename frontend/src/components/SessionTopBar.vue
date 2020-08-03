@@ -4,7 +4,7 @@
       <br><
     </p-->
     <div class='left-wrapper' id='left-wrapper'>
-      <Timer id='timer-clock' :timeLimit="timeLimit" @timer-expired="onTimerExpired"></Timer>
+      <Timer id='timer-clock' :timeLimit="timeLimit" :stopTimer='stopTimer' @timer-expired="onTimerExpired"></Timer>
       <button id='left-button' class='left-button' @click='leftAction'>
         {{leftCopy}}
       </button>
@@ -31,6 +31,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       sessionCopy: '',
+      stopTimer: false
     }
   },
   components: {
@@ -43,6 +44,7 @@ export default {
     },
 
     leaveSession() {
+      this.stopTimer = true;
       this.$emit('leave-session')
     },
 
@@ -97,7 +99,8 @@ export default {
     'showLeave',
     'showLeft',
     'leftCopy',
-    'sessionCopy'
+    'sessionCopy',
+    'stopTimer'
   ]
 }
 </script>
