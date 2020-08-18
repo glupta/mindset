@@ -126,8 +126,8 @@ export default {
   },
   methods: {
     getStarted() {
-      //router.push({ name: "ScheduleSession" });
-      router.push({ name: "WaitingRoom" });
+      router.push({ name: "ScheduleSession" });
+      //router.push({ name: "WaitingRoom" });
     }
   },
   watch: {

@@ -10,6 +10,7 @@ import Test from '@/components/Test'
 import SessionLanding from '@/components/SessionLanding'
 import VueCookies from 'vue-cookies';
 import NoSleep from 'nosleep.js';
+import moment from 'moment';
 
 Vue.use(Router)
 Vue.use(VueCookies);
@@ -28,7 +29,7 @@ export default new Router({
       component: ScheduleSession
     },
     {
-      path: '/scheduleConfirmation',
+      path: '/confirm',
       name: 'ScheduleConfirmation',
       component: ScheduleConfirmation
     },

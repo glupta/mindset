@@ -40,7 +40,7 @@
           <br><br>
           We hope you enjoy the benefits of meditation!
           <br>
-          Email your feedback to <a href="mailto:hello@meditatelive.org">hello@meditatelive.org</a>
+          Email your feedback to <a href="mailto:meditateliveorg@gmail.com">hello@meditatelive.org</a>
           <br><br>
         <button class='homepage-button'  @click='goToHomepage'>Back to Home</button>
     </div>

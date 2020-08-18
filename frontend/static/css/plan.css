@@ -1,0 +1,4729 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400');
+
+@font-face {
+                          font-family: "SourceSansPro-SemiBold";
+                          src: url('../fonts/SourceSansPro-SemiBold.ttf') format("truetype");
+                        }
+                        @font-face {
+                          font-family: "ProximaNova-Regular";
+                          src: url('../fonts/ProximaNova Regular.otf') format("opentype");
+                        }
+                        
+.desktophdcopy7 {
+  width               : 100%;
+  min-width           : 1440px;
+  height              : 100vh;
+  min-height          : 1478px;
+  position            : relative;
+  overflow            : hidden;
+  margin              : 0px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color    : rgba(255, 255, 255, 1.0);
+  opacity             : 1.0;
+}
+a {
+  text-decoration     : none;
+}
+div {
+  -webkit-text-size-adjust: none;
+}
+.anima-full-width-a {
+  width               : 100%;
+}
+.anima-full-height-a {
+  height              : 100%;
+}
+div {
+  -webkit-text-size-adjust: none;
+}
+.desktophdcopy7 .rectangle {
+  background-color    : rgba(231, 237, 243, 1.0);
+  top                 : 410px;
+  height              : 2px;
+  width               : 384px;
+  position            : absolute;
+  margin              : 0;
+  left                : 66px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : -2px;
+  height              : 80px;
+  width               : 1448px;
+  position            : absolute;
+  margin              : 0;
+  left                : -4px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .rectanglecopy4 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 80px;
+  width               : 1448px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .rectanglecopy5 {
+  background-color    : rgba(215, 215, 215, 1.0);
+  top                 : 18px;
+  height              : 40px;
+  box-sizing          : border-box;
+  width               : 40px;
+  position            : absolute;
+  margin              : 0;
+  left                : 80px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(150, 150, 150, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .homebuttonctacopy1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 10px;
+  height              : 56px;
+  width               : 196px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1181px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .homebuttonctacopy1 .rectangle4 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 196px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 10px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .homebuttonctacopy1 .johndoeemailcom {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 16px;
+  height              : 24px;
+  width               : 195px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(66, 47, 226, 1.0);
+  text-align          : center;
+  line-height         : 16.0px;
+}
+.desktophdcopy7 .webnavbar .group5 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 18px;
+  height              : 40px;
+  width               : 136px;
+  position            : absolute;
+  margin              : 0;
+  left                : 757px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .group5 .rectanglecopy10 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 40px;
+  width               : 136px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .group5 .schedule {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 10px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 25px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(88, 104, 124, 1.0);
+  text-align          : center;
+  line-height         : 16.0px;
+}
+.desktophdcopy7 .webnavbar .group3 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 18px;
+  height              : 42px;
+  width               : 136px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1029px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .group3 .rectanglecopy12 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 40px;
+  width               : 136px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .group3 .history {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 5px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 33px;
+  transform           : rotate(0deg);
+  opacity             : 0.15;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .webnavbar .group3copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 18px;
+  height              : 40px;
+  width               : 136px;
+  position            : absolute;
+  margin              : 0;
+  left                : 621px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .group3copy .rectanglecopy12 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 40px;
+  width               : 136px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .group3copy .howto {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 10px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 35px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(202, 206, 211, 1.0);
+  text-align          : center;
+  line-height         : 16.0px;
+}
+.desktophdcopy7 .webnavbar .group7 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 18px;
+  height              : 42px;
+  width               : 136px;
+  position            : absolute;
+  margin              : 0;
+  left                : 893px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .group7 .rectanglecopy9 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 40px;
+  width               : 136px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .group7 .profile {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 5px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 34px;
+  transform           : rotate(0deg);
+  opacity             : 0.15;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .webnavbar .group7copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 18px;
+  height              : 40px;
+  width               : 136px;
+  position            : absolute;
+  margin              : 0;
+  left                : 485px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .group7copy .rectanglecopy9 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 40px;
+  width               : 136px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .webnavbar .group7copy .meditate101 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 10px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 12px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(202, 206, 211, 1.0);
+  text-align          : center;
+  line-height         : 16.0px;
+}
+.desktophdcopy7 .a7 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 536px;
+  height              : 162px;
+  width               : 185px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1187px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a7 .base {
+  background-color    : rgba(255, 255, 255, 1.0);
+  top                 : 0px;
+  height              : 162px;
+  box-sizing          : border-box;
+  width               : 185px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(239, 239, 239, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a7 .labelbottom {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 114px;
+  height              : 37px;
+  width               : 164px;
+  position            : absolute;
+  margin              : 0;
+  left                : 10px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a7 .labelbottom .bg {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 37px;
+  width               : 164px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 0.08;
+}
+.desktophdcopy7 .a7 .labelbottom .bg .rectangle5 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 37px;
+  width               : 163px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a7 .labelbottom .rectangle4 {
+  background-color    : rgba(60, 53, 221, 1.0);
+  top                 : 0px;
+  height              : 37px;
+  width               : 5px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a7 .labelbottom .u270fufe0ftext {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 6px;
+  height              : auto;
+  width               : 124px;
+  position            : absolute;
+  margin              : 0;
+  left                : 18px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 17.86px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  letter-spacing      : 1.49px;
+  line-height         : 23.0px;
+}
+.desktophdcopy7 .a7 .date {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 20px;
+  height              : 39px;
+  width               : 39px;
+  position            : absolute;
+  margin              : 0;
+  left                : 126px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a7 .date .u270fufe0fday {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 8px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 13px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 17.86px;
+  color               : rgba(137, 150, 166, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.49px;
+  line-height         : 23.0px;
+}
+.desktophdcopy7 .a6 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 536px;
+  height              : 162px;
+  width               : 187px;
+  position            : absolute;
+  margin              : 0;
+  left                : 993px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a6 .base {
+  background-color    : rgba(255, 255, 255, 1.0);
+  top                 : 0px;
+  height              : 162px;
+  box-sizing          : border-box;
+  width               : 187px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(239, 239, 239, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a6 .date {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 20px;
+  height              : 39px;
+  width               : 39px;
+  position            : absolute;
+  margin              : 0;
+  left                : 128px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a6 .date .u270fufe0fday {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 8px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 13px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 17.86px;
+  color               : rgba(137, 150, 166, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.49px;
+  line-height         : 23.0px;
+}
+.desktophdcopy7 .a5 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 536px;
+  height              : 162px;
+  width               : 179px;
+  position            : absolute;
+  margin              : 0;
+  left                : 807px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a5 .base {
+  background-color    : rgba(255, 255, 255, 1.0);
+  top                 : 0px;
+  height              : 162px;
+  box-sizing          : border-box;
+  width               : 179px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(239, 239, 239, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a5 .date {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 20px;
+  height              : 39px;
+  width               : 39px;
+  position            : absolute;
+  margin              : 0;
+  left                : 120px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a5 .date .u270fufe0fday {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 8px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 13px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 17.86px;
+  color               : rgba(137, 150, 166, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.49px;
+  line-height         : 23.0px;
+}
+.desktophdcopy7 .a4 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 536px;
+  height              : 162px;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 622px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a4 .base {
+  background-color    : rgba(255, 255, 255, 1.0);
+  top                 : 0px;
+  height              : 162px;
+  box-sizing          : border-box;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(239, 239, 239, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a4 .labelbottom {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 114px;
+  height              : 37px;
+  width               : 164px;
+  position            : absolute;
+  margin              : 0;
+  left                : 10px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a4 .labelbottom .bg {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 37px;
+  width               : 164px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 0.08;
+}
+.desktophdcopy7 .a4 .labelbottom .bg .rectangle5 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 37px;
+  width               : 163px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a4 .labelbottom .rectangle4 {
+  background-color    : rgba(60, 53, 221, 1.0);
+  top                 : 0px;
+  height              : 37px;
+  width               : 5px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a4 .labelbottom .u270fufe0ftext {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 6px;
+  height              : auto;
+  width               : 124px;
+  position            : absolute;
+  margin              : 0;
+  left                : 18px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 17.86px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  letter-spacing      : 1.49px;
+  line-height         : 23.0px;
+}
+.desktophdcopy7 .a4 .labeltop {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 71px;
+  height              : 37px;
+  width               : 164px;
+  position            : absolute;
+  margin              : 0;
+  left                : 10px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a4 .labeltop .bg {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 37px;
+  width               : 164px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 0.08;
+}
+.desktophdcopy7 .a4 .labeltop .bg .rectangle5 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 37px;
+  width               : 163px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a4 .labeltop .rectangle4 {
+  background-color    : rgba(15, 202, 252, 1.0);
+  top                 : 0px;
+  height              : 37px;
+  width               : 5px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a4 .labeltop .u270fufe0ftext {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 7px;
+  height              : auto;
+  width               : 124px;
+  position            : absolute;
+  margin              : 0;
+  left                : 18px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 17.86px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  letter-spacing      : 1.49px;
+  line-height         : 23.0px;
+}
+.desktophdcopy7 .a4 .date {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 20px;
+  height              : 39px;
+  width               : 39px;
+  position            : absolute;
+  margin              : 0;
+  left                : 126px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a4 .date .oval {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 38px;
+  width               : 38px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a4 .date .u270fufe0fday {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 8px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 13px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 17.86px;
+  color               : rgba(255, 255, 255, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.49px;
+  line-height         : 23.0px;
+}
+.desktophdcopy7 .a3 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 536px;
+  height              : 162px;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 437px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a3 .base {
+  background-color    : rgba(248, 246, 248, 1.0);
+  top                 : 0px;
+  height              : 162px;
+  box-sizing          : border-box;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(239, 239, 239, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 0.66;
+}
+.desktophdcopy7 .a3 .date {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 22px;
+  height              : 39px;
+  width               : 39px;
+  position            : absolute;
+  margin              : 0;
+  left                : 130px;
+  transform           : rotate(0deg);
+  opacity             : 0.49;
+}
+.desktophdcopy7 .a3 .date .u270fufe0fday {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 9px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 7px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 17.86px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.49px;
+  line-height         : 20.41px;
+}
+.desktophdcopy7 .a2 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 536px;
+  height              : 162px;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 251px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a2 .base {
+  background-color    : rgba(248, 246, 248, 1.0);
+  top                 : 0px;
+  height              : 162px;
+  box-sizing          : border-box;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(239, 239, 239, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 0.66;
+}
+.desktophdcopy7 .a2 .date {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 22px;
+  height              : 39px;
+  width               : 39px;
+  position            : absolute;
+  margin              : 0;
+  left                : 130px;
+  transform           : rotate(0deg);
+  opacity             : 0.49;
+}
+.desktophdcopy7 .a2 .date .u270fufe0fday {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 9px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 7px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 17.86px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.49px;
+  line-height         : 20.41px;
+}
+.desktophdcopy7 .a1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 536px;
+  height              : 162px;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 66px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a1 .base {
+  background-color    : rgba(248, 246, 248, 1.0);
+  top                 : 0px;
+  height              : 162px;
+  box-sizing          : border-box;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(239, 239, 239, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 0.66;
+}
+.desktophdcopy7 .a1 .date {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 22px;
+  height              : 39px;
+  width               : 39px;
+  position            : absolute;
+  margin              : 0;
+  left                : 130px;
+  transform           : rotate(0deg);
+  opacity             : 0.49;
+}
+.desktophdcopy7 .a1 .date .u270fufe0fday {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 9px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 7px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 17.86px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.49px;
+  line-height         : 20.41px;
+}
+.desktophdcopy7 .availabletimesup {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 382px;
+  height              : 20px;
+  width               : 386px;
+  position            : absolute;
+  margin              : 0;
+  left                : 66px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 16.0px;
+}
+.desktophdcopy7 .group {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 408px;
+  height              : 20px;
+  width               : 193px;
+  position            : absolute;
+  margin              : 0;
+  left                : 625px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .group .july {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 20px;
+  width               : 181px;
+  position            : absolute;
+  margin              : 0;
+  left                : 5px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  line-height         : 16.0px;
+}
+.desktophdcopy7 .group .rectangle4 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 6px;
+  height              : 8px;
+  width               : 16px;
+  position            : absolute;
+  margin              : 0;
+  left                : 181px;
+  transform           : rotate(-90deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .group .rectangle11 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 12px;
+  height              : 4px;
+  width               : 8px;
+  position            : absolute;
+  margin              : 0;
+  left                : -2px;
+  transform           : rotate(90deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .mon {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 446px;
+  height              : 69px;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 251px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .mon .base {
+  background-color    : rgba(238, 242, 244, 1.0);
+  top                 : 0px;
+  height              : 68px;
+  width               : 179px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .mon .u270fufe0ftext {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 25px;
+  height              : auto;
+  width               : 181px;
+  position            : absolute;
+  margin              : 0;
+  left                : -1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 16.19px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.35px;
+  line-height         : 18.51px;
+}
+.desktophdcopy7 .tues {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 446px;
+  height              : 69px;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 437px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .tues .base {
+  background-color    : rgba(238, 242, 244, 1.0);
+  top                 : 0px;
+  height              : 68px;
+  width               : 179px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .tues .u270fufe0ftext {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 25px;
+  height              : auto;
+  width               : 181px;
+  position            : absolute;
+  margin              : 0;
+  left                : -1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 16.19px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.35px;
+  line-height         : 18.51px;
+}
+.desktophdcopy7 .wed {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 446px;
+  height              : 69px;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 622px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .wed .base {
+  background-color    : rgba(238, 242, 244, 1.0);
+  top                 : 0px;
+  height              : 68px;
+  width               : 179px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .wed .u270fufe0ftext {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 25px;
+  height              : auto;
+  width               : 181px;
+  position            : absolute;
+  margin              : 0;
+  left                : -1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 16.19px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.35px;
+  line-height         : 18.51px;
+}
+.desktophdcopy7 .thur {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 446px;
+  height              : 69px;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 807px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .thur .base {
+  background-color    : rgba(238, 242, 244, 1.0);
+  top                 : 0px;
+  height              : 68px;
+  width               : 179px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .thur .u270fufe0ftext {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 25px;
+  height              : auto;
+  width               : 181px;
+  position            : absolute;
+  margin              : 0;
+  left                : -1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 16.19px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.35px;
+  line-height         : 18.51px;
+}
+.desktophdcopy7 .fri {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 446px;
+  height              : 72px;
+  width               : 188px;
+  position            : absolute;
+  margin              : 0;
+  left                : 993px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .fri .base {
+  background-color    : rgba(238, 242, 244, 1.0);
+  top                 : 0px;
+  height              : 72px;
+  width               : 187px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .fri .u270fufe0ftext {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 25px;
+  height              : auto;
+  width               : 189px;
+  position            : absolute;
+  margin              : 0;
+  left                : -1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 16.19px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.35px;
+  line-height         : 18.51px;
+}
+.desktophdcopy7 .sat {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 446px;
+  height              : 72px;
+  width               : 186px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1186px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .sat .base {
+  background-color    : rgba(238, 242, 244, 1.0);
+  top                 : 0px;
+  height              : 72px;
+  width               : 185px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .sat .u270fufe0ftext {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 25px;
+  height              : auto;
+  width               : 186px;
+  position            : absolute;
+  margin              : 0;
+  left                : -1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 16.19px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.35px;
+  line-height         : 18.51px;
+}
+.desktophdcopy7 .sun {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 446px;
+  height              : 69px;
+  width               : 180px;
+  position            : absolute;
+  margin              : 0;
+  left                : 66px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .sun .base {
+  background-color    : rgba(238, 242, 244, 1.0);
+  top                 : 0px;
+  height              : 68px;
+  width               : 179px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .sun .u270fufe0ftext {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 25px;
+  height              : auto;
+  width               : 181px;
+  position            : absolute;
+  margin              : 0;
+  left                : -1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 16.19px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.35px;
+  line-height         : 18.51px;
+}
+.desktophdcopy7 .availablestartingt {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 754px;
+  height              : auto;
+  width               : 443px;
+  position            : absolute;
+  margin              : 0;
+  left                : 415px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 14.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  letter-spacing      : 1.17px;
+  line-height         : 16.0px;
+}
+.desktophdcopy7 .availablestartingt .span1 {
+  
+}
+.desktophdcopy7 .availablestartingt .span2 {
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+}
+.desktophdcopy7 .availabletimesinput {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 810px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 415px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinput .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinput .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinput .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 810px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 734px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy3 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 810px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1057px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy3 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy3 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy3 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy5 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 879px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 415px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy5 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy5 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy5 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy2 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 810px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 895px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy2 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy2 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy2 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy4 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 810px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1218px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy4 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy4 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy4 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy6 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 879px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 573px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy6 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy6 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy6 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputselected {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 810px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 573px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputselected .group12copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputselected .group12copy .rectanglecopy6 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputselected .group12copy .a0930am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy7 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 879px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 734px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy7 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy7 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy7 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy30 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1156px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 734px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy30 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy30 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy30 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy22 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1087px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 415px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy22 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy22 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy22 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy16 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 949px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1057px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy16 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy16 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy16 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy38 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1226px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1057px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy38 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy38 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy38 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy8 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 879px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1057px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy8 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy8 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy8 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy31 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1156px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1057px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy31 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy31 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy31 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy23 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1087px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 734px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy23 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy23 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy23 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy14 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 879px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 895px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy14 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy14 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy14 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy32 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1156px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 895px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy32 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy32 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy32 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy24 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1087px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 573px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy24 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy24 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy24 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy15 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 949px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1218px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy15 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy15 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy15 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy39 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1226px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1218px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy39 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy39 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy39 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputunavailable {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1018px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 415px;
+  transform           : rotate(0deg);
+  opacity             : 0.99;
+}
+.desktophdcopy7 .availabletimesinputunavailable .group5 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputunavailable .group5 .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputunavailable .group5 .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy9 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 949px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 415px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy9 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy9 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy9 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy33 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1226px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 415px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy33 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy33 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy33 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy25 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1087px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1057px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy25 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy25 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy25 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy17 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1018px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 734px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy17 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy17 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy17 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy40 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1295px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 734px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy40 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy40 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy40 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy10 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 949px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 734px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy10 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy10 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy10 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy34 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1226px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 734px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy34 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy34 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy34 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy26 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1156px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 415px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy26 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy26 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy26 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy18 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1018px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1057px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy18 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy18 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy18 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy41 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1295px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1057px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy41 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy41 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy41 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy11 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 879px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1218px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy11 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy11 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy11 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy35 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1156px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1218px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy35 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy35 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy35 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy27 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1087px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 895px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy27 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy27 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy27 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy19 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1018px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 573px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy19 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy19 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy19 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy42 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1295px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 573px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy42 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy42 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy42 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy12 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 949px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 573px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy12 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy12 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy12 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy36 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1226px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 573px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy36 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy36 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy36 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy28 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1087px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1218px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy28 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy28 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy28 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy20 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1018px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 895px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy20 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy20 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy20 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy43 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1295px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 895px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy43 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy43 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy43 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy13 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 949px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 895px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy13 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy13 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy13 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy37 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1226px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 895px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy37 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy37 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy37 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy44 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1295px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1218px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy44 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy44 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy44 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy29 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1156px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 573px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy29 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy29 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy29 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputcopy21 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1018px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1218px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy21 .group13copy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy21 .group13copy .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputcopy21 .group13copy .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .availabletimesinputunavailablecopy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1295px;
+  height              : 32px;
+  width               : 140px;
+  position            : absolute;
+  margin              : 0;
+  left                : 415px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputunavailablecopy .group5 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 32px;
+  width               : 140px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputunavailablecopy .group5 .rectangle4 {
+  background-color    : rgba(56, 91, 252, 0.1);
+  top                 : 0px;
+  height              : 32px;
+  box-sizing          : border-box;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 6px;
+  border-style        : solid;
+  border-width        : 1px;
+  border-color        : rgba(58, 78, 249, 1.0);
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .availabletimesinputunavailablecopy .group5 .a0830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : 96px;
+  position            : absolute;
+  margin              : 0;
+  left                : 44px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 32.0px;
+}
+.desktophdcopy7 .rectangle1 {
+  background-color    : rgba(238, 242, 244, 1.0);
+  top                 : 738px;
+  height              : 591px;
+  width               : 292px;
+  position            : absolute;
+  margin              : 0;
+  left                : 66px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .rectangle2 {
+  background-color    : rgba(60, 53, 221, 1.0);
+  top                 : 870px;
+  height              : 121px;
+  width               : 300px;
+  position            : absolute;
+  margin              : 0;
+  left                : 62px;
+  border-radius       : 6px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttoncta {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 924px;
+  height              : 56px;
+  width               : 199px;
+  position            : absolute;
+  margin              : 0;
+  left                : 113px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttoncta .rectangle4 {
+  background-color    : rgba(15, 202, 252, 1.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 199px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 10px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttoncta .getstarted {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 198px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(236, 241, 249, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.0px;
+  line-height         : 24.0px;
+}
+.desktophdcopy7 .homebuttoncta1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 924px;
+  height              : 56px;
+  width               : 199px;
+  position            : absolute;
+  margin              : 0;
+  left                : 113px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttoncta1 .rectangle4 {
+  background-color    : rgba(15, 202, 252, 1.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 199px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 10px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttoncta1 .getstarted {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 198px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(236, 241, 249, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.0px;
+  line-height         : 24.0px;
+}
+.desktophdcopy7 .ovalcopy3 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 810px;
+  height              : 32px;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 85px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .tysonr {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 811px;
+  height              : auto;
+  width               : 99px;
+  position            : absolute;
+  margin              : 0;
+  left                : 133px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 16.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .a900am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 811px;
+  height              : auto;
+  width               : 91px;
+  position            : absolute;
+  margin              : 0;
+  left                : 230px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : right;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .ovalcopy10 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 879px;
+  height              : 32px;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 85px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .jenniferr {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 880px;
+  height              : auto;
+  width               : 118px;
+  position            : absolute;
+  margin              : 0;
+  left                : 133px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 16.0px;
+  color               : rgba(255, 255, 255, 1.0);
+  text-align          : left;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .ovalcopy11 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1018px;
+  height              : 32px;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 85px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .tokunagay {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1019px;
+  height              : auto;
+  width               : 99px;
+  position            : absolute;
+  margin              : 0;
+  left                : 133px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 16.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .a700pm {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1019px;
+  height              : auto;
+  width               : 91px;
+  position            : absolute;
+  margin              : 0;
+  left                : 230px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : right;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .ovalcopy14 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1087px;
+  height              : 32px;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 85px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .liac {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1088px;
+  height              : auto;
+  width               : 99px;
+  position            : absolute;
+  margin              : 0;
+  left                : 133px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 16.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .a700pm1 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1088px;
+  height              : auto;
+  width               : 91px;
+  position            : absolute;
+  margin              : 0;
+  left                : 230px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : right;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .ovalcopy15 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1156px;
+  height              : 32px;
+  width               : 32px;
+  position            : absolute;
+  margin              : 0;
+  left                : 85px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .carmelitan {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1157px;
+  height              : auto;
+  width               : 99px;
+  position            : absolute;
+  margin              : 0;
+  left                : 133px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 16.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .a730pm {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1157px;
+  height              : auto;
+  width               : 91px;
+  position            : absolute;
+  margin              : 0;
+  left                : 230px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : right;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .a530pm {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 880px;
+  height              : auto;
+  width               : 91px;
+  position            : absolute;
+  margin              : 0;
+  left                : 230px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(255, 255, 255, 1.0);
+  text-align          : right;
+  line-height         : 30.0px;
+}
+.desktophdcopy7 .scheduledsessions {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 754px;
+  height              : auto;
+  width               : 275px;
+  position            : absolute;
+  margin              : 0;
+  left                : 85px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 14.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : left;
+  letter-spacing      : 1.17px;
+  line-height         : 16.0px;
+}
+.desktophdcopy7 .scheduledsessions .span1 {
+  
+}
+.desktophdcopy7 .scheduledsessions .span2 {
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+}
+.desktophdcopy7 .rectangle3 {
+  background-color    : rgba(60, 53, 221, 1.0);
+  top                 : 1396px;
+  height              : 82px;
+  width               : 1440px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .checkbadge {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1425px;
+  height              : 24px;
+  width               : 24px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1358px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .a830am {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1417px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 260px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 32.0px;
+  color               : rgba(254, 254, 254, 1.0);
+  text-align          : center;
+  letter-spacing      : 2.67px;
+  line-height         : 40.0px;
+}
+.desktophdcopy7 .selectedtime {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1427px;
+  height              : 20px;
+  width               : 202px;
+  position            : absolute;
+  margin              : 0;
+  left                : 65px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(255, 255, 255, 1.0);
+  text-align          : center;
+  line-height         : 16.0px;
+}
+.desktophdcopy7 .homebuttoncta2 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 1409px;
+  height              : 56px;
+  width               : 258px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1080px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttoncta2 .rectangle4 {
+  background-color    : rgba(15, 202, 252, 1.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 258px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 10px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttoncta2 .getstarted {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 256px;
+  position            : absolute;
+  margin              : 0;
+  left                : 2px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(236, 241, 249, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.0px;
+  line-height         : 24.0px;
+}
+.desktophdcopy7 .a1956 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 162px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : 551px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 150.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  line-height         : 102.0px;
+}
+.desktophdcopy7 .roomsopen5minutes {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 200px;
+  height              : auto;
+  width               : 227px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1145px;
+  transform           : rotate(0deg);
+  opacity             : 0.5;
+  font-family         : "ProximaNova-Regular", Helvetica, Arial, serif;
+  font-size           : 16.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  line-height         : 24.0px;
+}
+.desktophdcopy7 .checkyoursettings {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 224px;
+  height              : auto;
+  width               : 227px;
+  position            : absolute;
+  margin              : 0;
+  left                : 79px;
+  transform           : rotate(0deg);
+  opacity             : 0.5;
+  font-family         : "ProximaNova-Regular", Helvetica, Arial, serif;
+  font-size           : 16.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  line-height         : 24.0px;
+}
+.desktophdcopy7 .homebuttoncta3 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 256px;
+  height              : 56px;
+  width               : 199px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1159px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttoncta3 .rectangle4 {
+  background-color    : rgba(15, 202, 252, 1.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 199px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 10px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttoncta3 .getstarted {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 198px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(236, 241, 249, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.0px;
+  line-height         : 24.0px;
+}
+.desktophdcopy7 .homebuttonctacopy {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 256px;
+  height              : 56px;
+  width               : 199px;
+  position            : absolute;
+  margin              : 0;
+  left                : 93px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttonctacopy .rectangle4 {
+  background-color    : rgba(15, 202, 252, 1.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 199px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 10px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .homebuttonctacopy .getstarted {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 56px;
+  width               : 198px;
+  position            : absolute;
+  margin              : 0;
+  left                : 1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  color               : rgba(236, 241, 249, 1.0);
+  text-align          : center;
+  letter-spacing      : 1.0px;
+  line-height         : 24.0px;
+}
+.desktophdcopy7 .nextsession {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 144px;
+  height              : 40px;
+  width               : 428px;
+  position            : absolute;
+  margin              : 0;
+  left                : 506px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .nextsession .group17 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 40px;
+  width               : 428px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .nextsession .group17 .thenextmeditation {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : auto;
+  width               : auto;
+  position            : absolute;
+  margin              : 0;
+  left                : -1px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "Source Sans Pro", Helvetica, Arial, serif;
+  font-weight         : 400;
+  font-style          : normal;
+  font-size           : 24.0px;
+  color               : rgba(68, 86, 108, 1.0);
+  text-align          : center;
+  line-height         : 40.0px;
+}
+.desktophdcopy7 .nextsession .group17 .nextsessionscheduled {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 40px;
+  width               : 120px;
+  position            : absolute;
+  margin              : 0;
+  left                : 98px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .nextsession .group17 .nextsessionscheduled .group18 {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 0px;
+  height              : 40px;
+  width               : 120px;
+  position            : relative;
+  margin              : 0;
+  left                : 0px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .nextsession .group17 .nextsessionscheduled .group18 .rectanglecopy23 {
+  background-color    : rgba(60, 53, 221, 1.0);
+  top                 : 0px;
+  height              : 40px;
+  width               : 120px;
+  position            : absolute;
+  margin              : 0;
+  left                : 0px;
+  border-radius       : 12px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+}
+.desktophdcopy7 .nextsession .group17 .nextsessionscheduled .group18 .scheduled {
+  background-color    : rgba(255,255,255,0.0);
+  top                 : 10px;
+  height              : auto;
+  width               : 116px;
+  position            : absolute;
+  margin              : 0;
+  left                : 2px;
+  transform           : rotate(0deg);
+  opacity             : 1.0;
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 16.0px;
+  color               : rgba(254, 254, 254, 1.0);
+  text-align          : center;
+  line-height         : 20.0px;
+}
+/* .anima-animate-appear prefix for appear animations */
+.anima-animate-appear {
+  opacity             : 0;
+  display             : block;
+  -webkit-animation   : anima-reveal 0.3s ease-in-out 1 normal forwards;
+  -moz-animation      : anima-reveal 0.3s ease-in 1 normal forwards;
+  -o-animation        : anima-reveal 0.3s ease-in-out 1 normal forwards;
+  animation           : anima-reveal 0.3s ease-in-out 1 normal forwards;
+}
+.anima-animate-disappear {
+  opacity             : 1;
+  display             : block;
+  -webkit-animation   : anima-reveal 0.3s ease-in-out 1 reverse forwards;
+  -moz-animation      : anima-reveal 0.3s ease-in 1 normal forwards;
+  -o-animation        : anima-reveal 0.3s ease-in-out 1 reverse forwards;
+  animation           : anima-reveal 0.3s ease-in-out 1 reverse forwards;
+}
+.anima-animate-nodelay {
+  -webkit-animation-delay: 0;
+  -moz-animation-delay: 0;
+  -o-animation-delay  : 0;
+  animation-delay     : 0;
+}
+@-webkit-keyframes anima-reveal {
+  0%
+   
+  {
+      opacity: 0;
+    }
+  
+    
+  100%
+   
+  {
+      opacity: 1;
+    }
+}
+@-moz-keyframes anima-reveal {
+  0%
+   
+  {
+      opacity: 0;
+    }
+  
+    
+  100%
+   
+  {
+      opacity: 1;
+    }
+}
+@-o-keyframes anima-reveal {
+  0%
+   
+  {
+      opacity: 0;
+    }
+  
+    
+  100%
+   
+  {
+      opacity: 1;
+    }
+}
+@keyframes anima-reveal {
+  0%
+   
+  {
+      opacity: 0;
+    }
+  
+    
+  100%
+   
+  {
+      opacity: 1;
+    }
+}
+.anima-valign-text-middle {
+  display             : flex;
+  flex-direction      : column;
+  justify-content     : center;
+}
+.anima-component-wrapper,
+.anima-component-wrapper * {
+  pointer-events      : none;
+}
+.anima-component-wrapper a *,
+.anima-component-wrapper a,
+.anima-component-wrapper input,
+.anima-component-wrapper video,
+.anima-component-wrapper iframe,
+.anima-listeners-active,
+.anima-listeners-active * {
+  pointer-events      : auto;
+}
+.anima-hidden,
+.anima-hidden * {
+  visibility          : hidden;
+  pointer-events      : none;
+}
+.anima-smart-layers-pointers,
+.anima-smart-layers-pointers * {
+  pointer-events      : auto;
+  visibility          : visible;
+}
+.anima-component-wrapper.anima-not-ready,
+.anima-component-wrapper.anima-not-ready * {
+  visibility          : hidden !important;
+}
+.anima-listeners-active-click,
+.anima-listeners-active-click * {
+  cursor              : pointer;
+}
+.anima-word-break {
+  overflow-wrap       : break-word;
+  word-wrap           : break-word;
+  word-break          : break-all;
+  word-break          : break-word;
+}

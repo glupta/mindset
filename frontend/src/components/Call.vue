@@ -27,7 +27,8 @@ export default {
     clientID: String,
     roomName: String,
     medTime: Number,
-    skipStart: Number
+    skipStart: Number,
+    sessionType: String
   },
 
   mounted() {
@@ -43,9 +44,14 @@ export default {
       this.show_timer = false;
       this.session_copy = 'Say hello to each other';
       this.time_limit = 5 * 60;
-      this.session_kick = true; 
-      this.sessionLoad();
+      this.session_kick = true;
 
+      // if (this.calBool > 0) {
+      //   //run function to create room if does not exist with hash
+      // }
+      // else {
+        this.sessionLoad();
+      //}
       //set cookie session status as load
     }
     else if (this.$cookies.isKey('medlive')) { //use cookie to find room
@@ -173,7 +179,7 @@ export default {
         room_name: this.room_name
       };
 
-      fetch('/api/roomtoken', { //call backend to get room data
+      fetch('/api/roomtoken', { //get room token
       method: "POST",
       body: JSON.stringify(entry),
         headers: new Headers({
@@ -237,6 +243,21 @@ export default {
       this.checkRoom(); //get room data and load session
     },
 
+
+    onTimerExpired() { //function runs based on stage of session when timer expires
+
+      if (this.session_kick) { //kick user out 
+        this.leaveSession();
+      }
+      else { //set debrief environment
+        this.session_kick = true;
+        this.time_limit = 5 * 60;
+        this.show_timer = false;
+        this.session_copy = "Thank your partner";
+        this.bellRings(); //play ending bell
+      }
+    },
+
     startTimer() { //timer starts when both users press START
 
       this.session_kick = false;
@@ -258,22 +279,26 @@ export default {
       }
       else { //start with partner
 
+        //set cookie session status as start
+
         //let user know to wait on partner
         this.show_left = false;
         this.session_copy = "Waiting for your partner to START";
 
-        //set cookie session status as start
-
-        //update DB & check DB if both users pressed start
+        //update DB & check every sec if both users pressed start
         this.start_bool = false;
-        this.checkStartDB(true); //update DB ready = true
-
-        //check every sec if both users pressed start
-        this.startInterval = setInterval(() => this.checkStartDB(false,this.entry_order), 1000);
+        if (this.sessionType == '') {
+          this.checkStartRandom(true);
+          this.startInterval = setInterval(() => this.checkStartRandom(false,this.entry_order), 1000);
+        }
+        else {
+          this.checkStartCal(true);
+          this.startInterval = setInterval(() => this.checkStartCal(false), 1000);
+        }
       }
     },
 
-    checkStartDB(update_start,entry_order) { //check every sec if both users pressed start
+    checkStartRandom(update_start,entry_order) { //check every sec if both users pressed start
 
       if (this.start_bool) { //both ready, terminate check
         clearInterval(this.startInterval);
@@ -281,7 +306,7 @@ export default {
       }
 
       //create get URL
-      var request_url = '/api/checkstartdb?clientID=' + this.client_id;
+      var request_url = '/api/checkstartrandom?clientID=' + this.client_id;
       if (update_start) request_url += '&start=1';
       if (entry_order) request_url += '&order=' + entry_order;
 
@@ -295,8 +320,8 @@ export default {
           console.log("start data: ",data);
           
           if ('error' in data) { //error handling
-            console.log(this.client_id,": checkStartDB error: ",data['error']);
-            alert("checkStartDB error: " + data['error']);
+            console.log(this.client_id,": checkStartRandom error: ",data['error']);
+            alert("checkStartRandom error: " + data['error']);
             return;
           }
 
@@ -312,6 +337,52 @@ export default {
               this.start_bool = true;
               this.beginMeditation();
             }
+          }
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
+      });
+    },
+
+    checkStartCal(update_start) { //check every sec if both users pressed start
+
+      if (this.start_bool) { //both ready, terminate check
+        clearInterval(this.startInterval);
+        return;
+      }
+
+      //create get URL
+      var request_url = '/api/checkstartcal?id=' + this.sessionType + this.room_name;
+      if (update_start) request_url += '&start=1';
+
+      fetch(request_url)
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => { //info about client added to active users in DB
+          console.log("start data: ",data);
+          
+          if ('error' in data) { //error handling
+            console.log(this.client_id,": checkStartCal error: ",data['error']);
+            alert("checkStartCal error: " + data['error']);
+            return;
+          }
+
+          if ('ready' in data) {
+            console.log("not ready");
+          }
+          else {
+          //if ('user_start' in data && 'partner_start' in data) { //check if both started
+            let user_start = data['user_start'];
+            let partner_start = data['partner_start'];
+            console.log("user:",user_start,"partner:",partner_start);
+            //if (user_start != '' && parter_start != '') { //both pressed start, begin meditation
+              this.start_bool = true;
+              this.beginMeditation();
+            //}
           }
         });
       })
@@ -387,20 +458,6 @@ export default {
     //if test session, take user to waiting room. otherwise, session end page.
     leaveSession() {
       router.push({ name: 'SessionEnd' });
-    },
-
-    onTimerExpired() { //function runs based on stage of session when timer expires
-
-      if (this.session_kick) { //kick user out 
-        this.leaveSession();
-      }
-      else { //set debrief environment
-        this.session_kick = true;
-        this.time_limit = 5 * 60;
-        this.show_timer = false;
-        this.session_copy = "Thank your partner";
-        this.bellRings(); //play ending bell
-      }
     },
 
     //disconnect from vid chat & delete iframe
