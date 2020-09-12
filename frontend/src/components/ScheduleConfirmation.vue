@@ -36,6 +36,7 @@ export default {
   mounted() {
 
     document.body.style.backgroundColor = "#2AD9FF";
+    let offset = new Date().getTimezoneOffset();
     this.session_hash = this.$route.query.id;
     
     if (!this.session_hash) { //if id query not given
@@ -52,7 +53,8 @@ export default {
     }
 
     //call server with session type and hash
-    let fetch_url = '/api/schedemail?id=' + this.session_hash;
+    let fetch_url = '/api/schedemail?id=' + this.session_hash + '&tz=' + offset;
+    console.log("fetch:",fetch_url);
     fetch(fetch_url)
     .then(response => {
       if (response.status !== 200) { //server error handling
@@ -77,26 +79,10 @@ export default {
       console.log("Fetch error: " + error);
     });
 
-    //search database for hash
-    //if not found, kick out to error alert
-    //if partner, update partner id and confirm time
-    //if user, update confirm time and get all details
-    //send confirmation email with link to waiting room
-    //if type=claim, notify user of partner confirmation
     //set up reminder with link for waiting room 5 min before session
     //set up text reminder
-    //waiting room link is hash and type
-    //click to join waiting room
-    //if more than 5 minutes, countdown clock
-    //Enter room within 5 minute window + 1 min buffer
-    //check if room name = hash exists
-    //if not, create room = hash
-    //join hash room
-    //kick out at 5 min after sched time
-    //press start
-    //if user, update user_start when starts['n ']
-    //if partner, update partner_start when starts
-    //start meditation together
+
+    //kick out at sched + 5 min
     //if reload and start field is empty (before start)
     //if reload and start field is filled and other is empty (waiting)
     //if reload and start field is filled and other is filled within 15 min of later (during)

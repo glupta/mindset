@@ -1,6 +1,7 @@
-from flask import Flask, render_template
-from flask import request, jsonify, make_response, redirect
+from flask import Flask, render_template, request, jsonify, make_response, redirect
+from flask_mail import Mail, Message
 from datetime import datetime, timedelta, timezone
+import smtplib, ssl
 import json
 import requests
 import sys
@@ -8,9 +9,9 @@ import os
 import mysql.connector
 import ipaddress
 import time
-import smtplib, ssl
+import random
 
-
+#DATABASE CREDENTIALS
 ENDPOINT = "med-live-db2.c2kufiynjcx0.us-east-2.rds.amazonaws.com"
 USR = "admin"
 PWD = "meditate123"
@@ -18,14 +19,41 @@ PORT = "3306"
 REGION = "us-east-2"
 DBNAME = "medlivedb2"
 os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
+
+#DAILY.CO VIDEO CHAT API CREDENTIALS
 #BEARER = '05535c097075d1938caf827de2217e51a56cf2309a9c738443b8df7a47e2054b' #meditate-live
 BEARER = '430bfe053ef86e871e12cd960f51996b429fd032612926becd766becdef03963' #meditate
 DAILY_API = "https://api.daily.co/v1/rooms/"
+
+#EMAIL CREDENTIALS
+#GMAIL: meditateliveorg@gmail.com
+EMAIL_USR = "meditateliveorg@gmail.com"
+EMAIL_PWD = "wilson@123"
+EMAIL_SVR = "smtp.gmail.com"
+EMAIL_PORT = 465
+
+#AWS SES: noreply@meditatelive.org
+#EMAIL_USR = "AKIAXFVDPD5FIFSCXQNZ"
+#EMAIL_PWD = "BHcdWLEuyvQaSi86s1ACU7EVYF2kUmi/CSW7ffLEVQId"
+#EMAIL_SVR = "email-smtp.us-east-2.amazonaws.com"
+#EMAIL_PORT = 465
+
 SCHED_TIMES = [0,12]
 
 app = Flask(__name__,
             static_folder="./dist/static",
             template_folder="./dist")
+
+app.config.update(
+	DEBUG=True,
+	#EMAIL SETTINGS
+	MAIL_SERVER='smtp.gmail.com',
+	MAIL_PORT=465,
+	MAIL_USE_SSL=True,
+	MAIL_USERNAME = 'meditateliveorg@gmail.com',
+	MAIL_PASSWORD = 'wilson@123'
+	)
+mail = Mail(app)
 
 @app.before_request #redirects http to https
 def before_request():
@@ -137,6 +165,11 @@ def session_list():
 	data = {} #data to be returned
 	output = [] #table to be in output
 
+	date_query = request.args.get('date')
+	print(date_query)
+	sched_obj = datetime.strptime(date_query,'%Y-%m-%dT%H:%M:%S.%fZ')
+	sched_date = sched_obj.strftime('%Y-%m-%d')
+
 	#connect to DB
 	try:
 		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
@@ -150,8 +183,8 @@ def session_list():
 	#get all sessions
 	try:
 		time_current = datetime.utcnow() #.strftime('%Y-%m-%d %H:%M:%S')
-		cmd = "SELECT session_id, user_id, user_email, sched_time, session_hash FROM sessions WHERE sched_time > %s AND user_confirm IS NOT NULL AND partner_confirm IS NULL ORDER BY sched_time ASC;"
-		cur.execute(cmd,(time_current,))
+		cmd = "SELECT session_id, user_id, user_email, sched_time, session_hash, duration FROM sessions WHERE sched_date = %s AND sched_time > %s AND user_confirm IS NOT NULL AND partner_confirm IS NULL AND private_bool = 0 ORDER BY sched_time ASC;"
+		cur.execute(cmd,(sched_date,time_current,))
 		result = cur.fetchall()
 		#print("res:",result)
 		#print("Cur:",time_current)
@@ -164,7 +197,7 @@ def session_list():
 	date_indices = [3] #columns with dates
 	for row in result :
 		output_row = []
-		for i in range(0,5) :
+		for i in range(0,6) :
 			if i in date_indices :
 				output_sched = row[i].replace(tzinfo=timezone.utc).isoformat()
 				output_row.append(output_sched)
@@ -182,12 +215,18 @@ def sched_session():
 	data = {} #data to be returned
 	req = request.get_json()
 	print(req)
-	if 'user_id' and 'user_email' and 'sched_time' and 'session_type' and 'sched_time_local' and 'session_hash' not in req :
-		data['error'] = "sched session data missing"
-		return json.dumps(data)
+	data_params = ['user_id','user_email','sched_time','session_type','sched_time_local','session_hash','invite_email','duration','private_bool']
+	for item in data_params :
+		if item not in req :
+			print(item)
+			data['error'] = "sched session data missing"
+			return json.dumps(data)
 
 	user_id = str(req['user_id'])
 	user_email = str(req['user_email'])
+	invite_email = str(req['invite_email'])
+	duration = int(req['duration'])
+	private_bool = int(req['private_bool'])
 	#sched_time = str(req['sched_time']) 
 	sched_obj = datetime.strptime(req['sched_time'], '%Y-%m-%dT%H:%M:%S.%fZ')
 	sched_date = sched_obj.strftime('%Y-%m-%d')
@@ -195,11 +234,6 @@ def sched_session():
 	#sched_time_UTC = sched_obj.replace(tzinfo=timezone('UTC'))
 	sched_time_local = str(req['sched_time_local'])
 	session_type = str(req['session_type'])
-	if req['session_hash'] == '' :
-		session_hash = str(hash(user_id + sched_time))
-	else :
-		session_hash = str(req['session_hash'])
-	print("s:",sched_obj,req['sched_time'],"hash:",session_hash,"type:",session_type)
 
 	#connect to DB
 	try:
@@ -210,6 +244,13 @@ def sched_session():
 		print("sched: did not pass DB credentials")
 		data['error'] = "unable to connect with DB"
 		return json.dumps(data)
+
+	if req['session_hash'] == '' :
+		session_hash =  hex(random.getrandbits(128))[2:10]
+		print(session_hash)
+	else :
+		session_hash = str(req['session_hash'])
+	print("s:",sched_obj,req['sched_time'],"hash:",session_hash,"type:",session_type)
 
 	#add to users table if new email ID
 	try:
@@ -229,10 +270,23 @@ def sched_session():
 
 	if session_type == 'u' :
 
+		#check DB if same request added to sessions table
+		if private_bool == 0 :
+			try: 
+				cmd = "SELECT * FROM sessions WHERE sched_time = %s AND duration = %s AND private_bool = 0 AND user_confirm IS NOT NULL"
+				cur.execute(cmd,(sched_time,duration))
+				if cur.rowcount > 0 :
+					data['error'] = "this session is publicly scheduled already"
+					return json.dumps(data)
+			except Exception as e:
+				print("Database connection failed due to {}".format(e))
+				data['error'] = "failed to connect to DB"
+				return json.dumps(data)
+
 		#insert into sessions table
 		try:
-			cmd = "INSERT INTO sessions(user_id,user_email,sched_date,sched_time,session_hash) VALUES (%s,%s,%s,%s,%s)"
-			cur.execute(cmd,(user_id,user_email,sched_date,sched_time,session_hash))
+			cmd = "INSERT INTO sessions(user_id,user_email,sched_date,sched_time,session_hash,duration,private_bool,invite_email) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+			cur.execute(cmd,(user_id,user_email,sched_date,sched_time,session_hash,duration,private_bool,invite_email))
 			conn.commit()
 			print("inserted in sessions table")
 		except Exception as e:
@@ -267,9 +321,9 @@ def sched_session():
 
 	#send confirmation emails
 	if "localhost" in request.url :
-		confirm_url = 'http://localhost:5000'
+		confirm_url = 'http://localhost:5000/full'
 	else :
-		confirm_url = 'meditatelive.org'
+		confirm_url = 'meditatelive.org/full'
 
 	if session_type == 'u' :
 		message = """From: Meditate Live <meditateliveorg@gmail.com>
@@ -281,7 +335,7 @@ Thank you for creating a meditation session request at the following time:
 %s
 
 Please click here to confirm the session:
-%s/confirm?id=u%s
+%s?id=u%s
 """ % (user_id,user_email,sched_time_local,confirm_url,session_hash)
 
 	elif session_type == 'p' :
@@ -294,32 +348,31 @@ Thank you for claiming a public meditation session at the following time:
 %s
 
 Please click here to confirm the session:
-%s/confirm?id=p%s
+%s?id=p%s
 """ % (user_id,user_email,sched_time_local,confirm_url,session_hash)
 
 	# Create a secure SSL context
 	context = ssl.create_default_context()
-	port = 465  # For SSL
 
-	with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-		server.login("meditateliveorg@gmail.com","wilson@123")
-		server.sendmail("meditateliveorg@gmail.com",[user_email],message)
+	with smtplib.SMTP_SSL(EMAIL_SVR,EMAIL_PORT, context=context) as server:
+		server.login(EMAIL_USR,EMAIL_PWD)
+		server.sendmail(EMAIL_USR,[user_email],message)
 
 	print(message)
 
 	data['success'] = True
 	return json.dumps(data)
 
-@app.route('/api/schedemail') #confirms email URL and redirects accordingly
+@app.route('/api/schedemail') #confirms email URL
 def sched_email():
 
 	data = {}
 	confirm_query = request.args.get('id')
-	if not confirm_query :
-		print("did not find confirm query")
-		data['error'] = 'id data missing'
+	tz_query = request.args.get('tz')
+	if not confirm_query or not tz_query:
+		print("query data missing")
+		data['error'] = 'id or tz data missing'
 		return json.dumps(data)
-
 
 	session_type = confirm_query[0] #user type is first letter of URL
 	session_hash = confirm_query[1:]
@@ -344,7 +397,7 @@ def sched_email():
 	#search database for hash
 	result = []
 	try:
-		cmd = "SELECT session_id, user_id, user_email, sched_time, partner_id, partner_email FROM sessions WHERE session_hash = %s;"
+		cmd = "SELECT session_id, user_id, user_email, sched_time, partner_id, partner_email, invite_email FROM sessions WHERE session_hash = %s;"
 		cur.execute(cmd,(session_hash,))
 		if cur.rowcount > 0 :
 			result = cur.fetchone()
@@ -382,6 +435,12 @@ def sched_email():
 	user_email = result[2]
 	sched_time = result[3]
 	partner_id = result[4]
+	partner_email = result[5] 
+	invite_email = result[6]
+
+	tz_min = int(tz_query)
+	sched_time_local = sched_time - timedelta(hours=0, minutes=tz_min)
+
 	if "localhost" in request.url :
 		confirm_url = 'http://localhost:5000'
 	else :
@@ -389,7 +448,6 @@ def sched_email():
 
 	# Create a secure SSL context
 	context = ssl.create_default_context()
-	port = 465  # For SSL
 
 	#email creator notification of confirmation
 	if session_type == 'u' :
@@ -397,10 +455,29 @@ def sched_email():
 To: %s <%s>
 Subject: Your session request is confirmed
 
-Thank you for scheduling your meditation session.
+Thank you for scheduling your meditation session at the following time:
+
+%s
 
 We will let you know when someone claims your session request.
-""" % (user_id,user_email)
+""" % (user_id,user_email,sched_time_local)
+
+		if invite_email:
+			message = """From: Meditate Live <meditateliveorg@gmail.com>
+To: %s
+Subject: Your friend invited you to a meditation session
+
+Your friend (%s) invited you at the following time:
+
+%s
+
+Please click here to confirm the session:
+%s/full?id=p%s
+""" % (invite_email,user_email,sched_time_local,confirm_url,session_hash)
+			print(message)
+			with smtplib.SMTP_SSL(EMAIL_SVR,EMAIL_PORT,context=context) as server:
+				server.login(EMAIL_USR,EMAIL_PWD)
+				server.sendmail(EMAIL_USR,[invite_email],message)
 
 	#email waiting room links to user and partner
 	elif session_type == 'p' :
@@ -410,34 +487,36 @@ We will let you know when someone claims your session request.
 To: %s <%s>
 Subject: Your public session was claimed
 
-Your session request was accepted by someone.
+Your session request was accepted by %s at the following time:
 
-Please click here to join the session:
+%s
+
+Please click here to join the session at the scheduled time:
 %s/wait?id=u%s
-""" % (user_id,user_email,confirm_url,session_hash)
+""" % (user_id,user_email,partner_email,sched_time_local,confirm_url,session_hash)
 		print(message)
-		with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-			server.login("meditateliveorg@gmail.com","wilson@123")
-			server.sendmail("meditateliveorg@gmail.com",[user_email],message)
+		with smtplib.SMTP_SSL(EMAIL_SVR,EMAIL_PORT,context=context) as server:
+			server.login(EMAIL_USR,EMAIL_PWD)
+			server.sendmail(EMAIL_USR,[user_email],message)
 
 		#email partner waiting room link
-		user_email = result[5] 
 		message = """From: Meditate Live <meditateliveorg@gmail.com>
 To: %s <%s>
 Subject: Your session is confirmed
 
-Thank you for claiming the meditation session.
+Thank you for claiming the meditation session at the following time:
 
-We have notifed your partner as well.
+%s
 
-Please click here to join the session:
+We have notifed %s as well.
+
+Please click here to join the session at the scheduled time:
 %s/wait?id=p%s
-""" % (partner_id,user_email,confirm_url,session_hash)
-
-	print(message)
-	with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-		server.login("meditateliveorg@gmail.com","wilson@123")
-		server.sendmail("meditateliveorg@gmail.com",[user_email],message)
+""" % (partner_id,partner_email,sched_time_local,user_email,confirm_url,session_hash)
+		print(message)
+		with smtplib.SMTP_SSL(EMAIL_SVR,EMAIL_PORT,context=context) as server:
+			server.login(EMAIL_USR,EMAIL_PWD)
+			server.sendmail(EMAIL_USR,[partner_email],message)
 
  #    //set up reminder with link for waiting room 5 min before session
  #    //set up text reminder
@@ -512,7 +591,7 @@ def request_room():
 		data['error'] = "client_id missing"
 		return json.dumps(data)
 
-	print("client ID:",client_id,", test:",test_bool)
+	print("client ID:",client_id)
 
 	data = {} #data to be returned
 	data['user_name'] = client_id

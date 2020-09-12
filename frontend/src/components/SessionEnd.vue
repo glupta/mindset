@@ -48,7 +48,7 @@
 
 <script>
 import NavBar from '@/components/NavBar'
-import router from '../router'
+import router from '@/router'
 export default {
   name: 'SessionEnd',
   data () {

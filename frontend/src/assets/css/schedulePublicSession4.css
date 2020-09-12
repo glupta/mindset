@@ -1,0 +1,986 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400');
+
+@font-face {
+                          font-family: "SourceSansPro-SemiBold";
+                          src: url('../fonts/SourceSansPro-SemiBold.ttf') format("truetype");
+                        }
+                        
+/* .anima-animate-appear prefix for appear animations */
+.anima-animate-appear {
+  opacity             : 0;
+  display             : block;
+  animation           : anima-reveal 0.3s ease-in-out 1 normal forwards;
+}
+.anima-animate-disappear {
+  opacity             : 1;
+  display             : block;
+  animation           : anima-reveal 0.3s ease-in-out 1 reverse forwards;
+}
+.anima-animate-nodelay {
+  animation-delay     : 0s;
+}
+@keyframes anima-reveal {
+  from {
+    opacity             : 0;
+  }
+  to {
+    opacity             : 1;
+  }
+}
+* {
+  box-sizing          : border-box;
+}
+.anima-component-wrapper,
+.anima-component-wrapper * {
+  pointer-events      : none;
+}
+.anima-component-wrapper a *,
+.anima-component-wrapper a,
+.anima-component-wrapper input,
+.anima-component-wrapper video,
+.anima-component-wrapper iframe,
+.anima-listeners-active,
+.anima-listeners-active * {
+  pointer-events      : auto;
+}
+.anima-hidden,
+.anima-hidden * {
+  visibility          : hidden;
+  pointer-events      : none;
+}
+.anima-smart-layers-pointers,
+.anima-smart-layers-pointers * {
+  pointer-events      : auto;
+  visibility          : visible;
+}
+.anima-component-wrapper.anima-not-ready,
+.anima-component-wrapper.anima-not-ready * {
+  visibility          : hidden !important;
+}
+.anima-listeners-active-click,
+.anima-listeners-active-click * {
+  cursor              : pointer;
+}
+.anima-component-wrapper a,
+.anima-screen a {
+  text-decoration     : none;
+}
+.anima-flexbox-container a {
+  line-height         : 0;
+}
+.anima-full-width-a {
+  width               : 100%;
+}
+.anima-full-height-a {
+  height              : 100%;
+}
+.anima-screen textarea:focus,
+.anima-screen input:focus {
+  outline             : none;
+}
+.anima-screen div {
+  -webkit-text-size-adjust: none;
+}
+.anima-container-center-vertical,
+.anima-container-center-horizontal {
+  pointer-events      : none;
+  display             : flex;
+  flex-direction      : row;
+  padding             : 0;
+  margin              : 0;
+}
+.anima-container-center-vertical {
+  align-items         : center;
+  height              : 100%;
+}
+.anima-container-center-horizontal {
+  justify-content     : center;
+  width               : 100%;
+}
+.anima-container-center-vertical > *,
+.anima-container-center-horizontal > * {
+  pointer-events      : auto;
+  flex-shrink         : 0;
+}
+.anima-component-wrapper,
+.anima-screen {
+  overflow-wrap       : break-word;
+  word-wrap           : break-word;
+  word-break          : break-all;
+  word-break          : break-word;
+}
+.anima-auto-animated div {
+  opacity             : 0;
+  position            : absolute;
+  --anima-z-index: -1;
+}
+.anima-auto-animated .anima-container-center-vertical,
+.anima-auto-animated .anima-container-center-horizontal {
+  opacity             : 1;
+}
+/* ANIMA screen - schedulepublicsession */
+.font-class-1 {
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  letter-spacing      : 1.40px;
+  line-height         : 27.0px;
+}
+:root {
+  --auto-palette-color-1: rgba(65,61,61,1.0);
+  --auto-palette-color-2: rgba(250,251,251,1.0);
+  --auto-palette-color-3: rgba(255,255,255,1.0);
+  --auto-palette-color-4: rgba(220,213,187,0.296820372343);
+  --auto-palette-color-5: rgba(239,239,239,1.0);
+  --auto-palette-color-6: rgba(239,235,220,1.0);
+}
+.schedulepublicsession {
+  background-color    : rgba(239,235,220,0.20000000298);
+  height              : 100vh;
+  margin              : 0px;
+  min-height          : 1149.0px;
+  min-width           : 1440.0px;
+  overflow            : hidden;
+  position            : relative;
+  width               : 100%;
+}
+.schedulepublicsession .icons-chevron-right-ipGUGy {
+  background-color    : rgba(255,255,255,0);
+  background-image    : url(".././img/schedulepublicsession-iconschevron-right@2x.png");
+  background-size     : 100% 100%;
+  height              : 14px;
+  left                : 1388px;
+  position            : absolute;
+  top                 : 293px;
+  width               : 8px;
+}
+.schedulepublicsession .date-copy-2-Z2upEV {
+  align-items         : flex-start;
+  background-color    : rgba(255,255,255,0);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : 40px;
+  justify-content     : flex-start;
+  left                : 757px;
+  min-width           : 39px;
+  padding             : 6.0px 7.3px;
+  position            : absolute;
+  top                 : 254px;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-day-pJkY66 {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  min-height          : 27px;
+  opacity             : 0.3;
+  position            : relative;
+  text-align          : center;
+  width               : 23px;
+}
+.schedulepublicsession .rectangle-copy-5-yDtU3w {
+  background-color    : var(--auto-palette-color-3);
+  height              : 104px;
+  left                : 814px;
+  position            : absolute;
+  top                 : 240px;
+  width               : 185px;
+}
+.schedulepublicsession .rectangle-copy-3-Zi0xnF {
+  background-color    : var(--auto-palette-color-3);
+  height              : 104px;
+  left                : 1187px;
+  position            : absolute;
+  top                 : 240px;
+  width               : 185px;
+}
+.schedulepublicsession .sat-V85zRD {
+  align-items         : flex-end;
+  background-color    : var(--auto-palette-color-2);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  justify-content     : flex-start;
+  margin              : 0 0 0 1px;
+  min-width           : 184px;
+  padding             : 5.0px 0;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .sun-CmxVMO {
+  align-items         : flex-end;
+  background-color    : var(--auto-palette-color-2);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  justify-content     : flex-start;
+  margin              : 0;
+  min-width           : 184px;
+  padding             : 5.0px 0;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-text-cd7kHn {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  margin-left         : 0px;
+  min-height          : 27px;
+  position            : relative;
+  text-align          : center;
+  width               : 185px;
+}
+.schedulepublicsession .u270f-ufe0f-text-11x5K6 {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  margin-left         : 0px;
+  min-height          : 27px;
+  position            : relative;
+  text-align          : center;
+  width               : 185px;
+}
+.schedulepublicsession .fri-MTkrtn {
+  align-items         : flex-end;
+  background-color    : var(--auto-palette-color-2);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  justify-content     : flex-start;
+  margin              : 0 0 0 1px;
+  min-width           : 184px;
+  padding             : 5.0px 0;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-text-xZp1Co {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  margin-left         : 0px;
+  min-height          : 27px;
+  position            : relative;
+  text-align          : center;
+  width               : 185px;
+}
+.schedulepublicsession .thur-0reNFI {
+  align-items         : flex-end;
+  background-color    : var(--auto-palette-color-2);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  justify-content     : flex-start;
+  margin              : 0 0 0 1px;
+  min-width           : 184px;
+  padding             : 5.0px 0;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .sunday-Y0g78P {
+  background-color    : var(--auto-palette-color-4);
+  border-color        : rgba(220,213,186,1.0);
+  border-style        : solid;
+  border-width        : 1.0px;
+  height              : calc(100.00% - 1045px);
+  left                : 67px;
+  position            : absolute;
+  top                 : 240px;
+  width               : calc(100.00% - 1255px);
+}
+.schedulepublicsession .date-QCRjxG {
+  align-items         : flex-end;
+  background-color    : rgba(255,255,255,0);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : calc(100.00% - 64px);
+  justify-content     : flex-start;
+  min-width           : 39px;
+  padding             : 6.0px 7.3px;
+  position            : absolute;
+  right               : 16px;
+  top                 : 14px;
+  width               : auto;
+}
+.schedulepublicsession .rectangle-copy-6-wNzx8d {
+  background-color    : var(--auto-palette-color-3);
+  height              : 104px;
+  left                : 440px;
+  position            : absolute;
+  top                 : 240px;
+  width               : 185px;
+}
+.schedulepublicsession .date-GuKlZo {
+  background-color    : rgba(255,255,255,0);
+  height              : 39px;
+  left                : 568px;
+  position            : absolute;
+  top                 : 255px;
+  width               : 39px;
+}
+.schedulepublicsession .oval-VHqdqw {
+  background-color    : rgba(255,255,255,0);
+  height              : 38px;
+  left                : 0px;
+  position            : absolute;
+  top                 : 0px;
+  width               : 38px;
+}
+.schedulepublicsession .u270f-ufe0f-day-KHAibD {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-2);
+  height              : auto;
+  left                : 13px;
+  position            : absolute;
+  text-align          : center;
+  top                 : 6px;
+  width               : auto;
+}
+.schedulepublicsession .rectangle-copy-6-1JApYP {
+  background-color    : rgba(255,255,255,0);
+  border-color        : rgba(102,152,41,0.253742337227);
+  border-radius       : 17.0px;
+  border-style        : solid;
+  border-width        : 3.0px;
+  height              : 98px;
+  left                : 445px;
+  position            : absolute;
+  top                 : 243px;
+  width               : 175px;
+}
+.schedulepublicsession .monday-oAueti {
+  align-items         : flex-start;
+  background-color    : var(--auto-palette-color-4);
+  border-color        : rgba(220,213,186,1.0);
+  border-style        : solid;
+  border-width        : 1.0px;
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : 104px;
+  justify-content     : flex-end;
+  left                : 254px;
+  min-width           : 185px;
+  padding             : 14.0px 16.0px;
+  position            : absolute;
+  top                 : 240px;
+  width               : auto;
+}
+.schedulepublicsession .date-kzxgfB {
+  align-items         : center;
+  background-color    : rgba(255,255,255,0);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : 39px;
+  justify-content     : flex-start;
+  left                : 565px;
+  min-width           : 39px;
+  padding             : 0 7.3px;
+  position            : absolute;
+  top                 : 449px;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-day-0Toq3T {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  min-height          : 27px;
+  opacity             : 0.3;
+  position            : relative;
+  text-align          : center;
+  width               : 23px;
+}
+.schedulepublicsession .mask-9Smv0w {
+  background-color    : var(--auto-palette-color-4);
+  height              : 104px;
+  left                : 626px;
+  position            : absolute;
+  top                 : 430px;
+  width               : 185px;
+}
+.schedulepublicsession .base-UAfkVp {
+  background-color    : var(--auto-palette-color-4);
+  border-radius       : 9.0px;
+  height              : 94px;
+  left                : 532px;
+  position            : absolute;
+  top                 : 584px;
+  width               : 174px;
+}
+.schedulepublicsession .date-YznuHG {
+  background-color    : rgba(255,255,255,0);
+  height              : 39px;
+  left                : 757px;
+  position            : absolute;
+  top                 : 450px;
+  width               : 39px;
+}
+.schedulepublicsession .u270f-ufe0f-day-XZUgpm {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  min-height          : 27px;
+  opacity             : 0.3;
+  position            : relative;
+  text-align          : center;
+  width               : 23px;
+}
+.schedulepublicsession .rectangle-copy-2-eUyrP3 {
+  background-color    : var(--auto-palette-color-3);
+  height              : 104px;
+  left                : 1000px;
+  position            : absolute;
+  top                 : 240px;
+  width               : 185px;
+}
+.schedulepublicsession .rectangle-copy-4-W9yUnO {
+  background-color    : var(--auto-palette-color-3);
+  height              : 104px;
+  left                : 627px;
+  position            : absolute;
+  top                 : 240px;
+  width               : 185px;
+}
+.schedulepublicsession .oval-ZoGUc1 {
+  background-color    : rgba(255,255,255,0);
+  height              : 38px;
+  left                : 0px;
+  position            : absolute;
+  top                 : 0px;
+  width               : 38px;
+}
+.schedulepublicsession .u270f-ufe0f-day-bpxlPd {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-2);
+  height              : auto;
+  left                : 13px;
+  position            : absolute;
+  text-align          : center;
+  top                 : 6px;
+  width               : auto;
+}
+.schedulepublicsession .rectangle-pwJWlx {
+  background-color    : var(--auto-palette-color-4);
+  height              : 106px;
+  left                : 439px;
+  position            : absolute;
+  top                 : 429px;
+  width               : 185px;
+}
+.schedulepublicsession .date-copy-wL0JXV {
+  align-items         : flex-start;
+  background-color    : rgba(255,255,255,0);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  flex-shrink         : 0;
+  height              : 40px;
+  justify-content     : flex-start;
+  min-width           : 39px;
+  padding             : 6.0px 7.3px;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-day-6i512n {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  min-height          : 27px;
+  opacity             : 0.3;
+  position            : relative;
+  text-align          : center;
+  width               : 23px;
+}
+.schedulepublicsession .rectangle-9pCJ9o {
+  background-color    : var(--auto-palette-color-4);
+  height              : 106px;
+  left                : 253px;
+  position            : absolute;
+  top                 : 429px;
+  width               : 185px;
+}
+.schedulepublicsession .date-GAKysv {
+  align-items         : center;
+  background-color    : rgba(255,255,255,0);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : 39px;
+  justify-content     : flex-start;
+  left                : 379px;
+  min-width           : 39px;
+  padding             : 0 7.3px;
+  position            : absolute;
+  top                 : 449px;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-day-oQBNxm {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  min-height          : 27px;
+  opacity             : 0.3;
+  position            : relative;
+  text-align          : center;
+  width               : 23px;
+}
+.schedulepublicsession .date-RjUPzP {
+  align-items         : center;
+  background-color    : rgba(255,255,255,0);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : 39px;
+  justify-content     : flex-start;
+  left                : 939px;
+  padding             : 0 13.3px;
+  position            : absolute;
+  top                 : 449px;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-day-SZHoe0 {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  min-height          : 27px;
+  opacity             : 0.3;
+  position            : relative;
+  text-align          : center;
+  width               : 12px;
+}
+.schedulepublicsession .base-8D44Kr {
+  background-color    : var(--auto-palette-color-3);
+  height              : 104px;
+  left                : 626px;
+  position            : absolute;
+  top                 : 430px;
+  width               : 185px;
+}
+.schedulepublicsession .calendar-days-of-the-week-XJZOxv {
+  align-items         : stretch;
+  background-color    : rgba(255,255,255,0);
+  display             : flex;
+  flex-direction      : row;
+  justify-content     : flex-start;
+  margin              : 0;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .mon-73yFUa {
+  align-items         : flex-end;
+  background-color    : var(--auto-palette-color-2);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  justify-content     : flex-start;
+  margin              : 0 0 0 1px;
+  min-width           : 195px;
+  padding             : 5.0px 0;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-text-LDzCAG {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  margin-left         : 0px;
+  min-height          : 27px;
+  position            : relative;
+  text-align          : center;
+  width               : 196px;
+}
+.schedulepublicsession .jul-MKavzk {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  font-family         : Source Sans Pro, Helvetica, Arial, serif;
+  font-size           : 24.0px;
+  font-weight         : 700;
+  height              : auto;
+  letter-spacing      : 2.88px;
+  line-height         : 36.0px;
+  min-height          : 36px;
+  position            : relative;
+  text-align          : center;
+  width               : 149px;
+}
+.schedulepublicsession .icons-chevron-right-ZFguxN {
+  background-color    : rgba(255,255,255,0);
+  height              : 14px;
+  left                : 43px;
+  position            : absolute;
+  top                 : 285px;
+  width               : 8px;
+}
+.schedulepublicsession .calendar-month-title-HLiE75 {
+  align-items         : flex-start;
+  background-color    : rgba(255,255,255,0);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : 36px;
+  justify-content     : center;
+  left                : 647px;
+  min-width           : 147px;
+  position            : absolute;
+  top                 : 145px;
+  width               : auto;
+}
+.schedulepublicsession .calendar-days-of-the-week-gUAs8O {
+  align-items         : stretch;
+  background-color    : rgba(255,255,255,0);
+  display             : flex;
+  flex-direction      : row;
+  height              : 40px;
+  justify-content     : flex-start;
+  left                : 67px;
+  position            : absolute;
+  top                 : 200px;
+  width               : auto;
+}
+.schedulepublicsession .icons-chevron-down-dhQ3QB {
+  background-color    : rgba(255,255,255,0);
+  background-image    : url(".././img/schedulepublicsession-iconschevron-down@2x.png");
+  background-size     : 100% 100%;
+  height              : 8px;
+  margin              : 0 0 0 8px;
+  position            : relative;
+  width               : 14px;
+}
+.schedulepublicsession .u270f-ufe0f-text-nxPo3W {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  margin-left         : 0px;
+  min-height          : 27px;
+  position            : relative;
+  text-align          : center;
+  width               : 185px;
+}
+.schedulepublicsession .u270f-ufe0f-text-ssJwId {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  margin-left         : 0px;
+  min-height          : 27px;
+  position            : relative;
+  text-align          : center;
+  width               : 185px;
+}
+.schedulepublicsession .tues-NzxiqB {
+  align-items         : flex-end;
+  background-color    : var(--auto-palette-color-2);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  justify-content     : flex-start;
+  margin              : 0 0 0 1px;
+  min-width           : 184px;
+  padding             : 5.0px 0;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-text-pQWOi3 {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  margin-left         : 0px;
+  min-height          : 27px;
+  position            : relative;
+  text-align          : center;
+  width               : 185px;
+}
+.schedulepublicsession .wed-yR1gVq {
+  align-items         : flex-end;
+  background-color    : var(--auto-palette-color-2);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  justify-content     : flex-start;
+  margin              : 0 0 0 1px;
+  min-width           : 184px;
+  padding             : 5.0px 0;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .how-to-bJKTRM {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  font-family         : Source Sans Pro, Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  font-weight         : 400;
+  height              : auto;
+  letter-spacing      : 1.30px;
+  line-height         : 27.0px;
+  margin              : 0;
+  opacity             : 0.4;
+  position            : relative;
+  text-align          : center;
+  width               : 75px;
+}
+.schedulepublicsession .base-w39F01 {
+  background-color    : var(--auto-palette-color-3);
+  border-color        : var(--auto-palette-color-5);
+  border-style        : solid;
+  border-width        : 1.3px;
+  height              : 106px;
+  left                : 1185px;
+  position            : absolute;
+  top                 : 429px;
+  width               : 185px;
+}
+.schedulepublicsession .divider-7qFtcs {
+  background-color    : var(--auto-palette-color-6);
+  border-radius       : 1.0px;
+  height              : 24px;
+  margin              : 0 0 0 8px;
+  position            : relative;
+  width               : 2px;
+}
+.schedulepublicsession .signed-in-alert-dot-WmdMF4 {
+  align-items         : flex-end;
+  background-color    : rgba(255,255,255,0);
+  background-image    : url(".././img/schedulepublicsession-oval@2x.png");
+  background-size     : 100% 100%;
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : 16px;
+  justify-content     : flex-end;
+  margin              : 0;
+  min-width           : 16px;
+  padding             : 5.0px;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .oval-XmS7Zg {
+  background-color    : rgba(255,255,255,0);
+  flex-shrink         : 0;
+  height              : 5px;
+  position            : relative;
+  width               : 5px;
+}
+.schedulepublicsession .verticals-jbDugb {
+  align-items         : center;
+  background-color    : rgba(255,255,255,0);
+  display             : flex;
+  flex-direction      : row;
+  height              : 27px;
+  justify-content     : flex-start;
+  position            : absolute;
+  right               : 278px;
+  top                 : 16px;
+  width               : auto;
+}
+.schedulepublicsession .schedule-jTQer2 {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  height              : auto;
+  margin              : 0 0 0 32px;
+  position            : relative;
+  text-align          : center;
+  width               : 100px;
+}
+.schedulepublicsession .meditate-101-0CWjcm {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  font-family         : Source Sans Pro, Helvetica, Arial, serif;
+  font-size           : 18.0px;
+  font-weight         : 400;
+  height              : auto;
+  letter-spacing      : 1.30px;
+  line-height         : 27.0px;
+  margin              : 0 0 0 32px;
+  opacity             : 0.4;
+  position            : relative;
+  text-align          : center;
+  width               : 135px;
+}
+.schedulepublicsession .date-LlE3UO {
+  align-items         : center;
+  background-color    : rgba(255,255,255,0);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : 39px;
+  justify-content     : flex-start;
+  left                : 1125px;
+  padding             : 0 13.3px;
+  position            : absolute;
+  top                 : 449px;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-day-IOiFnw {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  min-height          : 27px;
+  opacity             : 0.3;
+  position            : relative;
+  text-align          : center;
+  width               : 12px;
+}
+.schedulepublicsession .base-Mz1t3k {
+  background-color    : var(--auto-palette-color-3);
+  border-color        : var(--auto-palette-color-5);
+  border-style        : solid;
+  border-width        : 1.3px;
+  height              : 106px;
+  left                : 813px;
+  position            : absolute;
+  top                 : 429px;
+  width               : 185px;
+}
+.schedulepublicsession .date-Uq3Rc6 {
+  align-items         : center;
+  background-color    : rgba(255,255,255,0);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : 39px;
+  justify-content     : flex-end;
+  left                : 1311px;
+  min-width           : 39px;
+  padding             : 0 11.6px;
+  position            : absolute;
+  top                 : 449px;
+  width               : auto;
+}
+.schedulepublicsession .u270f-ufe0f-day-2xOGpI {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-1);
+  flex-shrink         : 0;
+  height              : auto;
+  min-height          : 27px;
+  min-width           : 24px;
+  opacity             : 0.3;
+  position            : relative;
+  text-align          : center;
+  width               : auto;
+}
+.schedulepublicsession .base-hjJNQ2 {
+  background-color    : var(--auto-palette-color-3);
+  border-color        : var(--auto-palette-color-5);
+  border-style        : solid;
+  border-width        : 1.3px;
+  height              : 106px;
+  left                : 999px;
+  position            : absolute;
+  top                 : 429px;
+  width               : 185px;
+}
+.schedulepublicsession .details-hc8obZ {
+  align-items         : center;
+  background-color    : rgba(255,255,255,0);
+  display             : flex;
+  flex-direction      : row;
+  height              : 24px;
+  justify-content     : flex-start;
+  left                : 19px;
+  position            : absolute;
+  top                 : 9px;
+  width               : auto;
+}
+.schedulepublicsession .username-GT9yfk {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-6);
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 14.0px;
+  height              : auto;
+  letter-spacing      : 1.68px;
+  line-height         : 24.0px;
+  margin              : 0 0 0 8px;
+  position            : relative;
+  text-align          : center;
+  width               : 98px;
+}
+.schedulepublicsession .alert-timer-T479qJ {
+  background-color    : rgba(255,255,255,0);
+  color               : var(--auto-palette-color-6);
+  font-family         : "SourceSansPro-SemiBold", Helvetica, Arial, serif;
+  font-size           : 14.0px;
+  height              : auto;
+  letter-spacing      : 1.68px;
+  line-height         : 24.0px;
+  margin              : 0 0 0 8px;
+  position            : relative;
+  text-align          : justify;
+  width               : 44px;
+}
+.schedulepublicsession .header-6IR25F {
+  background-color    : rgba(255,255,255,0);
+  background-image    : url(".././img/schedulepublicsession-boundarybox.png");
+  background-size     : 100% 100%;
+  height              : calc(100.00% - 1089px);
+  left                : 0px;
+  position            : absolute;
+  top                 : 0px;
+  width               : 100%;
+}
+.schedulepublicsession .logo-logo-28x48-IzjtVQ {
+  align-items         : flex-start;
+  background-color    : rgba(255,255,255,0);
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  height              : 48px;
+  justify-content     : flex-start;
+  left                : 67px;
+  position            : absolute;
+  top                 : 5px;
+  width               : auto;
+}
+.schedulepublicsession .group-20-xxTINj {
+  align-items         : flex-end;
+  background-color    : rgba(255,255,255,0);
+  background-image    : url(".././img/schedulepublicsession-shape@2x.png");
+  background-size     : 100% 100%;
+  box-sizing          : border-box;
+  display             : inline-flex;
+  flex-direction      : row;
+  flex-shrink         : 0;
+  height              : 48px;
+  justify-content     : flex-start;
+  padding             : 8.0px 9.0px;
+  position            : relative;
+  width               : auto;
+}
+.schedulepublicsession .oval-copy-23-OGeLUX {
+  background-color    : rgba(255,255,255,0);
+  flex-shrink         : 0;
+  height              : 10px;
+  position            : relative;
+  width               : 10px;
+}
+.schedulepublicsession .sign-in-iAoHNA {
+  background-color    : rgba(255,255,255,0);
+  height              : 42px;
+  position            : absolute;
+  right               : 24px;
+  top                 : 8px;
+  width               : 238px;
+}
+.schedulepublicsession .boundary-box-OqbxoI {
+  background-color    : rgba(255,255,255,0);
+  border-radius       : 21.0px;
+  height              : 42px;
+  left                : 0px;
+  position            : absolute;
+  top                 : 0px;
+  width               : 238px;
+}
