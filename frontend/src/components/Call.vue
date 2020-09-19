@@ -355,6 +355,7 @@ export default {
       //create get URL
       var request_url = '/api/checkstartcal?id=' + this.sessionType + this.room_name;
       if (update_start) request_url += '&start=1';
+      console.log("url:",request_url);
 
       fetch(request_url)
       .then(response => {

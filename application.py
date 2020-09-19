@@ -21,8 +21,8 @@ DBNAME = "medlivedb2"
 os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
 
 #DAILY.CO VIDEO CHAT API CREDENTIALS
-#BEARER = '05535c097075d1938caf827de2217e51a56cf2309a9c738443b8df7a47e2054b' #meditate-live
-BEARER = '430bfe053ef86e871e12cd960f51996b429fd032612926becd766becdef03963' #meditate
+BEARER = '05535c097075d1938caf827de2217e51a56cf2309a9c738443b8df7a47e2054b' #meditate-live
+#BEARER = '430bfe053ef86e871e12cd960f51996b429fd032612926becd766becdef03963' #meditate
 DAILY_API = "https://api.daily.co/v1/rooms/"
 
 #EMAIL CREDENTIALS
@@ -183,11 +183,11 @@ def session_list():
 	#get all sessions
 	try:
 		time_current = datetime.utcnow() #.strftime('%Y-%m-%d %H:%M:%S')
-		cmd = "SELECT session_id, user_id, user_email, sched_time, session_hash, duration FROM sessions WHERE sched_date = %s AND sched_time > %s AND user_confirm IS NOT NULL AND partner_confirm IS NULL AND private_bool = 0 ORDER BY sched_time ASC;"
+		cmd = "SELECT session_id, user_id, user_email, sched_time, session_hash, duration FROM sessions WHERE sched_date = %s AND sched_time > %s AND user_confirm IS NOT NULL AND partner_confirm IS NULL AND private_bool = 0 ORDER BY sched_time, duration ASC;"
 		cur.execute(cmd,(sched_date,time_current,))
 		result = cur.fetchall()
-		#print("res:",result)
-		#print("Cur:",time_current)
+		print("res:",result)
+		print("Cur:",time_current)
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
 		data['error'] = "failed to connect to DB on query 1"
@@ -209,13 +209,13 @@ def session_list():
 	#print(output)
 	return json.dumps(output)
 
-@app.route('/api/schedsession', methods=["POST"]) #add to session table
-def sched_session():
+@app.route('/api/schednew', methods=["POST"]) #add to session table
+def sched_new():
 
 	data = {} #data to be returned
 	req = request.get_json()
 	print(req)
-	data_params = ['user_id','user_email','sched_time','session_type','sched_time_local','session_hash','invite_email','duration','private_bool']
+	data_params = ['user_id','user_email','sched_time','sched_time_local','session_hash','invite_email','duration','private_bool']
 	for item in data_params :
 		if item not in req :
 			print(item)
@@ -233,7 +233,6 @@ def sched_session():
 	sched_time = sched_obj.strftime('%Y-%m-%d %H:%M:%S')
 	#sched_time_UTC = sched_obj.replace(tzinfo=timezone('UTC'))
 	sched_time_local = str(req['sched_time_local'])
-	session_type = str(req['session_type'])
 
 	#connect to DB
 	try:
@@ -245,17 +244,13 @@ def sched_session():
 		data['error'] = "unable to connect with DB"
 		return json.dumps(data)
 
-	if req['session_hash'] == '' :
-		session_hash =  hex(random.getrandbits(128))[2:10]
-		print(session_hash)
-	else :
-		session_hash = str(req['session_hash'])
-	print("s:",sched_obj,req['sched_time'],"hash:",session_hash,"type:",session_type)
-
+	session_hash =  hex(random.getrandbits(128))[2:10]
+	print(session_hash)
+	
 	#add to users table if new email ID
 	try:
-		cmd = "SELECT * FROM users WHERE user_id = %s"
-		cur.execute(cmd,(user_id,))
+		cmd = "SELECT * FROM users WHERE user_email = %s"
+		cur.execute(cmd,(user_email,))
 		print(user_email, ": does user exist (sched)? ","yes" if cur.rowcount > 0 else "no")
 		if cur.rowcount == 0 :
 			cmd = "INSERT INTO users(user_id,user_email) VALUES (%s,%s)"
@@ -268,98 +263,173 @@ def sched_session():
 		return json.dumps(data)
 
 
-	if session_type == 'u' :
-
-		#check DB if same request added to sessions table
-		if private_bool == 0 :
-			try: 
-				cmd = "SELECT * FROM sessions WHERE sched_time = %s AND duration = %s AND private_bool = 0 AND user_confirm IS NOT NULL"
-				cur.execute(cmd,(sched_time,duration))
-				if cur.rowcount > 0 :
-					data['error'] = "this session is publicly scheduled already"
-					return json.dumps(data)
-			except Exception as e:
-				print("Database connection failed due to {}".format(e))
-				data['error'] = "failed to connect to DB"
-				return json.dumps(data)
-
-		#insert into sessions table
-		try:
-			cmd = "INSERT INTO sessions(user_id,user_email,sched_date,sched_time,session_hash,duration,private_bool,invite_email) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-			cur.execute(cmd,(user_id,user_email,sched_date,sched_time,session_hash,duration,private_bool,invite_email))
-			conn.commit()
-			print("inserted in sessions table")
-		except Exception as e:
-			print("Database connection failed due to {}".format(e))
-			conn.rollback()
-			data['error'] = "failed to connect to sessions table"
-			return json.dumps(data)
-
-	elif session_type == 'p' :
-		
-		try: #check if partner_confirm null for session_hash
-			cmd = "SELECT * FROM sessions WHERE session_hash = %s AND partner_confirm IS NULL"
-			cur.execute(cmd,(session_hash,))
-			if cur.rowcount == 0 :
-				data['error'] = "session already claimed"
+	#check DB if same request added to sessions table
+	if private_bool == 0 :
+		try: 
+			cmd = "SELECT * FROM sessions WHERE sched_time = %s AND duration = %s AND private_bool = 0 AND user_confirm IS NOT NULL"
+			cur.execute(cmd,(sched_time,duration))
+			if cur.rowcount > 0 :
+				data['error'] = "this session is publicly scheduled already"
 				return json.dumps(data)
 		except Exception as e:
 			print("Database connection failed due to {}".format(e))
 			data['error'] = "failed to connect to DB"
 			return json.dumps(data)
 
-		try : #update partner id and email for session in DB
-			cmd = "UPDATE sessions SET partner_id = %s, partner_email = %s WHERE session_hash = %s"
-			cur.execute(cmd,(user_id,user_email,session_hash))
-			conn.commit()
-			print("inserted in sessions table")
-		except Exception as e:
-			print("Database connection failed due to {}".format(e))
-			conn.rollback()
-			data['error'] = "failed to connect to sessions table"
-			return json.dumps(data)
+	#insert into sessions table
+	try:
+		cmd = "INSERT INTO sessions(user_id,user_email,sched_date,sched_time,session_hash,duration,private_bool,invite_email) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+		cur.execute(cmd,(user_id,user_email,sched_date,sched_time,session_hash,duration,private_bool,invite_email))
+		conn.commit()
+		print("inserted in sessions table")
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "failed to connect to sessions table"
+		return json.dumps(data)
 
 	#send confirmation emails
 	if "localhost" in request.url :
-		confirm_url = 'http://localhost:5000/full'
+		confirm_url = 'http://localhost:5000/schedule'
+	elif "test" in request.url :
+		confirm_url = 'test.meditatelive.org/schedule'
 	else :
-		confirm_url = 'meditatelive.org/full'
+		confirm_url = 'meditatelive.org/schedule'
 
-	if session_type == 'u' :
-		message = """From: Meditate Live <meditateliveorg@gmail.com>
+	message = """From: Meditate Live <meditateliveorg@gmail.com>
 To: %s <%s>
 Subject: Please confirm your meditation session request
 
-Thank you for creating a meditation session request at the following time:
+Thank you for creating the following session request:
 
-%s
+Time: %s
+
+Duration: %s min.
 
 Please click here to confirm the session:
 %s?id=u%s
-""" % (user_id,user_email,sched_time_local,confirm_url,session_hash)
+""" % (user_id,user_email,sched_time_local,duration,confirm_url,session_hash)
 
-	elif session_type == 'p' :
-		message = """From: Meditate Live <meditateliveorg@gmail.com>
+	# Create a secure SSL context
+	context = ssl.create_default_context()
+	with smtplib.SMTP_SSL(EMAIL_SVR,EMAIL_PORT, context=context) as server :
+		server.login(EMAIL_USR,EMAIL_PWD)
+		server.sendmail(EMAIL_USR,[user_email],message)
+
+	print(message)
+	data['success'] = True
+	return json.dumps(data)
+
+@app.route('/api/schedpublic') #add to session table
+def sched_public():
+
+	data = {} #data to be returned
+	session_hash = str(request.args.get('hash'))
+	user_email = str(request.args.get('email'))
+	user_id = str(request.args.get('id'))
+	if not session_hash or not user_email or not user_id :
+		print("query data missing")
+		data['error'] = 'query data missing'
+		return json.dumps(data)
+
+	#connect to DB
+	try:
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("sched: passed DB credentials")
+	except:
+		print("sched: did not pass DB credentials")
+		data['error'] = "unable to connect with DB"
+		return json.dumps(data)
+
+	#add to users table if new email ID
+	try:
+		cmd = "SELECT * FROM users WHERE user_email = %s"
+		cur.execute(cmd,(user_email,))
+		print(user_email, ": does user exist (sched)? ","yes" if cur.rowcount > 0 else "no")
+		if cur.rowcount == 0 :
+			cmd = "INSERT INTO users(user_id,user_email) VALUES (%s,%s)"
+			cur.execute(cmd,(user_id,user_email))
+			conn.commit()
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "failed to add to users table"
+		return json.dumps(data)
+
+		
+	try: #check if partner_confirm null for session_hash
+		cmd = "SELECT user_email FROM sessions WHERE session_hash = %s AND partner_confirm IS NULL"
+		cur.execute(cmd,(session_hash,))
+		result = cur.fetchone()
+		print("user email:",result[0])
+		if cur.rowcount == 0 :
+			data['error'] = "session already claimed"
+			return json.dumps(data)
+		elif result[0] == user_email :
+			data['error'] = "both users have the same email"
+			return json.dumps(data)
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "failed to connect to DB"
+		return json.dumps(data)
+
+	try : #update partner id and email for session in DB
+		cmd = "UPDATE sessions SET partner_id = %s, partner_email = %s WHERE session_hash = %s"
+		cur.execute(cmd,(user_id,user_email,session_hash))
+		conn.commit()
+		print("inserted in sessions table")
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "failed to connect to sessions table"
+		return json.dumps(data)
+
+	try: #get sched time and duration details
+		cmd = "SELECT sched_time,duration FROM sessions WHERE session_hash = %s"
+		cur.execute(cmd,(session_hash,))
+		if cur.rowcount > 0 :
+			result = cur.fetchone()
+			data['sched_time'] = result[0].replace(tzinfo=timezone.utc).isoformat()
+			data['duration'] = result[1]
+		else :
+			data['error'] = "session hash not found"
+			return json.dumps(data)
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "failed to connect to DB"
+		return json.dumps(data)
+
+
+	#send confirmation emails
+	if "localhost" in request.url :
+		confirm_url = 'http://localhost:5000/schedule'
+	elif "test" in request.url :
+		confirm_url = 'test.meditatelive.org/schedule'
+	else :
+		confirm_url = 'meditatelive.org/schedule'
+
+	message = """From: Meditate Live <meditateliveorg@gmail.com>
 To: %s <%s>
 Subject: Please confirm your meditation session
 
 Thank you for claiming a public meditation session at the following time:
 
-%s
+Time: %s
+
+Duration: %s min.
 
 Please click here to confirm the session:
 %s?id=p%s
-""" % (user_id,user_email,sched_time_local,confirm_url,session_hash)
+""" % (user_id,user_email,result[0],result[1],confirm_url,session_hash)
 
 	# Create a secure SSL context
 	context = ssl.create_default_context()
-
 	with smtplib.SMTP_SSL(EMAIL_SVR,EMAIL_PORT, context=context) as server:
 		server.login(EMAIL_USR,EMAIL_PWD)
 		server.sendmail(EMAIL_USR,[user_email],message)
 
 	print(message)
-
 	data['success'] = True
 	return json.dumps(data)
 
@@ -397,7 +467,7 @@ def sched_email():
 	#search database for hash
 	result = []
 	try:
-		cmd = "SELECT session_id, user_id, user_email, sched_time, partner_id, partner_email, invite_email FROM sessions WHERE session_hash = %s;"
+		cmd = "SELECT session_id, user_id, user_email, sched_time, partner_id, partner_email, invite_email, user_confirm, partner_confirm, duration FROM sessions WHERE session_hash = %s;"
 		cur.execute(cmd,(session_hash,))
 		if cur.rowcount > 0 :
 			result = cur.fetchone()
@@ -411,7 +481,15 @@ def sched_email():
 		data['error'] = "failed to connect to DB"
 		return json.dumps(data)
 
-	#check result to see if user and partner confirm timestamp null
+	#check result to see if already confirmed
+	if session_type == 'u' :
+		confirm_time = result[7]
+	elif session_type == 'p' :
+		confirm_time = result[8]
+	print(confirm_time)
+	if confirm_time != None :
+		data['error'] = 'session is already confirmed'
+		return json.dumps(data)
 
 	#update confirm timestamp for user or partner
 	time_current = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
@@ -437,14 +515,17 @@ def sched_email():
 	partner_id = result[4]
 	partner_email = result[5] 
 	invite_email = result[6]
+	duration = result[9]
 
 	tz_min = int(tz_query)
 	sched_time_local = sched_time - timedelta(hours=0, minutes=tz_min)
 
 	if "localhost" in request.url :
-		confirm_url = 'http://localhost:5000'
+		confirm_url = 'http://localhost:5000/schedule'
+	elif "test" in request.url :
+		confirm_url = 'test.meditatelive.org/schedule'
 	else :
-		confirm_url = 'meditatelive.org'
+		confirm_url = 'meditatelive.org/schedule'
 
 	# Create a secure SSL context
 	context = ssl.create_default_context()
@@ -455,25 +536,29 @@ def sched_email():
 To: %s <%s>
 Subject: Your session request is confirmed
 
-Thank you for scheduling your meditation session at the following time:
+Thank you for scheduling the following meditation session:
 
-%s
+Time: %s
+
+Duration: %s
 
 We will let you know when someone claims your session request.
-""" % (user_id,user_email,sched_time_local)
+""" % (user_id,user_email,sched_time_local,duration)
 
 		if invite_email:
 			message = """From: Meditate Live <meditateliveorg@gmail.com>
 To: %s
 Subject: Your friend invited you to a meditation session
 
-Your friend (%s) invited you at the following time:
+Your friend (%s) invited you for the following session:
 
-%s
+Time: %s
+
+Duration: %s min.
 
 Please click here to confirm the session:
-%s/full?id=p%s
-""" % (invite_email,user_email,sched_time_local,confirm_url,session_hash)
+%s?id=p%s
+""" % (invite_email,user_email,sched_time_local,duration,confirm_url,session_hash)
 			print(message)
 			with smtplib.SMTP_SSL(EMAIL_SVR,EMAIL_PORT,context=context) as server:
 				server.login(EMAIL_USR,EMAIL_PWD)
@@ -487,13 +572,15 @@ Please click here to confirm the session:
 To: %s <%s>
 Subject: Your public session was claimed
 
-Your session request was accepted by %s at the following time:
+The following session request was accepted by %s:
 
-%s
+Time: %s
+
+Duration: %s min.
 
 Please click here to join the session at the scheduled time:
-%s/wait?id=u%s
-""" % (user_id,user_email,partner_email,sched_time_local,confirm_url,session_hash)
+%s?id=wu%s
+""" % (user_id,user_email,partner_email,sched_time_local,duration,confirm_url,session_hash)
 		print(message)
 		with smtplib.SMTP_SSL(EMAIL_SVR,EMAIL_PORT,context=context) as server:
 			server.login(EMAIL_USR,EMAIL_PWD)
@@ -504,15 +591,17 @@ Please click here to join the session at the scheduled time:
 To: %s <%s>
 Subject: Your session is confirmed
 
-Thank you for claiming the meditation session at the following time:
+Thank you for claiming the following meditation session:
 
-%s
+Time: %s
+
+Duration: %s min.
 
 We have notifed %s as well.
 
 Please click here to join the session at the scheduled time:
-%s/wait?id=p%s
-""" % (partner_id,partner_email,sched_time_local,user_email,confirm_url,session_hash)
+%s?id=wp%s
+""" % (partner_id,partner_email,sched_time_local,duration,user_email,confirm_url,session_hash)
 		print(message)
 		with smtplib.SMTP_SSL(EMAIL_SVR,EMAIL_PORT,context=context) as server:
 			server.login(EMAIL_USR,EMAIL_PWD)
@@ -523,6 +612,65 @@ Please click here to join the session at the scheduled time:
 
 	data['success'] = True
 	return json.dumps(data)
+
+#
+@app.route('/api/joinroom') #joins video chat room based on hash
+def join_room():
+
+	data = {}
+	join_query = request.args.get('id')
+	if not join_query:
+		print("query data missing")
+		data['error'] = 'id data missing'
+		return json.dumps(data)
+
+	session_type = join_query[1] #user type is first letter of URL
+	session_hash = join_query[2:]
+	print("sesh hash:",session_hash)
+
+	if session_type != 'u' and session_type != 'p' :
+		print("did not find user type")
+		data['error'] = 'user type data missing'
+		return json.dumps(data)
+
+	#search database for hash
+	#connect to DB
+	try:
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("sched email: passed DB credentials")
+	except:
+		print("sched email: did not pass DB credentials")
+		data['error'] = "unable to connect with DB"
+		return json.dumps(data)
+
+	#search database for hash
+	result = []
+	try:
+		cmd = "SELECT sched_time, duration FROM sessions WHERE session_hash = %s;"
+		cur.execute(cmd,(session_hash,))
+		if cur.rowcount > 0 :
+			result = cur.fetchone()
+			print("res:",result)
+		else :  #if not found, kick out to error alert
+			print("did not find hash")
+			data['error'] = 'session confirm failed: id not found'
+			return json.dumps(data)
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "failed to connect to DB"
+		return json.dumps(data)
+
+	time_current = datetime.utcnow()
+	time_diff = (result[0] - time_current).total_seconds()
+	print("current:",time_current,"sched:",result[0],"diff:",time_diff)
+	data['time_current'] = datetime.utcnow().isoformat()
+	data['time_sched'] = result[0].isoformat()
+	data['time_diff'] = time_diff
+	data['duration'] = int(result[1])
+	print("duration:",data['duration'])
+	return json.dumps(data)
+	
 
 @app.route('/api/flushactiveusersdb') #delete all active users in DB
 def flush_active_users():
@@ -721,7 +869,7 @@ def create_room():
 		if response['error'] == 'not-found' : #if room does not exist, create new room
 			payload = "{\"properties\":{\"enable_screenshare\":false,\"max_participants\":2,\"start_audio_off\":false,\"start_video_off\":false},\"name\":\"%s\",\"privacy\":\"private\"}" % room_name
 			response = requests.request("POST", DAILY_API, data=payload, headers=headers)
-			print(response.json())
+			print("created",response.json())
 
 	return json.dumps(data)
 

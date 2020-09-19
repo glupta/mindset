@@ -110,7 +110,7 @@
 <script>
 import NavBar from '@/components/NavBar';
 import Timer from '@/components/Timer'
-import router from '../router';
+import router from '@/router';
 export default {
   name: 'Home',
   data () {

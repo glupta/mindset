@@ -1,7 +1,7 @@
 <template>
   <div class="schedule-newpublicsolomenu-new">
     <p class="sessionoptions-text">
-      Select from available times  or schedule your own!
+      Select from available times  or schedule your own:
     </p>
     <div :class="{'session-active': public_bool, 'session-inactive': new_bool}" @click='onSelectPublic'>
       <p class="public-sessions">PUBLIC SESSIONS</p>
@@ -40,7 +40,7 @@ export default {
 
 <style scoped>
 .sessionoptions-text {
-  width: 260px;
+  width: 240px;
   font-family: "Source Sans Pro";
   font-size: 16px;
   font-weight: 400;

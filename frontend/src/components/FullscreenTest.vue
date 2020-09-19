@@ -1,16 +1,16 @@
 <template>
   <div class="fullscreen-test">
+    <WebNavBar class="web-navbar-signedin-alert"></WebNavBar>
     <CalendarMain @date-active="onDateActive" class="calendar-main"></CalendarMain>
-    <WebNavBarSignedInAlert class="web-navbar-signedin-alert"></WebNavBarSignedInAlert>
     <ScheduleNewPublicSoloMenuNEW @select-public='onSelectPublic' @select-new='onSelectNew' class="sessionoptions-text"></ScheduleNewPublicSoloMenuNEW>
-    <PublicSessions v-if="public_bool" :dateActive="date_active" class="publicsession"></PublicSessions>
+    <PublicSessions v-if="public_bool" :dateActive="date_active" @public-sched="onPublicSched" class="publicsession"></PublicSessions>
     <NewSession v-if="new_bool" :dateActive="date_active" @priv-info="onPrivInfo" @new-sched="onNewSched" class="newsessions"></NewSession>
     <div v-if="popup_bool" class="shadowoverlay"></div>
     <div v-if="popup_bool" class="popupwindow">
       <div class="relative-wrapper1">
         <div class="rectangle-popup"></div>
         <div class="headerbar"></div>
-        <img class="icons-xmark" src="https://via.placeholder.com/24x24" @click="exitPopup"/>
+        <img class="icons-xmark" src="@/assets/img/xmark.svg" @click="exitPopup"/>
         <p v-if="email_popup" class="popup-header">YOUR EMAIL</p>
         <p v-if="error_popup" class="popup-header">ERROR</p>
         <p v-if="invitesent_popup" class="popup-header">INVITATION SENT</p>
@@ -81,11 +81,11 @@
 
 <script>
 import router from '@/router'
+import WebNavBar from '@/components/WebNavBar'
 import CalendarMain from '@/components/CalendarMain'
-import WebNavBarSignedInAlert from '@/components/WebNavBarSignedInAlert'
+import ScheduleNewPublicSoloMenuNEW from '@/components/ScheduleNewPublicSoloMenuNEW'
 import PublicSessions from '@/components/PublicSessions'
 import NewSession from '@/components/NewSession'
-import ScheduleNewPublicSoloMenuNEW from '@/components/ScheduleNewPublicSoloMenuNEW'
 export default {
   name: "FullscreenTest",
   data () {
@@ -107,12 +107,15 @@ export default {
       load_popup: false,
       load_msg: '',
       confirm_popup: false,
-      priv_popup: false
+      priv_popup: false,
+      public_submit_bool: false,
+      public_hash: '',
+      invite_email: ''
     }
   },
   components: {
     CalendarMain,
-    WebNavBarSignedInAlert,
+    WebNavBar,
     PublicSessions,
     NewSession,
     ScheduleNewPublicSoloMenuNEW,
@@ -123,6 +126,7 @@ export default {
       let cookie_obj = this.$cookies.get('medlive');
       this.user_id = cookie_obj.client_id;
       console.log(this.user_id,": found cookie");
+      //extract email ID from database or cookie
     }
     else {
       this.user_id = Math.random().toString(36).slice(-5);
@@ -131,41 +135,122 @@ export default {
       let cookie_json = JSON.stringify(cookie_obj);
       this.$cookies.set('medlive',cookie_json,-1);
       console.log("create cookie");
+      //this.popup_bool = true;
+      //capture email ID to store in database or cookie
     }
 
     //for users confirming sessions
     this.session_hash = this.$route.query.id;
     if (this.session_hash) { //if id query is given
       this.popup_bool = true;
-      this.load_msg = "Confirming...";
       this.load_popup = true;
-
-      //call server with session type and hash
-      let offset = new Date().getTimezoneOffset();
-      let fetch_url = '/api/schedemail?id=' + this.session_hash + '&tz=' + offset;
-      console.log("fetch:",fetch_url);
-      fetch(fetch_url)
-      .then(response => {
-        if (response.status !== 200) { //server error handling
-          console.log(`Looks like there was a problem. Status code: ${response.status}`);
-          return;
-        }
-        response.json().then(data => {
-          this.load_popup = false;
-          if ('error' in data) { //error handling
-            this.error_msg = "There was an error while confirming the session: " + data['error'] + ". Please try again.";
-            this.error_popup = true;
+      //user clicked wait link
+      if (this.session_hash.charAt(0) == 'w') {
+        this.room_name = this.session_hash.substring(2);
+        this.load_msg = "Joining...";
+        //check DB to see how long until starts
+        //get current time & get sched time from DB and find TAT
+        fetch('/api/joinroom?id=' + this.session_hash)
+        .then(response => {
+          if (response.status !== 200) { //server error handling
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
             return;
           }
-          if ('success' in data) {
-            console.log("successful");
-            this.confirm_popup = true;
-          }
+          response.json().then(data => {
+            this.load_popup = false;
+            if ('error' in data) { //error handling
+              this.error_msg = "There was an error while joining the session: " + data['error'] + ". Please try again.";
+              this.error_popup = true;
+            }
+            else {
+              this.user_duration = data['duration'] * 60;
+              let time_diff = data['time_diff'];
+              console.log("duration:",this.user_duration,"time:",time_diff);
+              if (time_diff > 300 || time_diff < 0) {
+                this.error_msg = "You are too early. The room will open 5 min. before the start time.";
+                this.error_popup = true;
+              }
+              else {
+                let request_url = '/api/createroom?room=' + this.room_name;
+                fetch(request_url)
+                .then(response => {
+                  if (response.status !== 200) { //server error handling
+                    console.log(`Looks like there was a problem. Status code: ${response.status}`);
+                    return;
+                  }
+                  response.json().then(data => { //info about client added to active users in DB
+                    console.log("data: ",data);
+                    if ('error' in data) { //error handling from testroom backend call
+                      console.log("create room error: ",data['error']);
+                      this.error_msg = "create room error: " + data['error'];
+                      this.error_popup = true;
+                      return;
+                    }
+
+                    //take room name from backend call
+                    if ('room_name' in data) {
+                      console.log(data['room_name']);
+                      router.push({
+                        name: "Room",
+                        params: {
+                          clientID: this.client_id, 
+                          roomName: this.room_name,
+                          medTime: parseInt(this.user_duration),
+                          skipStart: 0,
+                          sessionType: this.session_hash.charAt(1)
+                        }
+                      })
+                    }
+                    else {
+                      this.error_msg = "room name missing";
+                      this.error_popup = true;
+                      return;
+                    }
+                  });
+                })
+                .catch(error => { //error handling
+                  console.log("Fetch error: " + error);
+                });
+              }
+            }
+          });
+        })
+        .catch(error => { //error handling
+          console.log("Fetch error: " + error);
         });
-      })
-      .catch(error => { //error handling
-        console.log("Fetch error: " + error);
-      });
+
+        //if more than 5 minutes, popup to join later
+        //if less than 5 minutes, redirect to video chat
+      }
+      else { //confirm url
+        this.load_msg = "Confirming...";
+        //call server with session type and hash
+        let offset = new Date().getTimezoneOffset();
+        let fetch_url = '/api/schedemail?id=' + this.session_hash + '&tz=' + offset;
+        console.log("fetch:",fetch_url);
+        fetch(fetch_url)
+        .then(response => {
+          if (response.status !== 200) { //server error handling
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
+            return;
+          }
+          response.json().then(data => {
+            this.load_popup = false;
+            if ('error' in data) { //error handling
+              this.error_msg = "There was an error while confirming the session: " + data['error'] + ". Please try again.";
+              this.error_popup = true;
+              return;
+            }
+            if ('success' in data) {
+              console.log("successful");
+              this.confirm_popup = true;
+            }
+          });
+        })
+        .catch(error => { //error handling
+          console.log("Fetch error: " + error);
+        });
+      }
     }
 
     fetch('/api/timedata') //get current datetime
@@ -221,7 +306,15 @@ export default {
       this.popup_bool = true;
       this.priv_popup = true;
     },
+    onPublicSched(hash) {
+      console.log("hash:",hash);
+      this.public_hash = hash;
+      this.popup_bool = true;
+      this.email_popup = true;
+      this.public_submit_bool = true;
+    },
     onNewSched(sched,duration,invite,priv) { //submit new session request
+      this.public_submit_bool = false;
       this.popup_bool = true;
       console.log(sched,duration,invite,priv);
       if (this.time_current.getTime() >= sched.getTime()) {
@@ -263,58 +356,89 @@ export default {
         this.error_popup = true;
         return;
       }
-
       this.load_msg = "Scheduling...";
       this.load_popup = true;
 
-      var moment = require('moment');
-      moment().format();
-      this.sched_time_format = this.sched_time;
-      this.sched_time_format = moment(this.sched_time_format).format('ddd MMM D LT');
-      console.log("sched format:",this.sched_time_format);
-
-      let sched_time_local = this.sched_time.toString();
-      var entry = {
-        user_id: this.user_id,
-        user_email: this.user_email,
-        sched_time: this.sched_time,
-        session_type: 'u',
-        sched_time_local: sched_time_local,
-        session_hash: '',
-        invite_email: this.invite_email,
-        duration: this.user_duration,
-        private_bool: (this.priv_bool) ? 1 : 0
-      };
-      fetch('/api/schedsession', {
-        method: "POST",
-        body: JSON.stringify(entry),
-        headers: new Headers({
-        "content-type": "application/json"
-        })
-      })
-      .then(response => {
-        if (response.status !== 200) { //server error handling
+      if (this.public_submit_bool) {
+        let fetch_url = '/api/schedpublic?hash=' + this.public_hash + '&email=' + this.user_email + '&id=' + this.user_id;
+        fetch(fetch_url)
+        .then(response => {
+          if (response.status !== 200) { //server error handling
           console.log(`Looks like there was a problem. Status code: ${response.status}`);
           return;
-        }
-        response.json().then(data => {
-          this.load_popup = false;
-          console.log("session data:",data);
-          if ('error' in data) { //error handling from backend call
-            this.error_msg = "There was an error while scheduling the session: " + data['error'] + ". Please try again.";
-            this.error_popup = true;
+          }
+          response.json().then(data => {
+            this.load_popup = false;
+            if ('error' in data) { //error handling from testroom backend call
+              console.log(this.client_id,": request time error: ",data['error']);
+              this.error_msg = "Public scheduling error: " + data['error'];
+              this.error_popup = true;
+              return;
+            }
+            else if ('sched_time' in data && 'duration' in data) {
+              //update sched time and duration details
+              var moment = require('moment');
+              moment().format();
+              this.sched_time_format = new Date(data['sched_time']);
+              this.sched_time_format = moment(this.sched_time_format).format('ddd MMM D LT');
+              this.user_duration = data['duration'];
+              this.invitesent_popup = true;
+            }
+          });
+        })
+        .catch(error => { //error handling
+          console.log("Fetch error: " + error);
+        });
+      }
+      else {
+        var moment = require('moment');
+        moment().format();
+        this.sched_time_format = this.sched_time;
+        this.sched_time_format = moment(this.sched_time_format).format('ddd MMM D LT');
+        console.log("sched format:",this.sched_time_format);
+
+        let sched_time_local = this.sched_time.toString();
+        var entry = {
+          user_id: this.user_id,
+          user_email: this.user_email,
+          sched_time: this.sched_time,
+          sched_time_local: sched_time_local,
+          session_hash: this.public_hash,
+          invite_email: this.invite_email,
+          duration: this.user_duration,
+          private_bool: (this.priv_bool) ? 1 : 0
+        };
+        fetch('/api/schednew', {
+          method: "POST",
+          body: JSON.stringify(entry),
+          headers: new Headers({
+          "content-type": "application/json"
+          })
+        })
+        .then(response => {
+          if (response.status !== 200) { //server error handling
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
             return;
           }
-          if ('success' in data) { //inserted into sessions table
-            console.log("session scheduled");
-            this.invitesent_popup = true;
-            //this.refreshSessions(); //refresh session list
-          }
+          response.json().then(data => {
+            this.load_popup = false;
+            console.log("session data:",data);
+            if ('error' in data) { //error handling from backend call
+              this.error_msg = "There was an error while scheduling the session: " + data['error'] + ". Please try again.";
+              this.error_popup = true;
+              return;
+            }
+            if ('success' in data) { //inserted into sessions table
+              console.log("session scheduled");
+              this.invitesent_popup = true;
+              //this.refreshSessions(); //refresh session list
+            }
+          });
+        })
+        .catch(error => { //error handling
+          console.log("Fetch error: " + error);
         });
-      })
-      .catch(error => { //error handling
-        console.log("Fetch error: " + error);
-      });
+      }
     }
   }
 };
@@ -336,7 +460,7 @@ export default {
 }
 .web-navbar-signedin-alert {
   position: absolute;
-  right: 0px;
+  left: 0px;
   top: 0px;
   width: 100%;
 }
@@ -364,6 +488,7 @@ export default {
   position: absolute;
   left: 0px;
   top: 0px;
+  bottom: 0px;
   width: 100%;
   height: 100%;
   background-color: rgba(80, 85, 75, 1);

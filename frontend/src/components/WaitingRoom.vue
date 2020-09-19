@@ -21,7 +21,7 @@
 import SessionTopBar from '@/components/SessionTopBar'
 import Timer from '@/components/Timer'
 import NavBar from '@/components/NavBar'
-import router from '../router'
+import router from '@/router'
 export default {
   name: 'WaitingRoom',
   data () {

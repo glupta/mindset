@@ -99,7 +99,6 @@
 
       </div>
 
-      <!--ButtonDark @click="onNewConfirm" class="button-dark"></ButtonDark-->
       <div @click="onNewConfirm" class="button-dark">
         <p class="confirm">CONFIRM</p>
       </div>
@@ -119,7 +118,7 @@ export default {
       min_bool: false,
       min_hover: -1,
       min_selected: '00',
-      mins: ['00','30'],
+      mins: ['00','15','30','45'],
       user_duration: 15,
       invite_email: '',
       priv_bool: false
@@ -150,8 +149,14 @@ export default {
         h += 12;
       }
       let m = 0;
-      if (this.min_selected == '30') { //add 30 min if selected
+      if (this.min_selected == '15') { //add 30 min if selected
+        m = 15;
+      }
+      else if (this.min_selected == '30') { //add 30 min if selected
         m = 30;
+      }
+      else if (this.min_selected == '45') { //add 30 min if selected
+        m = 45;
       }
       this.sched_time.setHours(h,m);
       console.log("sched time:",this.sched_time);

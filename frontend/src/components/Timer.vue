@@ -74,7 +74,12 @@ export default {
       let seconds = this.timeLeft % 60;
       hours = (hours == 0) ? '' : hours += ':';
       if (minutes < 10) {
-        minutes = `0${minutes}`;
+        if (hours > 0) {
+          minutes = `0${minutes}`;
+        }
+        else {
+          minutes = `${minutes}`;
+        }
       }
       if (seconds < 10) {
         seconds = `0${seconds}`;

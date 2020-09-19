@@ -1,7 +1,10 @@
 frontend/node_modules
+frontend/yarn.lock
+frontend/vue.config.js
 virt1
 virt2
 dailyco
 .ebextensions
 .platform
 lambda
+anima

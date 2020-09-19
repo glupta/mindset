@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
+import Home2 from '@/components/Home2'
 import ScheduleSession from '@/components/ScheduleSession'
 import ScheduleSession2 from '@/components/ScheduleSession2'
 import ScheduleSession3 from '@/components/ScheduleSession3'
@@ -11,8 +11,10 @@ import FullscreenTest from '@/components/FullscreenTest'
 import ScheduleSessionNew from '@/components/ScheduleSessionNew'
 import ScheduleConfirmation from '@/components/ScheduleConfirmation'
 import SessionEnd from '@/components/SessionEnd'
+import SessionEnd2 from '@/components/SessionEnd2'
 import WaitingRoom from '@/components/WaitingRoom'
 import Call from '@/components/Call'
+import Room from '@/components/Room'
 import Test from '@/components/Test'
 import SessionLanding from '@/components/SessionLanding'
 import VueCookies from 'vue-cookies';
@@ -32,8 +34,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'Home2',
+      component: Home2
     },
     {
       path: '/plan',
@@ -66,7 +68,7 @@ export default new Router({
       component: ScheduleSessionOL
     },
     {
-      path: '/full',
+      path: '/schedule',
       name: 'FullscreenTest',
       component: FullscreenTest
     },
@@ -91,9 +93,20 @@ export default new Router({
       component: SessionEnd
     },
     {
+      path: '/complete',
+      name: 'SessionEnd2',
+      component: SessionEnd2
+    },
+    {
       path: '/call',
       name: 'Call',
       component: Call,
+      props: true
+    },
+    {
+      path: '/meditate',
+      name: 'Room',
+      component: Room,
       props: true
     },
     {

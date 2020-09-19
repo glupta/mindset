@@ -1,5 +1,5 @@
 <template>
-  <div class="publicsessions">
+  <div id="publicsessions" class="publicsessions">
     <div class="publicsessions-headertext">
       <p class="public-sessions">PUBLIC SESSIONS</p>
       <p class="rooms-open-5-minutes">
@@ -7,18 +7,18 @@
       </p>
     </div>
     <div class="group">
-      <div v-for="(sesh,i) of sessions_left" v-if="i<session_rows" class="flex-wrapper2">
-        <div class="schedule-public-availablepartner-unselected schedule-public-availablepartner-slot-left">
+      <div class="flex-wrapper2">
+        <div v-for="(sesh,i) of sessions_left" class="schedule-public-availablepartner-unselected schedule-public-availablepartner-slot-left">
           <div class="background"></div>
           <div class="schedule-public-availablepartner-slot-2">
             <p class="profile-name">
-              {{sessions_left[i][0]}}
+              {{sesh[0]}}
             </p>
             <p class="time">
-              {{sessions_left[i][1]}}
+              {{sesh[1]}}
             </p>
             <p class="duration">
-              {{sessions_left[i][2]}} min.
+              {{sesh[2]}} min.
             </p>
           </div>
           <div v-if="select_left!=i" @click="onSelectLeft(i)" class="unselected-circle"></div>
@@ -26,17 +26,19 @@
             <div class="in"></div>
           </div>
         </div>
-        <div v-if="i<sessions_right.length" class="schedule-public-availablepartner-unselected">
+      </div>
+      <div class="flex-wrapper2">
+        <div v-for="(sesh,i) of sessions_right" class="schedule-public-availablepartner-unselected">
           <div class="background"></div>
           <div class="schedule-public-availablepartner-slot-2">
             <p class="profile-name">
-              {{sessions_right[i][0]}}
+              {{sesh[0]}}
             </p>
             <p class="time">
-              {{sessions_right[i][1]}}
+              {{sesh[1]}}
             </p>
             <p class="duration">
-              {{sessions_right[i][2]}} min.
+              {{sesh[2]}} min.
             </p>
           </div>
           <div v-if="select_right!=i" @click="onSelectRight(i)" class="unselected-circle"></div>
@@ -47,18 +49,22 @@
       </div>
     </div>
     <div class="flex-wrapper1">
-      <div class="publicsessions-seemore">
+      <div v-if="seemore_bool" @click="onSeeMore" class="publicsessions-seemore">
         <p class="see-more">SEE MORE</p>
-        <img class="icons-chevron-down" src="@/assets/img/chevron-down.svg"/>
+        <img class="icons-chevron" src="@/assets/img/chevron-down.svg"/>
       </div>
-      <ButtonDark class="button-dark"></ButtonDark>
+      <div v-if="seeless_bool" @click="onSeeLess" class="publicsessions-seemore">
+        <p class="see-more">SEE LESS</p>
+        <img class="icons-chevron" src="@/assets/img/chevron-up.svg"/>
+      </div>
+      <div id="button-dark" @click="onConfirm" class="button-dark">
+        <p class="confirm">CONFIRM</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import ButtonDark from '@/components/ButtonDark'
-
 export default {
   name: "PublicSessions",
   data () {
@@ -68,15 +74,19 @@ export default {
       sessions_right: [],
       session_rows: 3,
       select_left: -1,
-      select_right: -1
+      select_right: -1,
+      seemore_bool: false,
+      seeless_bool: false
     }
-  },
-  components: {
-    ButtonDark
   },
   props: [
     'dateActive'
   ],
+  mounted() {
+    if (this.dateActive != '') {
+      this.refreshList();
+    }
+  },
   methods: {
     refreshList() {
       fetch('/api/sessionlist?date=' + this.dateActive.toISOString())
@@ -94,8 +104,6 @@ export default {
           //row: session_id, user_id, user_email, sched_time, session_hash
           if (Array.isArray(data)) { //data is sessions table
             this.sessions = [];
-            this.sessions_left = [];
-            this.sessions_right = [];
             this.session_hashes = [];
             this.session_dates = [];
             var moment = require('moment');
@@ -123,14 +131,16 @@ export default {
 
               this.sessions.push(data_row_new);
               console.log("data_row",data_row,"data_row_new",data_row_new);
-              if (i % 2 == 0) {
-                this.sessions_left.push(data_row_new);
-              }
-              else {
-                this.sessions_right.push(data_row_new);
-              }
             }
-            console.log("sessions:",this.sessions,this.sessions_left,this.sessions_right);
+
+            this.sessionsSplit();
+
+            if (this.sessions.length > 2 * this.session_rows) {
+              this.seemore_bool = true;
+            }
+            else {
+              this.seemore_bool = false;
+            }
           }
         });
       })
@@ -145,6 +155,51 @@ export default {
     onSelectRight(i) {
       this.select_left = -1;
       this.select_right = i;
+    },
+    onConfirm() {
+      if (this.select_left > -1) {
+        this.$emit('public-sched',this.session_hashes[this.select_left]);
+      }
+      else if (this.select_right > -1) {
+        this.$emit('public-sched',this.session_hashes[this.session_rows+this.select_right]);
+      }    
+    },
+    sessionsSplit() {
+      this.sessions_left = [];
+      this.sessions_right = [];
+      for (let i = 0; i < this.sessions.length; i++) {
+        if (i < this.session_rows) {
+          this.sessions_left.push(this.sessions[i]);
+        }
+        else if (i < 2 * this.session_rows){
+          this.sessions_right.push(this.sessions[i]);
+        }
+        else break;
+        console.log("sessions:",this.sessions,this.sessions_left,this.sessions_right);
+      }
+    },
+    onSeeMore() {
+      let all_rows = Math.ceil(this.sessions.length / 2);
+      let diff_rows = all_rows - this.session_rows;
+      this.session_rows = all_rows;
+      let new_height = diff_rows * 32 + 290;
+      document.getElementById('publicsessions').style.height = new_height + 'px';
+      let button_top = diff_rows * 32 + 216;
+      document.getElementById('button-dark').style.top = button_top + 'px';
+      this.seemore_bool = false;
+      this.seeless_bool = true;
+      this.sessionsSplit();
+    },
+    onSeeLess() {
+      this.session_rows = 3;
+      this.sessions_left = this.sessions_left.slice(0,this.session_rows);
+      this.sessions_right = this.sessions_right.slice(0,this.session_rows);
+      document.getElementById('publicsessions').style.height = '290px';
+      document.getElementById('button-dark').style.top = '216px';
+      this.seeless_bool = false;
+      if (this.sessions.length > 2 * this.session_rows) {
+        this.seemore_bool = true;
+      }
     }
   },
   watch: {
@@ -196,12 +251,12 @@ export default {
 .group {
   margin-bottom: 24px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
 }
 .flex-wrapper2 {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
   &:not(:last-of-type) {
     margin-bottom: 20px;
@@ -221,6 +276,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 }
 .see-more {
   font-family: "Source Sans Pro";
@@ -233,14 +289,39 @@ export default {
   margin-right: 4px;
   letter-spacing: 2px;
 }
-.icons-chevron-down {
+.icons-chevron {
   width: 24px;
   height: 24px;
 }
+
 .button-dark {
   position: absolute;
   top: 216px;
   left: 729px;
+
+  border-radius: 19px;
+  padding: 8px 38px;
+  box-shadow: 0px 2px 10px 0px rgba(116, 115, 115, 0.33);
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  background: linear-gradient(
+    103deg,
+    rgba(41, 44, 37, 1) 61%,
+    rgba(104, 119, 94, 1) 125%,
+    rgba(80, 88, 75, 1) 125%
+  );
+}
+.confirm {
+  width: 79px;
+  font-family: "Source Sans Pro";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  color: rgba(239, 235, 220, 1);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .schedule-public-availablepartner-unselected {

@@ -1,10 +1,10 @@
 <template>
   <div class="web-navbar-signedin-alert">
-    <div class="left-side">
-      <div class="logo"></div>
-      <img class="mindset" src="https://static.overlay-tech.com/assets/33c808c7-df2a-42bb-b6a6-aa6f8fabc6ec.png"/>
+    <div class="left-side" @click="onSelectLogo">
+      <img class="logo" alt="logo" src="@/assets/img/Logo-56x96.svg"/>
+      <img class="mindset" alt="mindset" src="https://static.overlay-tech.com/assets/33c808c7-df2a-42bb-b6a6-aa6f8fabc6ec.png"/>
     </div>
-    <div class="right-side">
+    <!--div class="right-side">
       <div class="verticals">
         <div class="howto">
           <p class="how-to">HOW TO</p>
@@ -17,16 +17,22 @@
         </div>
       </div>
       <SignInUserAlert class="logo-logo-28x48"></SignInUserAlert>
-    </div>
+    </div-->
   </div>
 </template>
 
 <script>
 import SignInUserAlert from '@/components/SignInUserAlert';
+import router from '@/router';
 export default {
   name: "WebNavBar",
   components: { 
     SignInUserAlert
+  },
+  methods:{
+    onSelectLogo() {
+      router.push({ name: "Home2" });
+    }
   }
 };
 </script>
@@ -78,6 +84,7 @@ export default {
 .left-side {
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 }
 .right-side {
   display: flex;
@@ -101,6 +108,5 @@ export default {
   width: 28px;
   height: 48px;
   margin-right: 18px;
-  background-image: url("https://static.overlay-tech.com/assets/1485645f-f70c-4f26-96bd-12fa5a650103.png");
 }
 </style>
