@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home2 from '@/components/Home2'
+import Home3 from '@/components/Home3'
 import ScheduleSession from '@/components/ScheduleSession'
 import ScheduleSession2 from '@/components/ScheduleSession2'
 import ScheduleSession3 from '@/components/ScheduleSession3'
@@ -34,8 +34,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home2',
-      component: Home2
+      name: 'Home3',
+      component: Home3
     },
     {
       path: '/plan',
