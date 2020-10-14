@@ -1,95 +1,152 @@
 <template>
-  <div class="landing-page">
-    <img class="logo-logo-360x360" src="https://static.overlay-tech.com/assets/7b57d8fc-ed88-4c2a-8a53-c061eabae3d8.png"/>
-    <img class="mindset" src="https://static.overlay-tech.com/assets/6217df05-a99a-47a3-b082-7af449c40c17.png"/>
-    <div class="divider-1-copy-4"></div>
-    <p class="a-socially-accountab">
-      <strong class="asociallyaccountabemphasis1">
-        A selective community of high achievers,
-        <br>
-        passionate about wellbeing & personal growth.
-      </strong>
-      <br><br>
-      Under Construction - please stay tuned!
-      <!--strong class="asociallyaccountabemphasis2"></strong>
-      Build better habits to build a better you.-->
-    </p>
-
-    <!--div class="phone-number">
-      <p class="us-zip"> +1 </p>
-      <input class="copy5" placeholder="Enter 10-digit phone number" />
-      <div class="button-dark button1">
-        <p class="confirm" @click="onSubmitPhone">SUBMIT</p>
+  <div class="mobile-test01">
+    <!--div class="group"><div class="num-01"></div></div-->
+    <div class="path-2">
+      <div class="mask">
+        <img
+          alt="shape"
+          class="shape"
+          src="@/assets/img/Logo_182x310.svg"
+        />
       </div>
-    </div-->
-    <!--div class="divider-1"></div>
-    <div class="flex-wrapper1">
-      <img class="landing-page-img" src="@/assets/img/LandingPage_Image.jpg"/>
-      <div class="flex-wrapper5">
-        <p class="meditation-is-benefi meditation-bottom">
-          Meditation is beneficial for our wellbeing, but its true effects are experienced with consistent practice over a sustained period of time.
-        </p>
-        <p class="meditation-is-benefi">
-          Through the power of social accountability, MINDSET will shift your
-          view of meditation from "task" to "flow."
-        </p>
-      </div>
-    </div>
-    <div class="flex-wrapper2">
-      <div class="divider-1-copy-left"></div>
-      <p class="how-it-works">HOW IT WORKS</p>
-      <div class="divider-1-copy-right"></div>
-    </div>
-    <div class="group">
-      <div class="flex-wrapper3">
-        <p class="num-1-decide-when-to-me">1. Set start time</p>
-        <p class="select-the-time-to-m">
-          Select an available session <br>or create your own.
-        </p>
-      </div>
-      <div class="relative-wrapper1">
-        <p class="num-2-launch-your-video">2. Launch video session</p>
-        <p class="start-each-session-b">
-          Join the session and greet <br>your assigned partner.
-        </p>
-      </div>
-      <div class="flex-wrapper4">
-        <p class="num-3-completing-medita">3. Practice meditation</p>
-        <p class="meditate-with-your-p">
-          Meditate together and hold <br>each other accountable.
-        </p>
-      </div>
-    </div>
-    <div class="divider-1-copy-3"></div>
-    <div class="button-dark button-dark-resp">
-      <p class="confirm" @click="onSelectTry">TRY MINDSET</p>
-    </div>
-    <div class="relative-wrapper2">
       <img
-        alt="bg1"
-        class="bg1"
-        src="https://static.overlay-tech.com/assets/91adcbd0-28e2-42ce-ad67-2fc2ed735d12.svg"
-      /><img
-        alt="path-2"
-        class="path-2"
-        src="https://static.overlay-tech.com/assets/95af05cc-8954-4e24-a7bb-c6e4b1abe57d.svg"
-      /><FooterBar class="footerbar"></FooterBar>
-    </div-->
+        alt="inside-shadow"
+        class="inside-shadow"
+        src="https://static.overlay-tech.com/assets/b19d6902-a934-4e15-adc7-cd73a2a61792.svg"
+      />
+    </div>
+    <img
+      alt="mindset"
+      class="mindset"
+      src="@/assets/img/MINDSET@3x.svg"
+    />
+    <p class="please-leave-your-na">
+      WE ARE A SELECTIVE COMMUNITY OF HIGH ACHIEVERS, PASSIONATE ABOUT WELLBEING AND PERSONAL GROWTH.
+    </p>
+    <p class="sign-up">{{header_text}}</p>
+    <div v-if="submit_bool" class="relative-wrapper1">
+      <div class="num-02"></div>
+      <div class="num-03"></div>
+      <p class="name">Full Name</p>
+      <input v-model="name_input" placeholder="Liz Smith" class="name-box">
+      <!--p class="password">Password</p>
+      <div class="rectangle-copy"></div>
+      <p class="">***********</p>
+      <p class="confirm-password">Confirm Password</p>
+      <div class="rectangle-copy-2"></div>
+      <p class="-copy">***********</p-->
+      <p class="phone-number-copy-2">Mobile Number</p>
+      <p class="num-431-copy-2">&#43;1</p>
+      <input v-model="phone_input" placeholder="2345678901" class="phone-box">
+      <div class="group-3" @click="onSubmitNext">
+        <p class="next">SUBMIT</p>
+      </div>
+    </div>
+    <div v-if="!submit_bool" class="relative-wrapper1">
+      <div class="num-02"></div>
+      <div class="num-03"></div>
+      <p class="submit-text">
+        {{submit_text1}}
+        <br><br>
+        {{submit_text2}}
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
-import FooterBar from '@/components/FooterBar'
 import router from '@/router';
 export default {
-  name: "Home2",
-  components: { FooterBar },
+  name: "Home3",
+  data () {
+    return {
+      submit_bool: true,
+      name_input: "",
+      phone_input: "",
+      header_text: "Join our waiting list",
+      submit_text1: "",
+      submit_text2: ""
+    }
+  },
+  mounted() {
+    if (this.$route.query.i) {
+      this.submit_bool = false;
+      this.header_text = "Verifying...";
+      fetch('/api/verifyphone?i=' + this.$route.query.i)
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => {
+          if ('error' in data) {
+            alert(data['error']);
+            this.header_text = "Join our waiting list";
+            this.submit_bool = true;
+          }
+          else {
+            console.log("phone:",data);
+            this.submit_bool = false;
+            this.header_text = "You're all set!";
+            this.submit_text1 = "You have been added to our waiting list.";
+            this.submit_text2 = "Our team will be in touch in the coming days. :)"
+          }
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
+      });
+    }
+  },
   methods: {
-    onSelectTry() {
-      router.push({ name: "FullscreenTest" });
-    },
-    onSubmitPhone() {
+    onSubmitNext() {
+
+      if (this.name_input == "") {
+        alert("Oops! Something went wrong. Please enter your name.");
+        return;
+      }
+
+      if (this.phone_input == "") {
+        alert("Oops! Something went wrong. Please enter your phone number.");
+        return;
+      }
+
+      if (this.name_input.length > 40) {
+        alert("Oops! Something went wrong. Please shorten your name.");
+        return;
+      }
+
+      let phone_input_clean = this.phone_input.replace(/\D/g,'');
+      if (phone_input_clean.length != 10) {
+        alert("Oops! Something went wrong. Please enter a 10-digit phone number.");
+        return;
+      }
+
+      console.log("phone:",phone_input_clean);
+
       //capture phone number
+      fetch('/api/phoneintake?p=' + phone_input_clean + '&n=' + this.name_input)
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => {
+          if ('error' in data) {
+            alert(data['error']);
+          }
+          else {
+            console.log("phone:",data);
+            this.submit_bool = false;
+            this.header_text = "Verify your number";
+            this.submit_text1 = "Thank you for your interest in the Mindset community!";
+            this.submit_text2 = "We texted you a link. Please click to verify your mobile number.";
+          }
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
+      });
     }
   },
   watch: { //set page title
@@ -104,330 +161,307 @@ export default {
 </script>
 
 <style scoped>
-.landing-page {
-  padding: 24px 0px 0px;
+
+.mobile-test01 {
+  padding: 0px 0px 24px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   align-items: center;
-}
-.logo-logo-56x96-copy-3 {
-  margin-bottom: 35px;
-  /*margin-left: 600px;*/
-}
-.mindset {
-  width: 458px;
-  height: 72px;
-  margin-bottom: 32px;
-  /*margin-left: 491px;*/
-}
-.divider-1-copy-4 {
-  width: 160px;
-  height: 2px;
-  background-color: rgba(230, 232, 227, 1);
-  margin-bottom: 32px;
-  /*margin-left: 640px;*/
-}
-.a-socially-accountab {
-  max-width: 720px;
-  font-family: "Source Sans Pro";
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 36px;
-  color: rgba(66, 62, 61, 1);
-  text-align: center;
-  text-transform: uppercase;
-  margin-bottom: 32px;
-  /*margin-left: 415px;*/
-  letter-spacing: 3px;
-}
-.asociallyaccountabemphasis1 {
-  font-family: "Source Sans Pro";
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 36px;
-  color: rgba(66, 62, 61, 1);
-  letter-spacing: 3px;
-  width: 720px;
-  margin-bottom: 32px;
-}
-.asociallyaccountabemphasis2 {
-  font-family: "Source Sans Pro";
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 36px;
-  color: rgba(66, 62, 61, 1);
-  letter-spacing: 3px;
-}
-.button1 {
-  /*margin-bottom: 124px;*/
-  /*margin-left: 626px;*/
-}
-.divider-1 {
-  width: 496px;
-  height: 2px;
-  background-color: rgba(230, 232, 227, 1);
-  margin-bottom: 107px;
-  /*margin-left: 472px;*/
-}
-.flex-wrapper1 {
-  margin-bottom: 126px;
-  padding: 0px 0px 0px 0px;/*265px;*/
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.rectangle {
-  width: 440px;
-  height: 254px;
-  background-color: rgba(216, 216, 216, 1);
-  margin-right: 80px;
-  border: 1px solid rgba(151, 151, 151, 1);
-}
-.landing-page-img {
-  width: 444px;
-  height: 256px;
-  margin-right: 80px;
-}
-.flex-wrapper5 {
-  /*padding: 18px 0px 0px;*/
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.meditation-is-benefi {
-  max-width: 480px;
-  font-family: "Source Sans Pro";
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 27px;
-  color: rgba(66, 62, 61, 1);
-  letter-spacing: 1px;
-}
-
-.meditation-bottom {
-  margin-bottom: 32px;
-}
-
-.flex-wrapper2 {
-  margin-bottom: 72px;
-  padding: 0px 0px 0px 0px; /*177px;*/
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.divider-1-copy-left {
-  width: 420px;
-  height: 2px;
-  background-color: rgba(230, 232, 227, 1);
-  margin-right: 24px;
-}
-.divider-1-copy-right {
-  width: 420px;
-  height: 2px;
-  background-color: rgba(230, 232, 227, 1);
-}
-.how-it-works {
-  font-family: "Source Sans Pro";
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 36px;
-  color: rgba(66, 62, 61, 1);
-  text-align: center;
-  text-transform: uppercase;
-  margin-right: 24px;
-  letter-spacing: 3px;
 }
 .group {
-  margin-bottom: 74px;
-  /*margin-left: 164px;*/
-  padding: 0px 0px 0px 1px;
+  margin-bottom: 40px;
+  padding: 44px 120px 4px;
   display: flex;
-  flex-direction: row;
   align-items: flex-start;
+  background-image: url("https://static.overlay-tech.com/assets/61a5a437-2028-4ebb-aa35-fc3afc77b13d.png");
 }
-.flex-wrapper3 {
-  margin-right: 48px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.num-01 {
+  width: 172px;
+  height: 20px;
+  background-color: rgba(246, 247, 248, 1);
 }
-.num-1-decide-when-to-me {
-  width: 326px;
-  font-family: "Source Sans Pro";
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 27px;
-  color: rgba(66, 62, 61, 1);
-  text-align: center;
-  text-transform: uppercase;
+.path-2 {
+  margin-top: 24px;
   margin-bottom: 16px;
-  letter-spacing: 1px;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
 }
-.select-the-time-to-m {
-  max-width: 350px;
-  font-family: "Source Sans Pro";
+.mask {
+  padding: 0px 0px 1px;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+.shape {
+  width: 74px;
+  height: 126px;
+}
+.inside-shadow {
+  width: 50px;
+  height: 116px;
+  position: absolute;
+  left: 17px;
+  top: -3px;
+}
+.mindset {
+  width: 129px;
+  height: 20px;
+  margin-bottom: 32px;
+}
+.sign-up {
+  font-family: "Catamaran";
   font-size: 18px;
-  font-weight: 400;
-  line-height: 27px;
-  color: rgba(66, 62, 61, 1);
+  font-weight: 700;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
   text-align: center;
+  margin-bottom: 4px;
+  letter-spacing: 2px;
+}
+.please-leave-your-na {
+  max-width: 291px;
+  font-family: "Catamaran";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(37, 49, 85, 1);
+  text-align: center;
+  margin-bottom: 24px;
+  opacity: 0.7;
   letter-spacing: 1px;
 }
 .relative-wrapper1 {
-  margin-right: 48px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.num-2-launch-your-video {
-  width: 325px;
-  font-family: "Source Sans Pro";
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 27px;
-  color: rgba(66, 62, 61, 1);
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 16px;
-}
-.start-each-session-b {
-  max-width: 325px;
-  font-family: "Source Sans Pro";
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 27px;
-  color: rgba(66, 62, 61, 1);
-  text-align: center;
-  position: relative;
-  letter-spacing: 1px;
-}
-.flex-wrapper4 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.num-3-completing-medita {
-  width: 325px;
-  font-family: "Source Sans Pro";
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 27px;
-  color: rgba(66, 62, 61, 1);
-  text-align: center;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  letter-spacing: 1px;
-}
-.meditate-with-your-p {
-  max-width: 325px;
-  font-family: "Source Sans Pro";
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 27px;
-  color: rgba(66, 62, 61, 1);
-  text-align: center;
-  letter-spacing: 1px;
-}
-.divider-1-copy-3 {
-  width: 496px;
-  height: 2px;
-  background-color: rgba(230, 232, 227, 1);
-  margin-bottom: 54px;
-  /*margin-left: 472px;*/
-}
-.button-dark-resp {
-  margin-bottom: 94px;
-  /*margin-left: 626px;*/
-}
-.relative-wrapper2 {
+  /*margin-bottom: 64px;*/
   display: flex;
   align-items: flex-start;
   position: relative;
-  width: 100%;
 }
-.bg1 {
-  width: 1440px;
-  height: 229px;
+.num-02 {
+  width: 336px;
+  height: 272px;
+  /*width: 100%;
+  height: 351px;*/
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0px 3px 5px 0px rgba(110, 122, 169, 0.2);
   position: relative;
 }
-.path-2 {
-  width: 1440px;
-  height: 172px;
+.num-03 {
+  width: 336px;
+  /*width: 100%;*/
+  height: 16px;
+  background-color: rgba(37, 49, 85, 1);
   position: absolute;
   left: 0px;
-  bottom: 27px;
+  top: 0px;
 }
-.footerbar {
+.name-box {
+  width: 246px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 8px;
   position: absolute;
-  left: 0px;
-  bottom: 0px;/*27px;*/
+  left: 35px;
+  top: 54px;
+  border: 1px solid rgba(37, 49, 85, 0.3);
+  padding-left: 8px;
 }
 
-.logo-logo-360x360 {
-  width: 360px;
-  height: 360px;
-}
-
-.button-dark {
-  border-radius: 19px;
-  padding: 8px 38px 8px 39px;
-  box-shadow: 0px 2px 10px 0px rgba(116, 115, 115, 0.33);
-  display: flex;
-  align-items: flex-start;
-  background: linear-gradient(
-    103deg,
-    rgba(41, 44, 37, 1) 61%,
-    rgba(104, 119, 94, 1) 125%,
-    rgba(80, 88, 75, 1) 125%
-  );
-}
-.confirm {
-  width: 72px;
+::placeholder {
+  width: 214px;
   font-family: "Source Sans Pro";
   font-size: 14px;
-  font-weight: 600;
-  line-height: 24px;
-  color: rgba(239, 235, 220, 1);
-  text-align: center;
-  text-transform: uppercase;
+  font-weight: 400;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+}
+.rectangle-copy {
+  width: 246px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  /*position: absolute;
+  left: 35px;*/
+  top: 132px;
+  border: 1px solid rgba(37, 49, 85, 0.3);
+}
+.rectangle-copy-2 {
+  width: 246px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  /*position: absolute;
+  left: 35px;*/
+  bottom: 100px;
+  border: 1px solid rgba(37, 49, 85, 0.3);
+}
+.phone-box {
+  width: 212px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  position: absolute;
+  /*right: 50px;*/
+  /*bottom: 24px;*/
+  top: 132px;
+  left: 69px;
+  border: 1px solid rgba(37, 49, 85, 0.3);
+  padding-left: 8px;
+}
+.name-text {
+  width: 214px;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  position: absolute;
+  left: 42px;
+  top: 64px;
   letter-spacing: 2px;
+}
+/*
+. {
+  width: 203px;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  position: absolute;
+  left: 42px;
+  top: 144px;
+  letter-spacing: 2px;
+}
+*/
+.-copy {
+  width: 203px;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  position: absolute;
+  left: 42px;
+  bottom: 113px;
+  letter-spacing: 2px;
+}
+.num-000-000-0000-copy-2 {
+  width: 203px;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  position: absolute;
+  right: 50px;
+  bottom: 33px;
+  letter-spacing: 2px;
+}
+.num-431-copy-2 {
+  width: 26px;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  text-align: center;
+  position: absolute;
+  left: 35px;
+  /*bottom: 33px;*/
+  top: 141px;
+  letter-spacing: 2px;
+}
+.name {
+  width: 193px;
+  font-family: "Source Sans Pro";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  position: absolute;
+  left: 35px;
+  top: 32px;
+  letter-spacing: 2px;
+}
+.password {
+  width: 193px;
+  font-family: "Source Sans Pro";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  position: absolute;
+  left: 35px;
+  top: 110px;
+  letter-spacing: 2px;
+}
+.confirm-password {
+  width: 193px;
+  font-family: "Source Sans Pro";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  position: absolute;
+  left: 35px;
+  bottom: 145px;
+  letter-spacing: 2px;
+}
+.phone-number-copy-2 {
+  width: 193px;
+  font-family: "Source Sans Pro";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  position: absolute;
+  left: 35px;
+  /*bottom: 67px;*/
+  top: 110px;
+  letter-spacing: 2px;
+}
+.group-3 {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 28px;
+  padding: 17px 35px;
+  box-shadow: 2px 4px 6px 0px rgba(113, 113, 113, 0.21);
+  /*display: flex;
+  align-items: flex-start;*/
+  position: absolute;
+  top: 196px;
+  left: 94px;
+  border: 1px solid rgba(54, 69, 135, 0.25);
   cursor: pointer;
 }
+.next {
+  width: 76px;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  color: rgba(54, 69, 135, 1);
+  text-align: center;
+  letter-spacing: 2px;
+}
 
-.copy5 {
-  margin-right: 16px;
-  width: 264px;
-  background-color: rgba(250, 251, 251, 1);
-  border-radius: 5px;
-  padding: 14px 12px 14px 12px;
-  border: 1px solid rgba(63, 80, 42, 0.25);
+.submit-text {
+  width: 266px;
   font-family: "Source Sans Pro";
   font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
-  color: rgba(66, 62, 61, 1);
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  position: absolute;
+  left: 35px;
+  top: 35px;
   letter-spacing: 2px;
-  &::placeholder {
-    width: 267px;
-    font-family: "Source Sans Pro";
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 24px;
-    color: rgba(66, 62, 61, 1);
-    opacity: 0.5;
-    letter-spacing: 2px;
-  }
-}
-
-.us-zip {
-  margin-right: 16px;
-}
-
-.phone-number {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
 }
 </style>
