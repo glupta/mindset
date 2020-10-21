@@ -27,14 +27,14 @@
     <div v-if="submit_bool" class="relative-wrapper1">
       <div class="num-02"></div>
       <div class="num-03"></div>
-      <p class="name">Full Name</p>
+      <p class="name">Nick Name</p>
       <input v-model="name_input" placeholder="Liz Smith" class="name-box">
-      <!--p class="password">Password</p>
+      <p class="password">Password</p>
       <div class="rectangle-copy"></div>
       <p class="">***********</p>
       <p class="confirm-password">Confirm Password</p>
       <div class="rectangle-copy-2"></div>
-      <p class="-copy">***********</p-->
+      <p class="-copy">***********</p>
       <p class="phone-number-copy-2">Mobile Number</p>
       <p class="num-431-copy-2">&#43;1</p>
       <input v-model="phone_input" placeholder="2345678901" class="phone-box">
