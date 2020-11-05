@@ -82,19 +82,25 @@ def before_request():
 	 	print('URL local:',request.url)
 	 	return
 
+
 @app.route('/api/checkhash') #check if hash is in DB, return name & phone
 def check_hash():
 
 	data = {}
 	hash_query = str(request.args.get('h'))
+	date_query = request.args.get('d')
+	# tz_query = request.args.get('tz')
+	# if not hash_query or date_query or not tz_query :
+	# 	data['error'] = "data missing"
+	# 	return json.dumps(data)
 
 	#connect to DB
 	try :
 		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
 		cur = conn.cursor(buffered=True)
-		print("phone intake: passed DB credentials")
+		print("check hash: passed DB credentials")
 	except:
-		print("phone intake: did not pass DB credentials")
+		print("check hash: did not pass DB credentials")
 		data['error'] = "Oops! Something went wrong. The database connection failed."
 		return json.dumps(data)
 
@@ -110,10 +116,90 @@ def check_hash():
 			result = cur.fetchone()
 			data['phone_num'] = result[0]
 			data['full_name'] = result[1]
-			data['habit_bool'] = result[5]
+			data['habit_name'] = result[5]
+			data['partner_hash'] = result[6]
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
 		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+
+	#if d query provided, then also get habit data
+	if date_query :
+		sched_obj = datetime.strptime(date_query,'%Y-%m-%dT%H:%M:%S.%fZ')
+		print("selected date:",sched_obj)
+		sched_obj = sched_obj.replace(hour=0, minute=0, second=0, microsecond=0)
+		# tz_min = int(tz_query)
+		# sched_time_local = sched_obj - timedelta(hours=0, minutes=tz_min)
+		# print("offset:",tz_min,"max:",sched_time_max,"min:",sched_time_min)
+		print("selected date:",sched_obj)
+		habit_name = data['habit_name']
+		try :
+			cmd = "SELECT * FROM habit_data WHERE habit_id = %s AND user_hash = %s AND date_actual = %s;"
+			cur.execute(cmd,(habit_name,hash_query,sched_obj,))
+			if cur.rowcount == 0 :
+				data['count']= 0
+			else :
+				data['count']= 1
+		except Exception as e:
+			print("Database connection failed due to {}".format(e))
+			data['error'] = "Oops! Something went wrong. The database connection failed."
+			return json.dumps(data)
+
+	return json.dumps(data)
+
+@app.route('/api/completehabit') #update habit data table
+def complete_habit():
+
+	data = {}
+	hash_query = str(request.args.get('h'))
+	date_query = request.args.get('d')
+	if not hash_query or not date_query :
+		data['error'] = "data missing"
+		return json.dumps(data)
+
+	#connect to DB
+	try :
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("complete habit: passed DB credentials")
+	except:
+		print("complete habit: did not pass DB credentials")
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#search database for hash
+	try :
+		cmd = "SELECT * FROM users2 WHERE session_hash = %s;"
+		cur.execute(cmd,(hash_query,))
+		if cur.rowcount == 0 :
+			print("The session hash was not found.")
+			data['error'] = 'Oops! Something went wrong. The session hash was not found.'
+			return json.dumps(data)
+		else :
+			result = cur.fetchone()
+			data['phone_num'] = result[0]
+			data['full_name'] = result[1]
+			data['habit_name'] = result[5]
+			data['partner_hash'] = result[6]
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#add to habit data
+	sched_obj = datetime.strptime(date_query,'%Y-%m-%dT%H:%M:%S.%fZ')
+	sched_obj = sched_obj.replace(hour=0, minute=0, second=0, microsecond=0)
+	print("selected date:",sched_obj)
+	habit_name = data['habit_name']
+	try :
+		cmd = "INSERT INTO habit_data(habit_id,user_hash,date_actual) VALUES (%s,%s,%s)"
+		cur.execute(cmd,(habit_name,hash_query,sched_obj,))
+		conn.commit()
+		data["success"] = True
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. Habit data not captured."
 		return json.dumps(data)
 
 	return json.dumps(data)
@@ -127,7 +213,7 @@ def signup():
 
 	phone_num = str(req['phone_num'])
 	full_name = str(req['full_name'])
-	password = str(req['password'])
+	#password = str(req['password'])
 
 	#connect to DB
 	try :
@@ -166,12 +252,11 @@ def signup():
 			data['error'] = "Oops! Something went wrong. The database connection failed."
 			return json.dumps(data)
 
-	#add to users2 table if new phone number
+	#add to users2 table if new phone number (removed password)
 	try :
-		cmd = "INSERT INTO users2(phone_num,full_name,session_hash,password) VALUES (%s,%s,%s,%s)"
-		cur.execute(cmd,(phone_num,full_name,session_hash,password,))
+		cmd = "INSERT INTO users2(phone_num,full_name,session_hash) VALUES (%s,%s,%s)"
+		cur.execute(cmd,(phone_num,full_name,session_hash,))
 		conn.commit()
-		data['success'] = True
 	except Exception as e :
 		print("Database connection failed due to {}".format(e))
 		conn.rollback()
@@ -192,16 +277,32 @@ def signup():
 		"sns",
 		aws_access_key_id=AWS_ACCESS_KEY_ID,
 		aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-		region_name="us-east-2"
+		region_name="us-east-1"
 	)
 
 	# Send your sms message.
-	client.publish(
+	sms_response = client.publish(
     	PhoneNumber="+1" + phone_num,
     	Message="Hey " + full_name + "! Mindset here 🎈\n\nPlease click here to verify your number: " + confirm_url
     )
 
-	data['success'] = True
+	#check on response and return error message to client for alert
+	print("sms response:",sms_response)
+	data['response'] = sms_response
+
+	#add to sms_log table
+	#time_current = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+	try :
+		cmd = "INSERT INTO sms_log(phone_num,message) VALUES (%s,%s)"
+		cur.execute(cmd,(phone_num,str(sms_response),))
+		conn.commit()
+		data['success'] = True
+	except Exception as e :
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "Oops! Something went wrong. The sms log did not update."
+		return json.dumps(data)
+
 	return json.dumps(data)
 
 @app.route('/api/login', methods=["POST"])
@@ -212,34 +313,56 @@ def login():
 	print(req)
 
 	phone_num = str(req['phone_num'])
-	password = str(req['password'])
+	#password = str(req['password'])
 
 	#connect to DB
 	try :
 		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
 		cur = conn.cursor(buffered=True)
-		print("phone intake: passed DB credentials")
+		print("login: passed DB credentials")
 	except:
-		print("phone intake: did not pass DB credentials")
+		print("login: did not pass DB credentials")
 		data['error'] = "Oops! Something went wrong. The database connection failed."
 		return json.dumps(data)
 
-	#search database for phone number & password
+	#search database for phone number (remove password)
 	try :
-		cmd = "SELECT * FROM users2 WHERE phone_num = %s AND password = %s;"
-		cur.execute(cmd,(phone_num,password,))
+		cmd = "SELECT full_name, session_hash FROM users2 WHERE phone_num = %s;"
+		cur.execute(cmd,(phone_num,))
 		if cur.rowcount == 0 :
 			print("Login failed.")
-			data['error'] = 'Oops! Something went wrong. The mobile number and password did not work.'
+			data['error'] = 'Oops! We did not find your number. Please try again or sign up.'
 			return json.dumps(data)
 		else :
 			result = cur.fetchone()
-			data['session_hash'] = result[2]
-			data['habit_bool'] = result[5]
+			full_name = result[0]
+			session_hash = result[1]
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
 		data['error'] = "Oops! Something went wrong. The database connection failed."
 		return json.dumps(data)
+
+	#verification link
+	if "localhost" in request.url :
+		confirm_url = 'http://localhost:5000?l=' + session_hash
+	elif "test" in request.url :
+		confirm_url = 'http://test.mindset.ooo?l=' + session_hash
+	else :
+		confirm_url = 'http://mindset.ooo?l=' + session_hash
+
+	# Create an SNS client
+	client = boto3.client(
+		"sns",
+		aws_access_key_id=AWS_ACCESS_KEY_ID,
+		aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+		region_name="us-east-1"
+	)
+
+	# Send your sms message.
+	sms_response = client.publish(
+    	PhoneNumber="+1" + phone_num,
+    	Message="Hey " + full_name + "! Mindset here 🎈\n\nPlease click here to log in: " + confirm_url
+    )
 
 	return json.dumps(data)
 
@@ -247,9 +370,187 @@ def login():
 def incoming_sms():
 
 	data = {} #json response
-	req = request.get_json()
-	print(req)
-	return req
+	user_email = "akshay@mindset.ooo"
+	req = request.get_json(force=True)
+	sms_message = json.loads(req['Message']) 
+	sms_sender = sms_message.get("originationNumber")[2:]
+	sms_body = sms_message.get("messageBody")
+
+	#connect to DB
+	try :
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("incoming sms: passed DB credentials")
+	except:
+		print("incoming sms: did not pass DB credentials")
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+
+	#search database for phone number
+	try :
+		cmd = "SELECT full_name, partner_num FROM users2 WHERE phone_num = %s;"
+		cur.execute(cmd,(sms_sender,))
+		if cur.rowcount == 0 :
+			print("The phone number was not found.")
+			data['error'] = 'Oops! Something went wrong. The phone number was not found.'
+			return json.dumps(data)
+		else :
+			result = cur.fetchone()
+			user_name = result[0]
+			partner_num = result[1]
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#add to users2 table if new phone number
+	try :
+		cmd = "INSERT INTO sms_messages(incoming_num,outgoing_num,sms_message) VALUES (%s,%s,%s)"
+		cur.execute(cmd,(sms_sender,partner_num,sms_body,))
+		conn.commit()
+		data['success'] = True
+	except Exception as e :
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "Oops! Something went wrong. The user was not added to the database."
+		return json.dumps(data)
+
+	# #get partner's nickname
+	# try :
+	# 	cmd = "SELECT full_name FROM users2 WHERE phone_num = %s;"
+	# 	cur.execute(cmd,(partner_num,))
+	# 	if cur.rowcount == 0 :
+	# 		print("The phone number was not found.")
+	# 		data['error'] = 'Oops! Something went wrong. The phone number was not found.'
+	# 		return json.dumps(data)
+	# 	else :
+	# 		partner_name = cur.fetchone()[0]
+	# except Exception as e:
+	# 	print("Database connection failed due to {}".format(e))
+	# 	data['error'] = "Oops! Something went wrong. The database connection failed."
+	# 	return json.dumps(data)
+
+	#verification link
+	if "localhost" in request.url :
+		confirm_url = 'http://localhost:5000'
+	elif "test" in request.url :
+		confirm_url = 'http://test.mindset.ooo'
+	else :
+		confirm_url = 'http://mindset.ooo'
+
+	# Create an SNS client
+	client = boto3.client(
+		"sns",
+		aws_access_key_id=AWS_ACCESS_KEY_ID,
+		aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+		region_name="us-east-1"
+	)
+
+	# Send your sms message.
+	client.publish(
+    	PhoneNumber="+1" + partner_num,
+    	Message=user_name + ": " + sms_body + "\n\n" + confirm_url
+    )
+
+
+	#message
+	message = """From: MINDSET <mindset.social2020@gmail.com>
+To: <%s>
+Subject: Test
+
+Sent by: %s
+
+Sent to: %s
+
+Message sent: %s
+""" % (user_email,sms_sender,partner_num,sms_body)
+
+	# Create a secure SSL context
+	context = ssl.create_default_context()
+	with smtplib.SMTP_SSL(EMAIL_SVR,EMAIL_PORT,context=context) as server:
+		server.login(EMAIL_USR,EMAIL_PWD)
+		server.sendmail(EMAIL_USR,[user_email],message)
+
+	return user_email
+
+@app.route('/api/pairingalert')
+def pairing_alert():
+
+	data = {} #json response
+	phone_query = str(request.args.get('n'))
+	if not phone_query :
+		print("num error")
+		return json.dumps(data)
+
+	#connect to DB
+	try :
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("pairing alert: passed DB credentials")
+	except:
+		print("pairing alert: did not pass DB credentials")
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#search database for phone number
+	try :
+		cmd = "SELECT full_name, partner_num FROM users2 WHERE phone_num = %s;"
+		cur.execute(cmd,(phone_query,))
+		if cur.rowcount == 0 :
+			print("Phone number not found.")
+			return json.dumps(data)
+		else :
+			result = cur.fetchone()
+			user_name = result[0]
+			partner_num = result[1]
+			if not partner_num :
+				print("User is not paired yet.")
+				return json.dumps(data)
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#get partner's nickname
+	try :
+		cmd = "SELECT full_name FROM users2 WHERE phone_num = %s;"
+		cur.execute(cmd,(partner_num,))
+		if cur.rowcount == 0 :
+			print("The phone number was not found.")
+			data['error'] = 'Oops! Something went wrong. The phone number was not found.'
+			return json.dumps(data)
+		else :
+			partner_name = cur.fetchone()[0]
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#url in text
+	if "localhost" in request.url :
+		confirm_url = 'http://localhost:5000'
+	elif "test" in request.url :
+		confirm_url = 'http://test.mindset.ooo'
+	else :
+		confirm_url = 'http://mindset.ooo'
+
+	message = "Hey " + user_name + "! Mindset here 🎈\n\nGreat news! You’ve been paired with a habit buddy we think is a great match to support both of your goals.\n\nClick the link to see their habits.\n\nText back to start the conversation.\n\n" + confirm_url
+
+	# Create an SNS client
+	client = boto3.client(
+		"sns",
+		aws_access_key_id=AWS_ACCESS_KEY_ID,
+		aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+		region_name="us-east-1"
+	)
+
+	# Send your sms message.
+	client.publish(
+    	PhoneNumber="+1" + phone_query,
+    	Message=message
+    )
+
 
 @app.route('/api/phoneintake')
 def phone_intake():
@@ -361,10 +662,11 @@ def verify_phone():
 
 	#check if hash exists and not verified in DB 
 	try :
-		cmd = "SELECT * FROM users2 WHERE session_hash = %s AND verify_num IS NULL"
+		cmd = "SELECT habit_id FROM users2 WHERE session_hash = %s AND verify_num IS NULL"
 		cur.execute(cmd,(hash_query,))
 		if cur.rowcount == 0 :
 			data['error'] = "Hmm... This verification link is not valid."
+			return json.dumps(data)
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
 		data['error'] = "Oops! Something went wrong. The database connection failed."
@@ -386,6 +688,56 @@ def verify_phone():
 	data['success'] = True
 	return json.dumps(data)
 
+@app.route('/api/verifylogin')
+def verify_login():
+	
+	data = {} #json response
+	hash_query = str(request.args.get('l'))
+	if not hash_query:
+		data['error'] = "data missing"
+		return json.dumps(data)
+	print("hash:",hash_query)
+
+	#connect to DB
+	try :
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("phone intake: passed DB credentials")
+	except:
+		print("phone intake: did not pass DB credentials")
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#check if hash exists
+	try :
+		cmd = "SELECT habit_id FROM users2 WHERE session_hash = %s"
+		cur.execute(cmd,(hash_query,))
+		if cur.rowcount == 0 :
+			data['error'] = "Hmm... This verification link is not valid."
+			return json.dumps(data)
+		else :
+			data['habit_name'] = cur.fetchone()[0]
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	# #update confirm timestamp for user or partner
+	# time_current = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+	# try:
+	# 	cmd = "UPDATE users2 SET verify_num = %s WHERE session_hash = %s"
+	# 	print("updated user confirm timestamp")
+	# 	cur.execute(cmd,(time_current,hash_query,))
+	# 	conn.commit()
+	# except Exception as e:
+	# 	print("Database connection failed due to {}".format(e))
+	# 	conn.rollback()
+	# 	data['error'] = "Oops! Something went wrong. The database connection failed."
+	# 	return json.dumps(data)
+
+	data['success'] = True
+	return json.dumps(data)
+
 
 @app.route('/api/newhabit', methods=["POST"]) #adds new habit to DB
 def new_habit():
@@ -394,9 +746,9 @@ def new_habit():
 	req = request.get_json()
 	print(req)
 
-	phone_num = str(req['phone_num'])
+	session_hash = str(req['session_hash'])
 	habit_name = str(req['habit_name'])
-	if not phone_num or not habit_name:
+	if not session_hash or not habit_name:
 		data['error'] = "data missing"
 		return json.dumps(data)
 
@@ -410,11 +762,14 @@ def new_habit():
 		data['error'] = "unable to connect with DB"
 		return json.dumps(data)
 
-	#update habit_bool for user
+	#create new habit_id
+	# add habit to habit table
+
+	#update habit_id for user
 	try:
-		cmd = "UPDATE users2 SET habit_bool = 1 WHERE phone_num = %s"
-		print("updated habit_bool")
-		cur.execute(cmd,(phone_num,))
+		cmd = "UPDATE users2 SET habit_id = %s WHERE session_hash = %s"
+		print("updated habit_ud")
+		cur.execute(cmd,(habit_name,session_hash,))
 		conn.commit()
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
@@ -423,7 +778,7 @@ def new_habit():
 		return json.dumps(data)
 
 	data['success'] = True
-	return json.dumps(data)	
+	return json.dumps(data)
 
 
 @app.route('/api/timedata') #returns time data

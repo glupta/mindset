@@ -15,7 +15,7 @@
             />
           </div>
           <div class="flex-wrapper2">
-            <p class="today">TODAY</p>
+            <p class="today">{{cal_header}}</p>
             <div class="flex-wrapper4">
             </div>
           </div>
@@ -37,40 +37,12 @@
           </div>
         </div>
         <div class="cal-row">
-          <div class="home-dateactive">
-            <p class="thu">Thu</p>
-            <p class="num-24">24</p>
-            <div class="oval"></div>
-          </div>
-          <div class="home-dateinactive">
-            <p class="fri">Fri</p>
-            <p class="num-25">25</p>
-            <div class="oval-copy-7"></div>
-          </div>
-          <div class="home-dateinactive">
-            <p class="fri">Sat</p>
-            <p class="num-25">26</p>
-            <div class="oval-copy-7"></div>
-          </div>
-          <div class="home-dateinactive">
-            <p class="fri">Sun</p>
-            <p class="num-25">27</p>
-            <div class="oval-copy-7"></div>
-          </div>
-          <div class="home-dateinactive">
-            <p class="fri">Mon</p>
-            <p class="num-25">28</p>
-            <div class="oval-copy-7"></div>
-          </div>
-          <div class="home-dateinactive">
-            <p class="fri">Tue</p>
-            <p class="num-25">29</p>
-            <div class="oval-copy-7"></div>
-          </div>
-          <div class="home-dateinactive">
-            <p class="fri">Wed</p>
-            <p class="num-25">30</p>
-            <div class="oval-copy-7"></div>
+          <div v-for="(day,i) of cal_days" class="home-date" @click="onSelectDate(i)">
+            <p v-if="selected_day==i" class="num-24">{{cal_dates[i]}}</p>
+            <p v-if="selected_day==i" class="thu">{{day}}</p>
+            <div v-if="selected_day==i" class="oval"></div>
+            <p v-if="selected_day!=i" class="num-25">{{cal_dates[i]}}</p>
+            <p v-if="selected_day!=i" class="fri">{{day}}</p>
           </div>
         </div>
         
@@ -81,8 +53,7 @@
       <div class="oval-copy-10"></div>
     </div>
     <div class="label-newcategory-action">
-      <p class="daily-goal">DAILY GOAL</p>
-      <p class="edit">EDIT</p>
+      <p class="daily-goal">WEEKLY PROGRESS</p>
     </div>
     <div class="home-progressbar">
       <div class="full-bar"></div>
@@ -90,42 +61,145 @@
     </div>
     <!--HomeProgressChart class="home-progresschart"></HomeProgressChart-->
     <div class="home-habitssegcontrol">
-      <p class="option1">MY HABITS</p>
-      <p class="option2">PARTNER HABITS</p>
+      <p class="option1" id="my-habits" @click="onSelectMyHabits">MY HABITS</p>
+      <p class="option2" id="partner-habits" @click="onSelectPartnerHabits">PARTNER'S HABITS</p>
     </div>
     <div class="label-newcategory-action">
-      <p class="daily-goal">DAILY GOAL</p>
-      <p class="edit">EDIT</p>
+      <p class="daily-goal">DAILY TRACKER</p>
+      <p v-if="!partner_bool" class="edit" @click="onSelectEdit">EDIT</p>
+      <p v-if="partner_bool" class="edit" @click="onSelectCompare">COMPARE</p>
     </div>
-    <div class="flex-wrapper1">
-      <HomeWellnessCard class="home-myhabits-wellnesshabit-card">        
-      </HomeWellnessCard>
-      <HomeWellnessCard class="home-myhabits-wellnesshabit-card">
-      </HomeWellnessCard>
+    <div class="wellness-card">
+      <HomeWellnessCard v-if="!edit_bool" :sessionHash="selected_hash" :dataEntry="today_bool" :selectedDate="selected_date"></HomeWellnessCard>
     </div>
+    <div v-if="popup_bool" class="shadow"></div>
+    <div v-if="edit_bool" class="popup-slidercontainer-edit">
+      <div class="popup-sliderheader-edit">
+        <div class="flex-wrapper1-edit">
+          <p class="title-edit">EDIT HABITS</p>
+          <img
+            alt="icons-xmark"
+            class="icons-xmark"
+            src="https://static.overlay-tech.com/assets/08689fdc-2beb-4e94-a37d-66212dd4a5e1.svg"
+            @click="onSelectExit"
+          />
+        </div>
+        <p class="body-edit">
+          Things come up in life - we get it. Adjust your goals to fit your
+          lifestyle.
+        </p>
+      </div>
+      <div class="signup-gh">
+        <div class="rectangle-input"></div>
+        <div class="userentry-form-empty">
+          <p class="form-label-form">Habit #1</p>
+          <input v-model="habit_input" class="entrybox-form">
+        </div>
+        <!--div class="flex-wrapper1">
+          <div class="userentry-dropdown1">
+            <div class="entrybox-dd"></div>
+            <p class="entrytext-dd">Days</p>
+            <p class="form-label-dd">Frequency</p>
+            <div class="chevron">
+              <img
+                alt="path"
+                class="path"
+                src="https://static.overlay-tech.com/assets/802de8b9-4e36-43c7-9105-f13915886d3c.svg"
+              />
+            </div>
+          </div>
+          <div class="userentry-dropdown2">
+            <div class="entrybox-dd"></div>
+            <p class="entrytext-dd">Days</p>
+            <p class="form-label-dd">Frequency</p>
+            <div class="chevron">
+              <img
+                alt="path"
+                class="path"
+                src="https://static.overlay-tech.com/assets/802de8b9-4e36-43c7-9105-f13915886d3c.svg"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="controls-pagination-dots-light-3-dots">
+        <div class="center">
+          <div class="controls-pagination-dots-x-light-page-dot dot-1"></div>
+          <div class="controls-pagination-dots-x-light-page-dot dot-1"></div>
+          <div class="controls-pagination-dots-x-light-page-dot"></div>
+        </div-->
+      </div>
+      <p class="next" @click="onSelectSaveEdit">SAVE</p>
+    </div>
+    <div v-if="compare_bool" class="popup-slidercontainer-compare">
+      <div class="popup-sliderheader-compare">
+        <div class="flex-wrapper1-edit">
+          <p class="title-edit">COMPARE HABITS</p>
+          <img
+            alt="icons-xmark"
+            class="icons-xmark"
+            src="https://static.overlay-tech.com/assets/08689fdc-2beb-4e94-a37d-66212dd4a5e1.svg"
+            @click="onSelectExit"
+          />
+        </div>
+        <p class="body-edit">
+          Competition never hurt anyone. Check how you compare with your partner today!
+        </p>
+      </div>
+      <div class="wellness-compare">
+        <p class="habit-compare-text">MY HABITS</p>
+        <HomeWellnessCard class="wellness-card-compare" :sessionHash="session_hash" :dataEntry="false" :selectedDate="selected_date">
+        </HomeWellnessCard>
+        <p class="habit-compare-text">PARTNER’S HABITS</p>
+        <HomeWellnessCard class="wellness-card-compare" :sessionHash="partner_hash" :dataEntry="false" :selectedDate="selected_date">
+        </HomeWellnessCard>
+      </div>
+    </div>
+    <PairingPopup v-if="pairing_bool"></PairingPopup>
   </div>
 </template>
 
 <script>
 import router from '@/router'
 import HomeWellnessCard from '@/components/HomeWellnessCard'
+import PairingPopup from '@/components/PairingPopup'
 export default {
   name: "HomeSelfInfo",
-  components: {
-    HomeWellnessCard
-  },
   data () {
     return {
-
+      partner_bool: false,
+      popup_bool: false,
+      edit_bool: false,
+      compare_bool: false,
+      session_hash: "",
+      pairing_bool: false,
+      partner_hash: "",
+      selected_hash: "",
+      habit_input: "",
+      cal_days: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+      cal_dates: ['','','','','','',''],
+      cal_dates_full: ['','','','','','',''],
+      selected_day: -1,
+      selected_date: '',
+      cal_header: "TODAY",
+      today_bool: true
     }
   },
+  components: {
+    HomeWellnessCard,
+    PairingPopup
+  },
   mounted() {
+
+    console.log("screen width:",window.screen.width);
+
 
     //check cookie to stay logged in
     if (this.$cookies.isKey('mindset')) {
       let cookie_obj = this.$cookies.get('mindset');
       if (cookie_obj.hasOwnProperty('session_hash')) {
         this.session_hash = cookie_obj.session_hash;
+        this.selected_hash = this.session_hash;
         fetch('/api/checkhash?h=' + this.session_hash)
         .then(response => {
           if (response.status !== 200) { //server error handling
@@ -140,15 +214,161 @@ export default {
               let obj_remove = this.$cookies.remove('mindset');
               router.push({ name: "Home4" });
             }
-            else if ('habit_bool' in data) {
-              console.log("logged in:",data);
-              if (data['habit_bool'] == 0) {
-                console.log("no habits:",data['habit_bool']);
+            else if ('habit_name' in data) {
+              if (!data['habit_name']) {
                 router.push({ name: "SignUpHabit" });
               }
+              else if (!data['partner_hash']) {
+                this.popup_bool = true;
+                this.pairing_bool = true;
+              }
+              else {
+                this.partner_hash = data['partner_hash'];
+                this.habit_input = data['habit_name'];
+                console.log("partner hash:",this.partner_hash);
+              }
+            }
+          });
+        })
+        .catch(error => { //error handling
+          console.log("Fetch error: " + error);
+          router.push({ name: "Home4" });
+        });
+      }
+    }
+    else {
+      router.push({ name: "Home4" });
+    }
+
+    fetch('/api/timedata') //get current datetime
+    .then(response => {
+      if (response.status !== 200) { //server error handling
+        console.log(`Looks like there was a problem. Status code: ${response.status}`);
+        return;
+      }
+      response.json().then(data => {
+
+        console.log("time data:",data);
+        if ('error' in data) { //error handling from testroom backend call
+          console.log(this.client_id,": request time error: ",data['error']);
+          alert("request time error: " + data['error']);
+          return;
+        }
+
+        //get today's date
+        this.time_current = new Date(data['time_current']);
+        this.selected_date = this.time_current;
+        this.today_day = this.time_current.getDay();
+        let today_date = this.time_current.getDate();
+        this.selected_day = this.today_day;
+
+        for (let i = 0; i < 7; i++) { //find next 6 days in current week
+          const date = new Date();
+          date.setDate(today_date - this.today_day + i);
+          this.cal_dates_full[i] = date;
+          this.cal_dates[i] = date.getDate();
+        }
+      });
+    })
+    .catch(error => { //error handling
+      console.log("Fetch error: " + error);
+    });
+  },
+  methods: {
+    onLogOut() {
+      let obj_remove = this.$cookies.remove('mindset');
+      router.push({ name: "Home4" });
+    },
+    onSelectDate(selected_day) {
+
+      this.selected_day = selected_day;
+      this.selected_date = this.cal_dates_full[selected_day];
+      this.today_bool = false;
+      console.log("selected_date:",this.selected_date);
+
+      if (selected_day == this.today_day) {
+        if (this.partner_bool == false) {
+          this.today_bool = true;
+        }
+        this.cal_header = "TODAY";
+      }
+      else if (selected_day == this.today_day - 1) {
+        this.cal_header = "YESTERDAY";
+      }
+      else if (selected_day == this.today_day + 1) {
+        this.cal_header = "TOMORROW";
+      }
+      else if (selected_day < this.today_day - 1) {
+        this.cal_header = "EARLIER";
+      }
+      else if (selected_day > this.today_day + 1) {
+        this.cal_header = "LATER";
+      }
+    },
+    onSelectMyHabits() {
+      document.getElementById("my-habits").className = "option1";
+      document.getElementById("partner-habits").className = "option2";
+      this.partner_bool = false;
+      if (this.selected_day == this.today_day) {
+        this.today_bool = true;
+      }
+      this.selected_hash = this.session_hash;
+    },
+    onSelectPartnerHabits() {
+      document.getElementById("my-habits").className = "option2";
+      document.getElementById("partner-habits").className = "option1";
+      this.partner_bool = true;
+      this.today_bool = false;
+      this.selected_hash = this.partner_hash;
+    },
+    onSelectEdit() {
+      this.popup_bool = true;
+      this.edit_bool = true;
+    },
+    onSelectCompare() {
+      this.popup_bool = true;
+      this.compare_bool = true;
+    },
+    onSelectExit() {
+      this.popup_bool = false;
+      this.edit_bool = false;
+      this.compare_bool = false;
+    },
+    onSelectSaveEdit() {
+      //update habit in DB
+      if (this.habit_input == '') {
+        alert("Oops! Something went wrong. Please enter a habit.");
+      }
+      else if (this.habit_input.length > 30) {
+        alert("Oops! Something went wrong. Please shorten your habit.");
+      }
+      else {
+        var entry = {
+          session_hash: this.session_hash,
+          habit_name: this.habit_input
+        };
+        fetch('/api/newhabit', {
+          method: "POST",
+          body: JSON.stringify(entry),
+          headers: new Headers({
+          "content-type": "application/json"
+          })
+        })
+        .then(response => {
+          if (response.status !== 200) { //server error handling
+            console.log(`Looks like there was a problem. Status code: ${response.status}`);
+            return;
+          }
+          response.json().then(data => {
+            if ('error' in data) {
+              alert(data['error']);
+            }
+            else if ('success' in data) { //refresh wellness card
+              this.popup_bool = false;
+              this.edit_bool = false;
             }
             else {
-              router.push({ name: "Home4" });
+              alert("Oops! Something went wrong. Please enter your habit again.")
             }
           });
         })
@@ -157,75 +377,21 @@ export default {
         });
       }
     }
-    else {
-      router.push({ name: "Home4" });
-    }
-  },
-  methods: {
-    onLogOut() {
-      let obj_remove = this.$cookies.remove('mindset');
-      router.push({ name: "Home4" });
-    }
   }
 };
 </script>
 
 <style scoped>
+
 .iphone-11-pro-max-copy-12 {
-  padding: 0px 0px 74px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.relative-wrapper2 {
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-}
-.rectangle {
-  width: 412px;
-  height: 67px;
-  background-color: rgba(216, 216, 216, 1);
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  border: 1px solid rgba(151, 151, 151, 1);
-}
-.group {
-  padding: 44px 121px 4px;
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-  background-image: url("https://static.overlay-tech.com/assets/b1656de2-836d-4805-a2ba-ee0832a9391e.png");
-}
-.mocktemplate {
-  width: 172px;
-  height: 20px;
-  background-color: rgba(246, 247, 248, 1);
-}
-.group-2 {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: absolute;
-  right: 150px;
-  bottom: 5px;
-}
-.img-5149 {
-  width: 7px;
-  height: 10px;
-  margin-right: 7px;
-}
-.mindset-ooo {
-  font-family: "SF Pro";
-  font-size: 14px;
-  font-weight: 500;
-  line-height: normal;
-  color: rgba(40, 40, 40, 1);
-  text-align: center;
-  letter-spacing: 2px;
-}
 .relative-wrapper1 {
+  width: 375px;
   margin-bottom: 32px;
   display: flex;
   align-items: flex-start;
@@ -259,14 +425,6 @@ export default {
   margin-bottom: 32px;
   margin-left: 24px;
 }
-/*
-.flex-wrapper1 {
-  padding: 0px 0px 0px 25px;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-}
-*/
 .home-myhabits-wellnesshabit-card {
   &:not(:last-of-type) {
     margin-right: 15px;
@@ -277,17 +435,17 @@ export default {
 .header-today {
   background-color: rgba(255, 255, 255, 1);
   border-radius: 20px 20px 0 0;
-  padding: 9px 24px 16px 19px;
+  padding: 8px 16px 16px 16px;
   box-shadow: 0px -3px 6px 0px rgba(156, 156, 156, 0.31);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   border: 1px solid rgba(54, 69, 135, 0.11);
+  width: 100%;
 }
 .flex-wrapper1 {
-  width: 454px;
-  margin-right: 14px;
-  padding: 10px 0px 0px;
+  width: calc(100%-28px);
+  padding: 10px 14px 0px 14px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -304,13 +462,13 @@ export default {
   margin-right: 14px;
 }
 .flex-wrapper2 {
-  margin-right: 14px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 .today {
-  width: 116px;
   font-family: "Catamaran";
   font-size: 24px;
   font-weight: 500;
@@ -334,7 +492,6 @@ export default {
   margin-right: 13px;
 }
 .flex-wrapper3 {
-  padding: 8px 0px 0px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -342,6 +499,7 @@ export default {
 .cal-row {
   display: flex;
   flex-direction: row;
+
 }
 
 /* log out */
@@ -367,35 +525,32 @@ export default {
 }
 
 /* date active */
-.home-dateactive {
-  padding: 0px 0px 28px;
+.home-date {
   display: flex;
-  align-items: flex-start;
-  position: relative;
-  margin-left: 5px;
-}
-.thu {
-  width: 64px;
-  font-family: "Catamaran";
-  font-size: 16px;
-  font-weight: 400;
-  line-height: normal;
-  color: rgba(37, 49, 85, 1);
-  text-align: center;
-  position: absolute;
-  left: 0px;
-  bottom: 3px;
-  letter-spacing: 2px;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 }
 .num-24 {
-  width: 64px;
+  width: 48px;
+  height: 30px;
   font-family: "Source Sans Pro";
   font-size: 24px;
   font-weight: 600;
   line-height: normal;
   color: rgba(37, 49, 85, 1);
   text-align: center;
-  position: relative;
+  letter-spacing: 2px;
+}
+.thu {
+  width: 48px;
+  height: 28px;
+  font-family: "Catamaran";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  color: rgba(37, 49, 85, 1);
+  text-align: center;
   letter-spacing: 2px;
 }
 .oval {
@@ -403,34 +558,12 @@ export default {
   height: 4px;
   background-color: rgba(37, 49, 85, 1);
   border-radius: 50%;
-  position: absolute;
-  left: 30px;
-  bottom: 0px;
 }
 
 /* date inactive */
-.home-dateinactive {
-  padding: 0px 0px 28px;
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-}
-.fri {
-  width: 64px;
-  font-family: "Catamaran";
-  font-size: 16px;
-  font-weight: 400;
-  line-height: normal;
-  color: rgba(39, 49, 77, 1);
-  text-align: center;
-  opacity: 0.2;
-  position: absolute;
-  left: 0px;
-  bottom: 3px;
-  letter-spacing: 2px;
-}
 .num-25 {
-  width: 64px;
+  width: 48px;
+  height: 30px;
   font-family: "Source Sans Pro";
   font-size: 24px;
   font-weight: 600;
@@ -441,22 +574,29 @@ export default {
   position: relative;
   letter-spacing: 2px;
 }
+.fri {
+  width: 48px;
+  height: 28px;
+  font-family: "Catamaran";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  color: rgba(39, 49, 77, 1);
+  text-align: center;
+  opacity: 0.2;
+  letter-spacing: 2px;
+}
 .oval-copy-7 {
   width: 4px;
   height: 4px;
   border-radius: 50%;
   position: absolute;
-  left: 30px;
-  bottom: 0px;
 }
 
 /* icon calendar */
 .icon-calendar {
-  padding: 0px 1px 0px 0px;
   display: flex;
   align-items: flex-start;
-  margin-bottom: 20px;
-  margin-left: 17px;
 }
 .calendar-day-fifteen {
   padding: 10px 6px 4px;
@@ -480,8 +620,11 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  margin-bottom: 8px;
-  margin-left: 25px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  margin-left: 24px;
+  margin-right: 24px;
+  width: 352px;
 }
 .daily-goal {
   font-family: "Catamaran";
@@ -490,7 +633,6 @@ export default {
   line-height: normal;
   color: rgba(38, 49, 82, 1);
   text-transform: uppercase;
-  margin-right: 242px;
   opacity: 0.7;
   letter-spacing: 1px;
 }
@@ -502,6 +644,7 @@ export default {
   color: rgba(38, 49, 82, 1);
   text-align: right;
   letter-spacing: 2px;
+  cursor: pointer;
 }
 
 /* progress bar */
@@ -511,10 +654,9 @@ export default {
   align-items: flex-start;
   position: relative;
   margin-bottom: 16px;
-  margin-left: 24px;
 }
 .full-bar {
-  width: 364px;
+  width: 352px;
   height: 10px;
   background-color: rgba(237, 237, 237, 1);
   border-radius: 12px;
@@ -540,8 +682,11 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  justify-content: space-between;
   margin-bottom: 16px;
-  margin-left: 25px;
+  margin-left: 24px;
+  margin-right: 24px;
+  width: 352px;
 }
 .option1 {
   font-family: "Catamaran";
@@ -549,7 +694,6 @@ export default {
   font-weight: 700;
   line-height: normal;
   color: rgba(37, 49, 85, 1);
-  margin-right: 32px;
   letter-spacing: 2px;
 }
 .option2 {
@@ -560,5 +704,227 @@ export default {
   color: rgba(37, 49, 85, 1);
   opacity: 0.3;
   letter-spacing: 2px;
+  cursor: pointer;
+}
+
+/* wellness cards */
+.wellness-card {
+  width: 350px;
+  padding: 10px 14px 0px 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* edit habits */
+.shadow {
+  width: 375px;
+  height: 100%;
+  background-color: rgba(149, 149, 149, 1);
+  opacity: 0.85;
+  box-shadow: 0px -1px 3px 0px rgba(0, 0, 0, 0.15);
+  position: absolute;
+}
+.popup-slidercontainer-edit {
+  border-radius: 15px 15px 0 0;
+  box-shadow: 0px -3px 7px 0px rgba(52, 52, 52, 0.23);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(
+    161deg,
+    rgba(245, 247, 250, 1) 35%,
+    rgba(245, 247, 250, 1) 100%
+  );
+  border: 1px solid rgba(54, 69, 135, 0.11);
+  position: absolute;
+  width: 373px;
+  top: 160px;
+  bottom: 0px;
+}
+.popup-sliderheader-edit {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 20px 20px 0 0;
+  padding: 24px 16px 16px 16px;
+  box-shadow: 0px 3px 6px 0px rgba(156, 156, 156, 0.31);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100%-32px);
+  margin-bottom: 32px;
+}
+.flex-wrapper1-edit {
+  margin-bottom: 6px;
+  padding: 0 16px 0 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: calc(100%-32px);
+}
+.title-edit {
+  font-family: "Catamaran";
+  font-size: 18px;
+  font-weight: 600;
+  line-height: normal;
+  color: rgba(38, 49, 82, 1);
+  letter-spacing: 2px;
+}
+.body-edit {
+  width: 346px;
+  font-family: "Catamaran";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  letter-spacing: 1px;
+}
+.icons-xmark {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.next {
+  width: 100px;
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  color: rgba(37, 49, 85, 1);
+  text-align: center;
+  text-decoration: underline;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.signup-gh {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 0 0 15px 15px;
+  padding: 0px 0px 17px;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid rgba(151, 151, 151, 0.16);
+  margin-bottom: 8px;
+}
+
+.rectangle-input {
+  width: 329px;
+  height: 16px;
+  background-color: rgba(247, 195, 79, 1);
+  margin-bottom: 16px;
+  margin-left: -1px;
+}
+
+.userentry-form-empty {
+  padding: 22px 0px 0px;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: 24px;
+  margin-left: 24px;
+}
+.entrybox-form {
+  width: 263px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  position: relative;
+  border: 1px solid rgba(37, 49, 85, 0.3);
+  padding-left: 8px;
+}
+
+::placeholder {
+  font-family: "Catamaran";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  letter-spacing: 1px;
+}
+
+.entrytext-form {
+  width: 255px;
+  font-family: "Catamaran";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  position: absolute;
+  right: 0px;
+  bottom: 8px;
+  letter-spacing: 1px;
+}
+.form-label-form {
+  width: 261px;
+  font-family: "Catamaran";
+  font-size: 14px;
+  font-weight: 200;
+  line-height: normal;
+  color: rgba(38, 49, 82, 1);
+  text-transform: uppercase;
+  opacity: 0.7;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  letter-spacing: 1px;
+}
+
+/* compare */
+.popup-slidercontainer-compare {
+  border-radius: 15px 15px 0 0;
+  box-shadow: 0px -3px 7px 0px rgba(52, 52, 52, 0.23);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(
+    161deg,
+    rgba(245, 247, 250, 1) 35%,
+    rgba(245, 247, 250, 1) 100%
+  );
+  border: 1px solid rgba(54, 69, 135, 0.11);
+  position: absolute;
+  width: 373px;
+  top: 100px;
+  bottom: 0px;
+}
+.popup-sliderheader-compare {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 20px 20px 0 0;
+  padding: 24px 16px 16px 16px;
+  box-shadow: 0px 3px 6px 0px rgba(156, 156, 156, 0.31);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100%-32px);
+  margin-bottom: 32px;
+}
+.wellness-compare {
+  width: calc(100%-28px);
+  padding: 10px 14px 0px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.habit-compare-text {
+  font-family: "Catamaran";
+  font-size: 14px;
+  font-weight: 200;
+  line-height: normal;
+  color: rgba(38, 49, 82, 1);
+  text-transform: uppercase;
+  opacity: 0.7;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.wellness-card-compare {
+  margin-bottom: 32px;
 }
 </style>

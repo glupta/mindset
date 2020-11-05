@@ -22,34 +22,44 @@
       />
     </div>
     <div class="signup-titletext">
-      <p class="title">Welcome!</p>
-      <p class="body">
-        Here you can set your personal weekly goals for the month.
+      <p class="title">WELCOME BACK</p>
+      <p v-if="login_bool" class="body">
+        A socially accountable way to build well-being habits
+      </p>
+      <p v-if="!login_bool" class="body">
+        Thank you for your interest in the Mindset community!
+        <br><br>
+        We texted you a link, click to login.
       </p>
     </div>
-    <div class="signup-signin">
+    <div v-if="login_bool" class="signup-signin">
       <div class="flex-wrapper1">
         <p class="num-431">&#43;1</p>
         <div class="relative-wrapper1">
           <p class="form-label">Mobile Number</p>
-          <input class="entrybox" v-model="mobile_input" placeholder="2345678901">
+          <input class="entrybox" v-model="mobile_input">
         </div>
       </div>
-      <div class="userentry-form-empty">
+      <!--div class="userentry-form-empty">
         <p class="form-label-pw">Password</p>
-        <input type="password" class="entrybox-pw" v-model="pw_input" placeholder="********">
+        <input type="password" class="entrybox-pw" v-model="pw_input">
       </div>
-      <p class="action-forgotpass">FORGOT PASSWORD</p>
+      <p class="action-forgotpass">FORGOT PASSWORD</p-->
       <p class="form-label-copy">
         New to MINDSET?
         <strong class="formlabelcopyemphasis2" @click="onSelectSignUp">Sign Up</strong>
       </p>
-      <div class="flex-wrapper2">
+      <!--div class="flex-wrapper2">
         <p class="terms-amp-conditions">TERMS &amp; CONDITIONS</p>
         <p class="privacy-policy">PRIVACY POLICY</p>
-      </div>
+      </div-->
     </div>
-    <p class="next" @click="onSelectNext">NEXT</p>
+    <!--p v-if="!login_bool" class="signup-submit">
+      Thank you for your interest in the Mindset community!
+      <br><br>
+      We texted you a link. Please click to login.
+    </p-->
+    <p v-if="login_bool" class="next" @click="onSelectNext">NEXT</p>
   </div>
 </template>
 
@@ -60,7 +70,8 @@ export default {
   data () {
     return {
       mobile_input: "",
-      pw_input: ""
+      pw_input: "",
+      login_bool: true
     }
   },
   mounted() {
@@ -93,6 +104,39 @@ export default {
       });
     }
 
+    //verified from login
+    else if (this.$route.query.l) {
+      fetch('/api/verifylogin?l=' + this.$route.query.l)
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => {
+          if ('error' in data) {
+            alert(data['error']);
+          }
+          else if ('habit_name' in data) {
+            let cookie_obj = new Object();
+            cookie_obj.session_hash = this.$route.query.l;
+            let cookie_json = JSON.stringify(cookie_obj);
+            this.$cookies.set('mindset',cookie_json,-1);
+            console.log("create cookie");
+
+            if (data['habit_name']) {
+              router.push({ name: "HomeSelfInfo" });
+            }
+            else {
+              router.push({ name: "SignUpHabit" });
+            }
+          }
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
+      });
+    }
+
     //check cookie to auto login
     if (this.$cookies.isKey('mindset')) {
       let cookie_obj = this.$cookies.get('mindset');
@@ -110,12 +154,12 @@ export default {
               let obj_remove = this.$cookies.remove('mindset');
               console.log("delete:",obj_remove);
             }
-            else if ('habit_bool' in data) {
-              if (data['habit_bool'] == 0) {
-                router.push({ name: "SignUpHabit" });
+            else if ('habit_name' in data) {
+              if (data['habit_name']) {
+                router.push({ name: "HomeSelfInfo" });
               }
               else {
-                router.push({ name: "HomeSelfInfo" });
+                router.push({ name: "SignUpHabit" });
               }
             }
           });
@@ -134,13 +178,15 @@ export default {
         alert("Oops! Something went wrong. Please enter your 10-digit mobile number.");
         return;
       }
+      /*
       if (this.pw_input == "") {
         alert("Oops! Something went wrong. Please enter your password.");
         return;
       }
+      */
       var entry = {
         phone_num: mobile_clean,
-        password: this.pw_input,
+        //password: this.pw_input,
       };
       fetch('/api/login', {
         method: "POST",
@@ -158,19 +204,8 @@ export default {
           if ('error' in data) {
             alert(data['error']);
           }
-          else if ('session_hash' in data) {
-            let cookie_obj = new Object();
-            cookie_obj.session_hash = data['session_hash'];
-            let cookie_json = JSON.stringify(cookie_obj);
-            this.$cookies.set('mindset',cookie_json,-1);
-            console.log("create cookie");
-
-            if (data['habit_bool'] == 0) {
-              router.push({ name: "SignUpHabit" });
-            }
-            else {
-              router.push({ name: "HomeSelfInfo" });
-            }
+          else {
+            this.login_bool = false;
           }
         });
       })
@@ -191,18 +226,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.templatemock {
-  margin-bottom: 24px;
-  padding: 44px 121px 4px;
-  display: flex;
-  align-items: flex-start;
-  background-image: url("https://static.overlay-tech.com/assets/c8c86831-4ae0-4869-afde-e2cdc450df6d.png");
-}
-.rectangle {
-  width: 172px;
-  height: 20px;
-  background-color: rgba(246, 247, 248, 1);
+  width: 100%;
+  height: 100%;
 }
 .next {
   width: 100px;
@@ -266,7 +291,7 @@ export default {
 /* title & text */
 .signup-titletext {
   width:;
-  margin-bottom: 64px;
+  margin-bottom: 32px;
   display: flex;
   flex-direction: column;
   align-items: center;

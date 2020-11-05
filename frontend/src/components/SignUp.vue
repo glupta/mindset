@@ -22,29 +22,35 @@
       />
     </div>
     <div class="signup-titletext">
-      <p class="title">GOALS & HABITS</p>
-      <p class="body">
-        Here you can set your personal weekly goals for the month.
+      <p class="title">SIGN UP</p>
+      <!--p class="title">WELCOME</p-->
+      <p v-if="signup_bool" class="body">
+        A socially accountable way to build well-being habits
+      </p>
+      <p v-if="!signup_bool" class="body">
+        Thank you for your interest in the Mindset community!
+        <br><br>
+        We texted you a link. Please click to verify your mobile number.
       </p>
     </div>
     <div v-if="signup_bool" class="signup-signup">
       <div class="userentry-form userentry-form-empty">
         <p class="form-label3">Nickname</p>
-        <input class="entrybox" v-model="name_input" placeholder="Tania Rogers">
+        <input class="entrybox" v-model="name_input">
       </div>
-      <div class="userentry-form userentry-form-empty">
+      <!--div class="userentry-form userentry-form-empty">
         <p class="form-label3">Password</p>
-        <input type="password" class="entrybox" v-model="pw_input" placeholder="********">
+        <input type="password" class="entrybox" v-model="pw_input">
       </div>
       <div class="userentry-form-copy-2 userentry-form-empty">
         <p class="form-label3">Confirm Password</p>
-        <input type="password" class="entrybox" v-model="confirm_input" placeholder="********">
-      </div>
+        <input type="password" class="entrybox" v-model="confirm_input">
+      </div-->
       <div class="flex-wrapper1">
         <p class="num-431">&#43;1</p>
         <div class="relative-wrapper1">
           <p class="form-label">Mobile Number</p>
-          <input class="rectangle2" v-model="mobile_input" placeholder="2345678901">
+          <input class="rectangle2" v-model="mobile_input">
           <p class="why">WHY</p>
         </div>
       </div>
@@ -52,16 +58,16 @@
         Already have an account?
         <strong class="formlabelemphasis2" @click="onSelectSignIn">Sign In</strong>
       </p>
-      <div class="flex-wrapper2">
+      <!--div class="flex-wrapper2">
         <p class="terms-amp-conditions">TERMS &amp; CONDITIONS</p>
         <p class="privacy-policy">PRIVACY POLICY</p>
-      </div>
+      </div-->
     </div>
-    <p v-if="!signup_bool" class="signup-submit">
+    <!--p v-if="!signup_bool" class="signup-submit">
       Thank you for your interest in the Mindset community!
       <br><br>
       We texted you a link. Please click to verify your mobile number.
-    </p>
+    </p-->
     <p v-if="signup_bool" class="next" @click="onSelectNext">NEXT</p>
   </div>
 </template>
@@ -101,6 +107,7 @@ export default {
         return;
       }
 
+      /*
       if (this.pw_input != this.confirm_input) {
         alert("Oops! Something went wrong. Your passwords do not match.");
         return;
@@ -112,11 +119,12 @@ export default {
         alert("Oops! Something went wrong. Your password should be between 6 and 20 characters, with at least one numeric digit, one uppercase and one lowercase letter.");
         return;
       }
+      */
 
       var entry = {
         phone_num: mobile_clean,
         full_name: this.name_input,
-        password: this.pw_input,
+        //password: this.pw_input,
       };
       fetch('/api/signup', {
         method: "POST",
@@ -135,6 +143,7 @@ export default {
             alert(data['error']);
           }
           else {
+            console.log("sms response:",data['response']);
             this.signup_bool = false;
           }
         });
@@ -188,7 +197,7 @@ export default {
   flex-direction: column;
   align-items: center;
   margin-top: 24px;
-  margin-bottom: 50px;
+  margin-bottom: 24px;
 }
 .path-2 {
   margin-bottom: 11px;
@@ -233,7 +242,7 @@ export default {
   line-height: normal;
   color: rgba(37, 49, 85, 1);
   text-align: center;
-  margin-bottom: 4px;
+  margin-bottom: 24px;
   letter-spacing: 2px;
 }
 .body {
@@ -257,7 +266,7 @@ export default {
   /*margin-bottom: 12px;*/
 }
 .userentry-form {
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 .userentry-form-copy-2 {
   margin-bottom: 38px;

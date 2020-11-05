@@ -22,18 +22,22 @@
       />
     </div>
     <div class="signup-titletext">
-      <p class="title">GOALS & HABITS</p>
+      <p class="title">WELL-BEING HABIT</p>
       <p class="body">
-        Here you can set your personal weekly goals for the month.
+        What’s something you’d
+        <br>
+        like to work on daily?
+        <br><br>
+        Enter an activity you want to do consistently. We’ll match you with someone in the same mindset.
       </p>
     </div>
     <div class="signup-gh">
       <div class="rectangle"></div>
       <div class="userentry-form-empty">
-        <p class="form-label-form">Wellness Habit #1</p>
-        <input v-model="habit_input" class="entrybox-form" placeholder="Drink water">
+        <p class="form-label-form">Daily Habit</p>
+        <input v-model="habit_input" class="entrybox-form">
       </div>
-      <div class="flex-wrapper1">
+      <!--div class="flex-wrapper1">
         <div class="userentry-dropdown1">
           <div class="entrybox-dd"></div>
           <p class="entrytext-dd">Days</p>
@@ -65,7 +69,7 @@
         <div class="controls-pagination-dots-x-light-page-dot dot-1"></div>
         <div class="controls-pagination-dots-x-light-page-dot dot-1"></div>
         <div class="controls-pagination-dots-x-light-page-dot"></div>
-      </div>
+      </div-->
     </div>
     <p class="next" @click="onSelectNext">NEXT</p>
   </div>
@@ -102,16 +106,11 @@ export default {
               let obj_remove = this.$cookies.remove('mindset');
               router.push({ name: "Home4" });
             }
-            else if ('habit_bool' in data) {
+            else if ('habit_name' in data) {
               console.log("logged in:",data);
-              this.phone_num = data['phone_num'];
-              if (data['habit_bool'] == 1) {
-                console.log("habits:",data['habit_bool']);
+              if (data['habit_name']) {
                 router.push({ name: "HomeSelfInfo" });
               }
-            }
-            else {
-              router.push({ name: "Home4" });
             }
           });
         })
@@ -129,9 +128,12 @@ export default {
       if (this.habit_input == '') {
         alert("Oops! Something went wrong. Please enter a habit.");
       }
+      else if (this.habit_input.length > 30) {
+        alert("Oops! Something went wrong. Please shorten your habit.");
+      }
       else {
         var entry = {
-          phone_num: this.phone_num,
+          session_hash: this.session_hash,
           habit_name: this.habit_input
         };
         fetch('/api/newhabit', {
