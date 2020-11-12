@@ -24,7 +24,9 @@
     <div class="signup-titletext">
       <p class="title">WELCOME BACK</p>
       <p v-if="login_bool" class="body">
-        A socially accountable way to build well-being habits
+        A socially accountable way
+        <br>
+        to build well-being habits
       </p>
       <p v-if="!login_bool" class="body">
         Thank you for your interest in the Mindset community!

@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect
+from twilio.rest import Client
+from twilio.twiml.messaging_response import Message, MessagingResponse
 from flask_mail import Mail, Message
 from datetime import datetime, timedelta, timezone
 import smtplib, ssl
@@ -44,6 +46,10 @@ EMAIL_PORT = 465
 AWS_ACCESS_KEY_ID = "AKIAXFVDPD5FNDXPB3EO"
 AWS_SECRET_ACCESS_KEY = "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"
 
+#Twilio credentials
+TWI_ACCOUNT_SID = 'AC60290cea8f4b0236d39320e2bfe3e4bf'
+TWI_AUTH_TOKEN = '4843ea93ed857bceec7e8c42907c98b1'
+
 SCHED_TIMES = [0,12]
 
 app = Flask(__name__,
@@ -81,6 +87,97 @@ def before_request():
 	else:
 	 	print('URL local:',request.url)
 	 	return
+
+@app.route("/api/incomingtwilio", methods=['GET', 'POST'])
+def sms_reply():
+
+
+	# Get the message the user sent our Twilio number
+	sms_sender = request.values.get('From', None)[2:]
+	sms_body = request.values.get('Body', None)
+
+	#connect to DB
+	try :
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("incoming sms: passed DB credentials")
+	except:
+		print("incoming sms: did not pass DB credentials")
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+
+	#search database for phone number
+	try :
+		cmd = "SELECT full_name, partner_num FROM users2 WHERE phone_num = %s;"
+		cur.execute(cmd,(sms_sender,))
+		if cur.rowcount == 0 :
+			print("The phone number was not found.")
+			data['error'] = 'Oops! Something went wrong. The phone number was not found.'
+			return json.dumps(data)
+		else :
+			result = cur.fetchone()
+			user_name = result[0]
+			partner_num = result[1]
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#verification link
+	if "localhost" in request.url :
+		confirm_url = 'http://localhost:5000'
+	elif "test" in request.url :
+		confirm_url = 'http://test.mindset.ooo'
+	else :
+		confirm_url = 'http://mindset.ooo'
+
+
+
+	client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
+	message = client.messages.create(
+		body=user_name + ": " + sms_body + "\n\n" + confirm_url,
+		from_='+13158205380',
+		to="+1" + partner_num
+	)
+
+
+	#add to sms_messages table
+	try :
+		cmd = "INSERT INTO sms_messages(incoming_num,outgoing_num,sms_message) VALUES (%s,%s,%s)"
+		cur.execute(cmd,(sms_sender,partner_num,sms_body,))
+		conn.commit()
+		data['success'] = True
+	except Exception as e :
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "Oops! Something went wrong. The user was not added to the database."
+		return json.dumps(data)
+
+	# # Create an SNS client
+	# client = boto3.client(
+	# 	"sns",
+	# 	aws_access_key_id=AWS_ACCESS_KEY_ID,
+	# 	aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+	# 	region_name="us-east-1"
+	# )
+
+	# # Send your sms message.
+	# client.publish(
+ #    	PhoneNumber="+1" + partner_num,
+ #    	Message=user_name + ": " + sms_body + "\n\n" + confirm_url
+ #    )
+
+
+	# # # Start our TwiML response
+	# response = MessagingResponse()
+	# response.message(
+ #    	user_name + ": " + sms_body + "\n\n" + confirm_url, to="+1" + partner_num
+	# )
+
+
+
+	return sms_body
 
 
 @app.route('/api/checkhash') #check if hash is in DB, return name & phone
@@ -272,36 +369,43 @@ def signup():
 	else :
 		confirm_url = 'http://mindset.ooo?i=' + session_hash
 
-	# Create an SNS client
-	client = boto3.client(
-		"sns",
-		aws_access_key_id=AWS_ACCESS_KEY_ID,
-		aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-		region_name="us-east-1"
+	# # Create an SNS client
+	# client = boto3.client(
+	# 	"sns",
+	# 	aws_access_key_id=AWS_ACCESS_KEY_ID,
+	# 	aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+	# 	region_name="us-east-1"
+	# )
+
+	# # Send your sms message.
+	# sms_response = client.publish(
+ #    	PhoneNumber="+1" + phone_num,
+ #    	Message="Hey " + full_name + "! Mindset here 🎈\n\nPlease click here to verify your number: " + confirm_url
+ #    )
+
+	# #check on response and return error message to client for alert
+	# print("sms response:",sms_response)
+	# data['response'] = sms_response
+
+	client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
+	message = client.messages.create(
+		body="Hey " + full_name + "! Mindset here\n\nPlease click here to verify your number: " + confirm_url,
+		from_='+13158205380',
+		to="+1" + phone_num
 	)
-
-	# Send your sms message.
-	sms_response = client.publish(
-    	PhoneNumber="+1" + phone_num,
-    	Message="Hey " + full_name + "! Mindset here 🎈\n\nPlease click here to verify your number: " + confirm_url
-    )
-
-	#check on response and return error message to client for alert
-	print("sms response:",sms_response)
-	data['response'] = sms_response
 
 	#add to sms_log table
 	#time_current = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
-	try :
-		cmd = "INSERT INTO sms_log(phone_num,message) VALUES (%s,%s)"
-		cur.execute(cmd,(phone_num,str(sms_response),))
-		conn.commit()
-		data['success'] = True
-	except Exception as e :
-		print("Database connection failed due to {}".format(e))
-		conn.rollback()
-		data['error'] = "Oops! Something went wrong. The sms log did not update."
-		return json.dumps(data)
+	# try :
+	# 	cmd = "INSERT INTO sms_log(phone_num,message) VALUES (%s,%s)"
+	# 	cur.execute(cmd,(phone_num,str(sms_response),))
+	# 	conn.commit()
+	# 	data['success'] = True
+	# except Exception as e :
+	# 	print("Database connection failed due to {}".format(e))
+	# 	conn.rollback()
+	# 	data['error'] = "Oops! Something went wrong. The sms log did not update."
+	# 	return json.dumps(data)
 
 	return json.dumps(data)
 
@@ -350,19 +454,26 @@ def login():
 	else :
 		confirm_url = 'http://mindset.ooo?l=' + session_hash
 
-	# Create an SNS client
-	client = boto3.client(
-		"sns",
-		aws_access_key_id=AWS_ACCESS_KEY_ID,
-		aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-		region_name="us-east-1"
-	)
+	# # Create an SNS client
+	# client = boto3.client(
+	# 	"sns",
+	# 	aws_access_key_id=AWS_ACCESS_KEY_ID,
+	# 	aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+	# 	region_name="us-east-1"
+	# )
 
-	# Send your sms message.
-	sms_response = client.publish(
-    	PhoneNumber="+1" + phone_num,
-    	Message="Hey " + full_name + "! Mindset here 🎈\n\nPlease click here to log in: " + confirm_url
-    )
+	# # Send your sms message.
+	# sms_response = client.publish(
+ #    	PhoneNumber="+1" + phone_num,
+ #    	Message="Hey " + full_name + "! Mindset here 🎈\n\nPlease click here to log in: " + confirm_url
+ #    )
+
+	client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
+	message = client.messages.create(
+		body="Hey " + full_name + "! Mindset here\n\nPlease click here to log in: " + confirm_url,
+		from_='+13158205380',
+		to="+1" + phone_num
+	)
 
 	return json.dumps(data)
 
@@ -535,22 +646,61 @@ def pairing_alert():
 	else :
 		confirm_url = 'http://mindset.ooo'
 
-	message = "Hey " + user_name + "! Mindset here 🎈\n\nGreat news! You’ve been paired with a habit buddy we think is a great match to support both of your goals.\n\nClick the link to see their habits.\n\nText back to start the conversation.\n\n" + confirm_url
+	message = "Hey " + user_name + "! Mindset here\n\nGreat news, you’ve been paired with " + partner_name + "!\n\nText back to start the conversation.\n\n" + confirm_url
 
-	# Create an SNS client
-	client = boto3.client(
-		"sns",
-		aws_access_key_id=AWS_ACCESS_KEY_ID,
-		aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-		region_name="us-east-1"
+	# # Create an SNS client
+	# client = boto3.client(
+	# 	"sns",
+	# 	aws_access_key_id=AWS_ACCESS_KEY_ID,
+	# 	aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+	# 	region_name="us-east-1"
+	# )
+
+	# response = client.set_sms_attributes(
+	# 	attributes={
+	# 	'DefaultSMSType': 'Transactional'
+ #    	}
+	# )
+
+	# print(response)
+
+	# # Send your sms message.
+	# sms_response = client.publish(
+ #    	PhoneNumber="+1" + phone_query,
+ #    	Message=message
+ #    )
+
+	client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
+	message = client.messages.create(
+		body=message,
+		from_='+13158205380',
+		to="+1" + phone_query
 	)
 
-	# Send your sms message.
-	client.publish(
-    	PhoneNumber="+1" + phone_query,
-    	Message=message
-    )
+	# try :
+	# 	cmd = "INSERT INTO sms_log(phone_num,message) VALUES (%s,%s)"
+	# 	cur.execute(cmd,(phone_query,str(sms_response),))
+	# 	conn.commit()
+	# except Exception as e :
+	# 	print("Database connection failed due to {}".format(e))
+	# 	conn.rollback()
+	# 	data['error'] = "Oops! Something went wrong. The sms log did not update."
+	# 	return json.dumps(data)
 
+	#update confirm timestamp for user or partner
+	time_current = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+	try:
+		cmd = "UPDATE users2 SET pairing_time = %s WHERE phone_num = %s;"
+		print("updated user confirm timestamp")
+		cur.execute(cmd,(time_current,phone_query,))
+		conn.commit()
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	return phone_query
 
 @app.route('/api/phoneintake')
 def phone_intake():

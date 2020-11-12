@@ -76,7 +76,7 @@
     <div v-if="edit_bool" class="popup-slidercontainer-edit">
       <div class="popup-sliderheader-edit">
         <div class="flex-wrapper1-edit">
-          <p class="title-edit">EDIT HABITS</p>
+          <p class="title-edit">EDIT HABIT</p>
           <img
             alt="icons-xmark"
             class="icons-xmark"
@@ -85,14 +85,13 @@
           />
         </div>
         <p class="body-edit">
-          Things come up in life - we get it. Adjust your goals to fit your
-          lifestyle.
+          Things come up in life - we get it. Adjust your habit to fit your lifestyle.
         </p>
       </div>
       <div class="signup-gh">
         <div class="rectangle-input"></div>
         <div class="userentry-form-empty">
-          <p class="form-label-form">Habit #1</p>
+          <p class="form-label-form">Daily Habit</p>
           <input v-model="habit_input" class="entrybox-form">
         </div>
         <!--div class="flex-wrapper1">

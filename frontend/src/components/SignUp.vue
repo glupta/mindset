@@ -25,7 +25,9 @@
       <p class="title">SIGN UP</p>
       <!--p class="title">WELCOME</p-->
       <p v-if="signup_bool" class="body">
-        A socially accountable way to build well-being habits
+        A socially accountable way
+        <br>
+        to build well-being habits
       </p>
       <p v-if="!signup_bool" class="body">
         Thank you for your interest in the Mindset community!
@@ -51,7 +53,7 @@
         <div class="relative-wrapper1">
           <p class="form-label">Mobile Number</p>
           <input class="rectangle2" v-model="mobile_input">
-          <p class="why">WHY</p>
+          <!--p class="why">WHY</p-->
         </div>
       </div>
       <p class="form-label2">

@@ -62,7 +62,9 @@ table {
 html, body {
   margin: 0;
   height: 100%;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 
