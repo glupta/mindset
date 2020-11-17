@@ -256,14 +256,17 @@ export default {
 
         //get today's date
         this.time_current = new Date(data['time_current']);
-        this.selected_date = this.time_current;
-        this.today_day = this.time_current.getDay();
-        let today_date = this.time_current.getDate();
+        let date_current = this.time_current;
+        date_current.setHours(0, 0, 0);
+        this.selected_date = date_current;
+        this.today_day = date_current.getDay();
+        let today_date = date_current.getDate();
         this.selected_day = this.today_day;
 
         for (let i = 0; i < 7; i++) { //find next 6 days in current week
           const date = new Date();
           date.setDate(today_date - this.today_day + i);
+          date.setHours(0, 0, 0);
           this.cal_dates_full[i] = date;
           this.cal_dates[i] = date.getDate();
         }

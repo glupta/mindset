@@ -33,6 +33,8 @@
         Thank you for your interest in the Mindset community!
         <br><br>
         We texted you a link. Please click to verify your mobile number.
+        <br><br>
+        Tip: Add our number as a contact so you can easily find us.
       </p>
     </div>
     <div v-if="signup_bool" class="signup-signup">
@@ -93,12 +95,12 @@ export default {
     },
     onSelectNext() {
 
-      if (this.name_input.length < 5) {
+      if (this.name_input.length < 2) {
         alert("Oops! Something went wrong. Please enter a longer name.");
         return;
       }
 
-      if (this.name_input.length > 40) {
+      if (this.name_input.length > 10) {
         alert("Oops! Something went wrong. Please shorten your name.");
         return;
       }

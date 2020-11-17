@@ -2,7 +2,7 @@
   <div class="home-wellnesscard-multi">
     <div class="relative-wrapper1">
       <div class="headercolor">
-        <p class="cardtitle">Habit #1</p>
+        <p class="cardtitle">Habit</p>
       </div>
     </div>
     <div class="flex-wrapper1">
@@ -68,7 +68,7 @@ export default {
       this.updateCard();
     },
     selectedDate(newValue) {
-      console.log("selected date:",this.selectedDate);
+      console.log("selected date card1:",this.selectedDate);
       this.updateCard();
     },
     dataEntry(newValue) {
@@ -82,7 +82,7 @@ export default {
       //get hash habit & hash data
       if (this.sessionHash && this.selectedDate) {
         //let offset = new Date().getTimezoneOffset();
-        console.log("selected date:",this.selectedDate);
+        console.log("selected date card2:",this.selectedDate);
         fetch('/api/checkhash?h=' + this.sessionHash + '&d=' + this.selectedDate.toISOString())
         .then(response => {
           if (response.status !== 200) { //server error handling

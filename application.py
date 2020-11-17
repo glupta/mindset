@@ -3,6 +3,7 @@ from twilio.rest import Client
 from twilio.twiml.messaging_response import Message, MessagingResponse
 from flask_mail import Mail, Message
 from datetime import datetime, timedelta, timezone
+from decouple import config
 import smtplib, ssl
 import json
 import requests
@@ -13,6 +14,7 @@ import ipaddress
 import time
 import random
 import boto3
+import re
 
 #DATABASE CREDENTIALS
 ENDPOINT = "med-live-db2.c2kufiynjcx0.us-east-2.rds.amazonaws.com"
@@ -43,29 +45,27 @@ EMAIL_PORT = 465
 #EMAIL_PORT = 465
 
 #AWS credentials
-AWS_ACCESS_KEY_ID = "AKIAXFVDPD5FNDXPB3EO"
-AWS_SECRET_ACCESS_KEY = "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"
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 
 #Twilio credentials
-TWI_ACCOUNT_SID = 'AC60290cea8f4b0236d39320e2bfe3e4bf'
-TWI_AUTH_TOKEN = '4843ea93ed857bceec7e8c42907c98b1'
-
-SCHED_TIMES = [0,12]
+TWI_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
+TWI_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
 
 app = Flask(__name__,
             static_folder="./dist/static",
             template_folder="./dist")
 
-app.config.update(
-	DEBUG=True,
-	#EMAIL SETTINGS
-	MAIL_SERVER='smtp.gmail.com',
-	MAIL_PORT=465,
-	MAIL_USE_SSL=True,
-	MAIL_USERNAME = 'mindset.social2020@gmail.com',
-	MAIL_PASSWORD = 'wilson@123'
-	)
-mail = Mail(app)
+# app.config.update(
+# 	DEBUG=True,
+# 	#EMAIL SETTINGS
+# 	MAIL_SERVER='smtp.gmail.com',
+# 	MAIL_PORT=465,
+# 	MAIL_USE_SSL=True,
+# 	MAIL_USERNAME = 'mindset.social2020@gmail.com',
+# 	MAIL_PASSWORD = 'wilson@123'
+# 	)
+# mail = Mail(app)
 
 # app.secret_key = b'\x98\x0f\xd5q\xf5Zz\x95\xffyn\x1b\xd85\xdc '
 # login_manager = LoginManager()
@@ -90,7 +90,6 @@ def before_request():
 
 @app.route("/api/incomingtwilio", methods=['GET', 'POST'])
 def sms_reply():
-
 
 	# Get the message the user sent our Twilio number
 	sms_sender = request.values.get('From', None)[2:]
@@ -132,11 +131,18 @@ def sms_reply():
 	else :
 		confirm_url = 'http://mindset.ooo'
 
-
+	#sms_message = "MINDSET:\nHey " + full_name + "! Please click here to verify your number: " + confirm_url
+	sms_message = user_name + ":\n" + sms_body
+	gsm_regex = "^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<=>?¡ÄÖÑÜ§¿äöñüà^{}\\\\\\[~\\]|\u20AC]*$"
+	result = re.match(gsm_regex, sms_message)
+	if result:
+		print("Search successful.")
+	else:
+		print("Search unsuccessful.")
 
 	client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
 	message = client.messages.create(
-		body=user_name + ": " + sms_body + "\n\n" + confirm_url,
+		body=sms_message,
 		from_='+13158205380',
 		to="+1" + partner_num
 	)
@@ -170,14 +176,14 @@ def sms_reply():
 
 
 	# # # Start our TwiML response
-	# response = MessagingResponse()
+	response = MessagingResponse()
 	# response.message(
  #    	user_name + ": " + sms_body + "\n\n" + confirm_url, to="+1" + partner_num
 	# )
 
 
 
-	return sms_body
+	return str(response), 200
 
 
 @app.route('/api/checkhash') #check if hash is in DB, return name & phone
@@ -224,12 +230,12 @@ def check_hash():
 	#if d query provided, then also get habit data
 	if date_query :
 		sched_obj = datetime.strptime(date_query,'%Y-%m-%dT%H:%M:%S.%fZ')
-		print("selected date:",sched_obj)
+		print("selected date1:",sched_obj)
 		sched_obj = sched_obj.replace(hour=0, minute=0, second=0, microsecond=0)
 		# tz_min = int(tz_query)
 		# sched_time_local = sched_obj - timedelta(hours=0, minutes=tz_min)
 		# print("offset:",tz_min,"max:",sched_time_max,"min:",sched_time_min)
-		print("selected date:",sched_obj)
+		print("selected date2:",sched_obj)
 		habit_name = data['habit_name']
 		try :
 			cmd = "SELECT * FROM habit_data WHERE habit_id = %s AND user_hash = %s AND date_actual = %s;"
@@ -267,7 +273,7 @@ def complete_habit():
 
 	#search database for hash
 	try :
-		cmd = "SELECT * FROM users2 WHERE session_hash = %s;"
+		cmd = "SELECT phone_num,full_name,habit_id,partner_num FROM users2 WHERE session_hash = %s;"
 		cur.execute(cmd,(hash_query,))
 		if cur.rowcount == 0 :
 			print("The session hash was not found.")
@@ -275,10 +281,14 @@ def complete_habit():
 			return json.dumps(data)
 		else :
 			result = cur.fetchone()
-			data['phone_num'] = result[0]
-			data['full_name'] = result[1]
-			data['habit_name'] = result[5]
-			data['partner_hash'] = result[6]
+			phone_num = result[0]
+			full_name = result[1]
+			habit_name = result[2]
+			partner_num = result[3]
+			data['phone_num'] = phone_num
+			data['full_name'] = full_name
+			data['habit_name'] = habit_name
+			data['partner_num'] = partner_num
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
 		data['error'] = "Oops! Something went wrong. The database connection failed."
@@ -287,8 +297,7 @@ def complete_habit():
 	#add to habit data
 	sched_obj = datetime.strptime(date_query,'%Y-%m-%dT%H:%M:%S.%fZ')
 	sched_obj = sched_obj.replace(hour=0, minute=0, second=0, microsecond=0)
-	print("selected date:",sched_obj)
-	habit_name = data['habit_name']
+	print("selected date3:",sched_obj)
 	try :
 		cmd = "INSERT INTO habit_data(habit_id,user_hash,date_actual) VALUES (%s,%s,%s)"
 		cur.execute(cmd,(habit_name,hash_query,sched_obj,))
@@ -298,6 +307,30 @@ def complete_habit():
 		print("Database connection failed due to {}".format(e))
 		data['error'] = "Oops! Something went wrong. Habit data not captured."
 		return json.dumps(data)
+
+	#url in text
+	if "localhost" in request.url :
+		confirm_url = 'http://localhost:5000'
+	elif "test" in request.url :
+		confirm_url = 'http://test.mindset.ooo'
+	else :
+		confirm_url = 'http://mindset.ooo'
+
+	sms_message = "MINDSET:\n" + full_name + " completed their habit for today. Send some words of support! Don't forget to complete yours: " + confirm_url
+	gsm_regex = "^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<=>?¡ÄÖÑÜ§¿äöñüà^{}\\\\\\[~\\]|\u20AC]*$"
+	result = re.match(gsm_regex, sms_message)
+	if result:
+		print("Search successful.")
+	else:
+		print("Search unsuccessful.")
+
+	client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
+	message = client.messages.create(
+		body=sms_message,
+		from_='+13158205380',
+		to="+1" + partner_num
+	)
+
 
 	return json.dumps(data)
 
@@ -387,9 +420,17 @@ def signup():
 	# print("sms response:",sms_response)
 	# data['response'] = sms_response
 
+	sms_message = "MINDSET:\nHey " + full_name + "! Please click here to verify your number: " + confirm_url
+	gsm_regex = "^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<=>?¡ÄÖÑÜ§¿äöñüà^{}\\\\\\[~\\]|\u20AC]*$"
+	result = re.match(gsm_regex, sms_message)
+	if result:
+		print("Search successful.")
+	else:
+		print("Search unsuccessful.")
+
 	client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
 	message = client.messages.create(
-		body="Hey " + full_name + "! Mindset here\n\nPlease click here to verify your number: " + confirm_url,
+		body=sms_message,
 		from_='+13158205380',
 		to="+1" + phone_num
 	)
@@ -468,9 +509,17 @@ def login():
  #    	Message="Hey " + full_name + "! Mindset here 🎈\n\nPlease click here to log in: " + confirm_url
  #    )
 
+	sms_message = "MINDSET:\nHey " + full_name + "! Please click here to log in: " + confirm_url
+	gsm_regex = "^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<=>?¡ÄÖÑÜ§¿äöñüà^{}\\\\\\[~\\]|\u20AC]*$"
+	result = re.match(gsm_regex, sms_message)
+	if result:
+		print("Search successful.")
+	else:
+		print("Search unsuccessful.")
+
 	client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
 	message = client.messages.create(
-		body="Hey " + full_name + "! Mindset here\n\nPlease click here to log in: " + confirm_url,
+		body=sms_message,
 		from_='+13158205380',
 		to="+1" + phone_num
 	)
@@ -646,7 +695,14 @@ def pairing_alert():
 	else :
 		confirm_url = 'http://mindset.ooo'
 
-	message = "Hey " + user_name + "! Mindset here\n\nGreat news, you’ve been paired with " + partner_name + "!\n\nText back to start the conversation.\n\n" + confirm_url
+	#sms_message = "Hey " + user_name + "! Mindset here\n\nGreat news, you’ve been paired with " + partner_name + "!\n\nText back to start the conversation.\n\n" + confirm_url
+	sms_message = "MINDSET:\nGreat news! We've paired you with " + partner_name + ". Reply to say hello and track your habits here: " + confirm_url
+	gsm_regex = "^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<=>?¡ÄÖÑÜ§¿äöñüà^{}\\\\\\[~\\]|\u20AC]*$"
+	result = re.match(gsm_regex, sms_message)
+	if result:
+		print("Search successful.")
+	else:
+		print("Search unsuccessful.")
 
 	# # Create an SNS client
 	# client = boto3.client(
@@ -672,7 +728,7 @@ def pairing_alert():
 
 	client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
 	message = client.messages.create(
-		body=message,
+		body=sms_message,
 		from_='+13158205380',
 		to="+1" + phone_query
 	)
