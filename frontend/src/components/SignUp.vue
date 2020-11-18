@@ -34,7 +34,7 @@
         <br><br>
         We texted you a link. Please click to verify your mobile number.
         <br><br>
-        Tip: Add our number as a contact so you can easily find us.
+        TIP: Add our number as a contact so you can easily find us.
       </p>
     </div>
     <div v-if="signup_bool" class="signup-signup">

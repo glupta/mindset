@@ -5,12 +5,9 @@ dist
 npm-debug.log
 .env
 
+
 #files
-frontend/ScheduleSession.vue
-frontend/src/components/ScheduleSession\ copy.vue
-frontend/src/components/WaitingRoom\ copy.vue
-frontend/src/components/WaitingRoom1.vue
-frontend/src/components/VideoChat.vue
+
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

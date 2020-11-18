@@ -295,6 +295,9 @@ export default {
         this.cal_header = "TODAY";
       }
       else if (selected_day == this.today_day - 1) {
+        if (this.partner_bool == false) {
+          this.today_bool = true;
+        }
         this.cal_header = "YESTERDAY";
       }
       else if (selected_day == this.today_day + 1) {
