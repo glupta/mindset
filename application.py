@@ -18,22 +18,21 @@ import boto3
 import re
 
 #DATABASE CREDENTIALS
-ENDPOINT = "med-live-db2.c2kufiynjcx0.us-east-2.rds.amazonaws.com"
-USR = "admin"
-PWD = "meditate123"
+ENDPOINT = config('AWS_RDB_ENDPOINT')
+USR = config('AWS_RDB_USR')
+PWD = config('AWS_RDB_PWD')
+DBNAME = config('AWS_RDB_NAME')
 PORT = "3306"
 REGION = "us-east-2"
-DBNAME = "medlivedb2"
 os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
 
 
 #EMAIL CREDENTIALS
 #GMAIL: meditateliveorg@gmail.com
-EMAIL_USR = "mindset.social2020@gmail.com"
-EMAIL_PWD = "wilson@123"
+EMAIL_USR = config('MDS_EMAIL_USR')
+EMAIL_PWD = config('MDS_EMAIL_PWD')
 EMAIL_SVR = "smtp.gmail.com"
 EMAIL_PORT = 465
-
 
 #AWS credentials
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')

@@ -1,3 +1,5 @@
+Please try it out here: http://mindset.ooo
+
 Well-being habits are hard to build and take time to cement. Science shows it can take anywhere from 18 to 254 days for someone to form a new habit and about 66 days for a new behavior to become automatic (Healthline). MINDSET is a new way for people to put their best foot forward in forming new, healthy habits and changing their lifestyle by leveraging the power of social influence to keep you on track for success.
 
 How do you go from drinking mostly coffee to drinking eight glasses of water a day? We all secretly want to be able to say we’re healthy and active each day, but how do you go from working out zero days a week to seven? Life happens, it's hard to remember to actually sit down to read or do a morning meditation, much less find time in the day for a 20 minute language session.
