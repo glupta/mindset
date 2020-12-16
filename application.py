@@ -58,6 +58,93 @@ def before_request():
 	 	print('URL local:',request.url)
 	 	return
 
+@app.route("/api/sendreminder")
+def send_reminder():
+
+	data = {} #json response
+	sms_message = str(request.args.get('m'))
+	if not sms_message :
+		data['error'] = "num error"
+		print(data['error'])
+		return json.dumps(data)
+
+
+	#connect to DB
+	try :
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("send reminder: passed DB credentials")
+	except:
+		print("send reminder: did not pass DB credentials")
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#search database for phone number
+	try :
+		cmd = "SELECT full_name, phone_num FROM users2 WHERE partner_num IS NOT NULL;"
+		#cmd = "SELECT full_name, phone_num FROM users2 WHERE send_reminder = '1';"
+		cur.execute(cmd)
+		if cur.rowcount == 0 :
+			data['error'] = "Empty list."
+			print(data['error'])
+			return json.dumps(data)
+		else :
+			results = cur.fetchall()
+			print(results)
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#url in text
+	if "localhost" in request.url :
+		confirm_url = 'http://localhost:5000'
+	elif "://t" in request.url :
+		confirm_url = 'http://t.mindset.ooo'
+	else :
+		confirm_url = 'http://mindset.ooo'
+
+	#sms_message += confirm_url
+	#sms_message = "MINDSET:\nWe hope you've had a great start to the week " + row[0] + ", keep up the momentum! Remember to complete your habit: http://mindset.ooo"
+
+	gsm_regex = "^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<=>?¡ÄÖÑÜ§¿äöñüà^{}\\\\\\[~\\]|\u20AC]*$"
+	# result = re.match(gsm_regex, sms_message)
+	# if result:
+	# 	print("Search successful.",len(sms_message))
+	# else:
+	# 	print("Search unsuccessful.")
+
+	for row in results:
+		# sms_message = "MINDSET:\nWe hope you've had a great start to the week " + row[0] + ", keep up the momentum! Remember to complete your habit: http://mindset.ooo"
+		# result = re.match(gsm_regex, sms_message)
+		# if result:
+		# 	print("Search successful.",len(sms_message))
+		# else:
+		# 	print("Search unsuccessful.")
+
+		client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
+		message = client.messages.create(
+			body=sms_message,
+			from_='+13158205380',
+			to="+1" + row[1]
+		)
+
+	#add to sms_messages table
+	try :
+		time_current = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+		sms_count = len(results)
+		cmd = "INSERT INTO sms_reminders(sms_time,sms_count,sms_message) VALUES (%s,%s,%s)"
+		cur.execute(cmd,(time_current,sms_count,sms_message,))
+		conn.commit()
+		data['success'] = True
+	except Exception as e :
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "Oops! Something went wrong. The user was not added to the database."
+		return data['error'],status.HTTP_500_INTERNAL_SERVER_ERROR
+
+	return sms_message
+
 @app.route("/api/incomingtwilio", methods=['GET', 'POST'])
 def sms_reply():
 
@@ -96,8 +183,8 @@ def sms_reply():
 	#verification link
 	if "localhost" in request.url :
 		confirm_url = 'http://localhost:5000'
-	elif "test" in request.url :
-		confirm_url = 'http://test.mindset.ooo'
+	elif "://t." in request.url :
+		confirm_url = 'http://t.mindset.ooo'
 	else :
 		confirm_url = 'http://mindset.ooo'
 
@@ -116,7 +203,6 @@ def sms_reply():
 		from_='+13158205380',
 		to="+1" + partner_num
 	)
-
 
 	#add to sms_messages table
 	try :
@@ -179,12 +265,10 @@ def check_hash():
 	#if d query provided, then also get habit data
 	if date_query :
 		sched_obj = datetime.strptime(date_query,'%Y-%m-%dT%H:%M:%S.%fZ')
-		print("selected date1:",sched_obj)
 		sched_obj = sched_obj.replace(hour=0, minute=0, second=0, microsecond=0)
 		# tz_min = int(tz_query)
 		# sched_time_local = sched_obj - timedelta(hours=0, minutes=tz_min)
 		# print("offset:",tz_min,"max:",sched_time_max,"min:",sched_time_min)
-		print("selected date2:",sched_obj)
 		habit_name = data['habit_name']
 		try :
 			cmd = "SELECT * FROM habit_data WHERE habit_id = %s AND user_hash = %s AND date_actual = %s;"
@@ -197,6 +281,50 @@ def check_hash():
 			print("Database connection failed due to {}".format(e))
 			data['error'] = "Oops! Something went wrong. The database connection failed."
 			return json.dumps(data)
+
+	return json.dumps(data)
+
+@app.route('/api/weekcount') #check if hash is in DB, return weekly habit count
+def week_count():
+
+	data = {}
+	hash_query = str(request.args.get('h'))
+	date_query = request.args.get('d')
+	# tz_query = request.args.get('tz')
+	# if not hash_query or date_query or not tz_query :
+	# 	data['error'] = "data missing"
+	# 	return json.dumps(data)
+
+	sched_obj = datetime.strptime(date_query,'%Y-%m-%dT%H:%M:%S.%fZ')
+	sched_obj = sched_obj.replace(hour=0, minute=0, second=0, microsecond=0)
+	week_day = sched_obj.weekday()
+	if week_day < 6:
+		week_day += 1
+		week_start = sched_obj - timedelta(days=week_day)
+	else:
+		week_start = sched_obj
+	print(hash_query,"ws:",week_start)
+
+	#connect to DB
+	try :
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("check hash: passed DB credentials")
+	except:
+		print("check hash: did not pass DB credentials")
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#get count of weekly habit count
+	try :
+		cmd = "SELECT * FROM habit_data WHERE user_hash = %s AND date_actual >= %s;"
+		cur.execute(cmd,(hash_query,week_start,))
+		data['week_count'] = len(cur.fetchall())
+		print("wc:",data['week_count'])
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
 
 	return json.dumps(data)
 
@@ -244,12 +372,12 @@ def complete_habit():
 		return json.dumps(data)
 
 	#add to habit data
+	time_current = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
 	sched_obj = datetime.strptime(date_query,'%Y-%m-%dT%H:%M:%S.%fZ')
 	sched_obj = sched_obj.replace(hour=0, minute=0, second=0, microsecond=0)
-	print("selected date3:",sched_obj)
 	try :
-		cmd = "INSERT INTO habit_data(habit_id,user_hash,date_actual) VALUES (%s,%s,%s)"
-		cur.execute(cmd,(habit_name,hash_query,sched_obj,))
+		cmd = "INSERT INTO habit_data(habit_id,user_hash,date_actual,time_current) VALUES (%s,%s,%s,%s)"
+		cur.execute(cmd,(habit_name,hash_query,sched_obj,time_current,))
 		conn.commit()
 		data["success"] = True
 	except Exception as e:
@@ -260,8 +388,8 @@ def complete_habit():
 	#url in text
 	if "localhost" in request.url :
 		confirm_url = 'http://localhost:5000'
-	elif "test" in request.url :
-		confirm_url = 'http://test.mindset.ooo'
+	elif "://t." in request.url :
+		confirm_url = 'http://t.mindset.ooo'
 	else :
 		confirm_url = 'http://mindset.ooo'
 
@@ -279,7 +407,6 @@ def complete_habit():
 		from_='+13158205380',
 		to="+1" + partner_num
 	)
-
 
 	return json.dumps(data)
 
@@ -346,8 +473,8 @@ def signup():
 	#verification link
 	if "localhost" in request.url :
 		confirm_url = 'http://localhost:5000?i=' + session_hash
-	elif "test" in request.url :
-		confirm_url = 'http://test.mindset.ooo?i=' + session_hash
+	elif "://t." in request.url :
+		confirm_url = 'http://t.mindset.ooo?i=' + session_hash
 	else :
 		confirm_url = 'http://mindset.ooo?i=' + session_hash
 
@@ -439,8 +566,8 @@ def login():
 	#verification link
 	if "localhost" in request.url :
 		confirm_url = 'http://localhost:5000?l=' + session_hash
-	elif "test" in request.url :
-		confirm_url = 'http://test.mindset.ooo?l=' + session_hash
+	elif "://t." in request.url :
+		confirm_url = 'http://t.mindset.ooo?l=' + session_hash
 	else :
 		confirm_url = 'http://mindset.ooo?l=' + session_hash
 
@@ -543,8 +670,8 @@ def incoming_sms():
 	#verification link
 	if "localhost" in request.url :
 		confirm_url = 'http://localhost:5000'
-	elif "test" in request.url :
-		confirm_url = 'http://test.mindset.ooo'
+	elif "://t." in request.url :
+		confirm_url = 'http://t.mindset.ooo'
 	else :
 		confirm_url = 'http://mindset.ooo'
 
@@ -639,8 +766,8 @@ def pairing_alert():
 	#url in text
 	if "localhost" in request.url :
 		confirm_url = 'http://localhost:5000'
-	elif "test" in request.url :
-		confirm_url = 'http://test.mindset.ooo'
+	elif "://t." in request.url :
+		confirm_url = 'http://t.mindset.ooo'
 	else :
 		confirm_url = 'http://mindset.ooo'
 
@@ -773,8 +900,8 @@ def phone_intake():
 	#verification link
 	if "localhost" in request.url :
 		confirm_url = 'http://localhost:5000?i=' + session_hash
-	elif "test" in request.url :
-		confirm_url = 'http://test.mindset.ooo?i=' + session_hash
+	elif "://t." in request.url :
+		confirm_url = 'http://t.mindset.ooo?i=' + session_hash
 	else :
 		confirm_url = 'http://mindset.ooo?i=' + session_hash
 

@@ -57,7 +57,7 @@
     </div>
     <div class="home-progressbar">
       <div class="full-bar"></div>
-      <div class="rectangle-bar"></div>
+      <div class="rectangle-bar" id="rectangle-bar"></div>
     </div>
     <!--HomeProgressChart class="home-progresschart"></HomeProgressChart-->
     <div class="home-habitssegcontrol">
@@ -66,11 +66,11 @@
     </div>
     <div class="label-newcategory-action">
       <p class="daily-goal">DAILY TRACKER</p>
-      <p v-if="!partner_bool" class="edit" @click="onSelectEdit">EDIT</p>
-      <p v-if="partner_bool" class="edit" @click="onSelectCompare">COMPARE</p>
+      <p class="edit" @click="onSelectEdit">EDIT</p>
+      <!--p v-if="partner_bool" class="edit" @click="onSelectCompare">COMPARE</p-->
     </div>
     <div class="wellness-card">
-      <HomeWellnessCard v-if="!edit_bool" :sessionHash="selected_hash" :dataEntry="today_bool" :selectedDate="selected_date"></HomeWellnessCard>
+      <HomeWellnessCard v-if="!edit_bool" :sessionHash="selected_hash" :dataEntry="today_bool" :selectedDate="selected_date" :borderColor="card_color" @update-bar="weekCount"></HomeWellnessCard>
     </div>
     <div v-if="popup_bool" class="shadow"></div>
     <div v-if="edit_bool" class="popup-slidercontainer-edit">
@@ -181,102 +181,156 @@ export default {
       selected_day: -1,
       selected_date: '',
       cal_header: "TODAY",
-      today_bool: true
+      today_bool: true,
+      card_color: 'rgba(37, 49, 85, 1)'
     }
   },
   components: {
     HomeWellnessCard,
     PairingPopup
   },
-  mounted() {
+  async mounted() {
 
     console.log("screen width:",window.screen.width);
 
+    this.checkCookie();
+    
+    this.timeData();
+    
+    this.weekCount();
+  },
+
+  watch: {
+    selected_date(newValue) {
+      this.weekCount();
+    },
+    selected_hash(newValue) {
+      this.weekCount();
+    }
+  },
+
+  methods: {
 
     //check cookie to stay logged in
-    if (this.$cookies.isKey('mindset')) {
-      let cookie_obj = this.$cookies.get('mindset');
-      if (cookie_obj.hasOwnProperty('session_hash')) {
-        this.session_hash = cookie_obj.session_hash;
-        this.selected_hash = this.session_hash;
-        fetch('/api/checkhash?h=' + this.session_hash)
-        .then(response => {
-          if (response.status !== 200) { //server error handling
-            console.log(`Looks like there was a problem. Status code: ${response.status}`);
-            let obj_remove = this.$cookies.remove('mindset');
-            router.push({ name: "Home4" });
-            return;
-          }
-          response.json().then(data => {
-            if ('error' in data) {
-              alert(data['error']);
+    checkCookie() {
+      if (this.$cookies.isKey('mindset')) {
+        let cookie_obj = this.$cookies.get('mindset');
+        if (cookie_obj.hasOwnProperty('session_hash')) {
+          this.session_hash = cookie_obj.session_hash;
+          this.selected_hash = this.session_hash;
+          fetch('/api/checkhash?h=' + this.session_hash)
+          .then(response => {
+            if (response.status !== 200) { //server error handling
+              console.log(`Looks like there was a problem. Status code: ${response.status}`);
               let obj_remove = this.$cookies.remove('mindset');
               router.push({ name: "Home4" });
+              return;
             }
-            else if ('habit_name' in data) {
-              if (!data['habit_name']) {
-                router.push({ name: "SignUpHabit" });
+            response.json().then(data => {
+              if ('error' in data) {
+                alert(data['error']);
+                let obj_remove = this.$cookies.remove('mindset');
+                router.push({ name: "Home4" });
               }
-              else if (!data['partner_hash']) {
-                this.popup_bool = true;
-                this.pairing_bool = true;
+              else if ('habit_name' in data) {
+                if (!data['habit_name']) {
+                  router.push({ name: "SignUpHabit" });
+                }
+                else if (!data['partner_hash']) {
+                  this.popup_bool = true;
+                  this.pairing_bool = true;
+                }
+                else {
+                  this.partner_hash = data['partner_hash'];
+                  this.habit_input = data['habit_name'];
+                  console.log("partner hash:",this.partner_hash);
+                }
               }
-              else {
-                this.partner_hash = data['partner_hash'];
-                this.habit_input = data['habit_name'];
-                console.log("partner hash:",this.partner_hash);
-              }
-            }
+              return data;
+            });
+          })
+          .catch(error => { //error handling
+            console.log("Fetch error: " + error);
+            router.push({ name: "Home4" });
           });
-        })
-        .catch(error => { //error handling
-          console.log("Fetch error: " + error);
-          router.push({ name: "Home4" });
-        });
+        }
       }
-    }
-    else {
-      router.push({ name: "Home4" });
-    }
-
-    fetch('/api/timedata') //get current datetime
-    .then(response => {
-      if (response.status !== 200) { //server error handling
-        console.log(`Looks like there was a problem. Status code: ${response.status}`);
-        return;
+      else {
+        router.push({ name: "Home4" });
       }
-      response.json().then(data => {
+    },
 
-        console.log("time data:",data);
-        if ('error' in data) { //error handling from testroom backend call
-          console.log(this.client_id,": request time error: ",data['error']);
-          alert("request time error: " + data['error']);
+    timeData() {
+      fetch('/api/timedata') //get current datetime
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
           return;
         }
+        response.json().then(data => {
+          console.log("time data:",data);
+          if ('error' in data) { //error handling from testroom backend call
+            console.log("request time error: ",data['error']);
+            alert("request time error: " + data['error']);
+            return;
+          }
 
-        //get today's date
-        this.time_current = new Date(data['time_current']);
-        let date_current = this.time_current;
-        date_current.setHours(0, 0, 0);
-        this.selected_date = date_current;
-        this.today_day = date_current.getDay();
-        let today_date = date_current.getDate();
-        this.selected_day = this.today_day;
+          //get today's date
+          this.time_current = new Date(data['time_current']);
+          let date_current = this.time_current;
+          date_current.setHours(0, 0, 0);
+          this.selected_date = date_current;
+          this.today_day = date_current.getDay();
+          let today_date = date_current.getDate();
+          this.selected_day = this.today_day;
 
-        for (let i = 0; i < 7; i++) { //find next 6 days in current week
-          const date = new Date();
-          date.setDate(today_date - this.today_day + i);
-          date.setHours(0, 0, 0);
-          this.cal_dates_full[i] = date;
-          this.cal_dates[i] = date.getDate();
-        }
+          for (let i = 0; i < 7; i++) { //find next 6 days in current week
+            const date = new Date();
+            date.setDate(today_date - this.today_day + i);
+            date.setHours(0, 0, 0);
+            this.cal_dates_full[i] = date;
+            this.cal_dates[i] = date.getDate();
+          }
+          return data;
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
       });
-    })
-    .catch(error => { //error handling
-      console.log("Fetch error: " + error);
-    });
-  },
-  methods: {
+    },
+
+    weekCount() {
+      console.log("wc date:",this.selected_date);
+      if (!this.selected_date || !this.selected_hash) {
+        return;
+      }
+      let fetch_url = '/api/weekcount?h=' + this.selected_hash + '&d=' + this.selected_date.toISOString();
+      fetch(fetch_url) //get weekly habit count
+      .then(response => {
+        if (response.status !== 200) { //server error handling
+          console.log(`Looks like there was a problem. Status code: ${response.status}`);
+          return;
+        }
+        response.json().then(data => {
+          console.log("week count:",data);
+          if ('error' in data) { //error handling from testroom backend call
+            console.log("week count error: ",data['error']);
+            alert("week count error: " + data['error']);
+            return;
+          }
+          else if ('week_count' in data) {
+            let bar_wdith = parseInt(data['week_count']) * 50;
+            console.log("bw:",bar_wdith);
+            document.getElementById('rectangle-bar').style.width = bar_wdith.toString() + 'px';
+          }
+          return data;
+        });
+      })
+      .catch(error => { //error handling
+        console.log("Fetch error: " + error);
+      });
+    },
+
     onLogOut() {
       let obj_remove = this.$cookies.remove('mindset');
       router.push({ name: "Home4" });
@@ -318,6 +372,7 @@ export default {
         this.today_bool = true;
       }
       this.selected_hash = this.session_hash;
+      this.card_color = 'rgba(37, 49, 85, 1)';
     },
     onSelectPartnerHabits() {
       document.getElementById("my-habits").className = "option2";
@@ -325,6 +380,7 @@ export default {
       this.partner_bool = true;
       this.today_bool = false;
       this.selected_hash = this.partner_hash;
+      this.card_color = 'rgba(247, 195, 79, 1)';
     },
     onSelectEdit() {
       this.popup_bool = true;
@@ -661,14 +717,13 @@ export default {
   margin-bottom: 16px;
 }
 .full-bar {
-  width: 352px;
+  width: 350px;
   height: 10px;
   background-color: rgba(237, 237, 237, 1);
   border-radius: 12px;
   position: relative;
 }
 .rectangle-bar {
-  width: 257px;
   height: 10px;
   border-radius: 12px;
   box-shadow: 2px 3px 5px 0px rgba(67, 67, 67, 0.15);

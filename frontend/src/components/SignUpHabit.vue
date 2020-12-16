@@ -62,14 +62,14 @@
             />
           </div>
         </div>
-      </div>
+      </div-->
     </div>
     <div class="controls-pagination-dots-light-3-dots">
       <div class="center">
         <div class="controls-pagination-dots-x-light-page-dot dot-1"></div>
-        <div class="controls-pagination-dots-x-light-page-dot dot-1"></div>
-        <div class="controls-pagination-dots-x-light-page-dot"></div>
-      </div-->
+        <div class="controls-pagination-dots-x-light-page-dot dot-1 dot-grey"></div>
+        <div class="controls-pagination-dots-x-light-page-dot dot-grey"></div>
+      </div>
     </div>
     <p class="next" @click="onSelectNext">NEXT</p>
   </div>
@@ -422,5 +422,9 @@ export default {
   height: 7px;
   background-color: rgba(0, 0, 0, 1);
   border-radius: 50%;
+}
+
+.dot-grey {
+  background-color: rgb(169, 169, 169);
 }
 </style>

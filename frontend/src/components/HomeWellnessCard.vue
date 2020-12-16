@@ -1,18 +1,18 @@
 <template>
   <div class="home-wellnesscard-multi">
     <div class="relative-wrapper1">
-      <div class="headercolor">
+      <div class="headercolor" id="headercolor">
         <p class="cardtitle">Habit</p>
       </div>
     </div>
     <div class="flex-wrapper1">
-      <div class="home-wellnesshabit-piegraph">
+      <!--div class="home-wellnesshabit-piegraph">
         <img
           alt="path"
           class="path1"
           src="https://static.overlay-tech.com/assets/0bb444fb-5d1f-4390-b586-e9e72b2379a2.svg"
         />
-      </div>
+      </div-->
       <p class="num-7-8">{{habit_val}} / 1</p>
     </div>
     <p class="habit">{{habit_name}}</p>
@@ -52,13 +52,14 @@ export default {
       habit_name: "",
       complete_bool: false,
       check_bool: false,
-      habit_val: ""
+      habit_val: "",
     }
   },
   props: {
     sessionHash: String,
     dataEntry: Boolean,
     selectedDate: Date,
+    borderColor: String
   },
   mounted() {
     this.updateCard();
@@ -73,14 +74,21 @@ export default {
     },
     dataEntry(newValue) {
       this.updateCard();
+    },
+    borderColor(newValue) {
+      this.updateCard();
     }
   },
   methods: {
     updateCard() {
-      console.log("hash:",this.sessionHash,"dataEntry:",this.dataEntry);
+      console.log("hash:",this.sessionHash,"dataEntry:",this.dataEntry,"bc:",this.borderColor);
 
       //get hash habit & hash data
       if (this.sessionHash && this.selectedDate) {
+        if (this.borderColor) {
+          console.log("bc:",this.borderColor);
+          document.getElementById("headercolor").style.backgroundColor = this.borderColor;
+        }
         //let offset = new Date().getTimezoneOffset();
         console.log("selected date card2:",this.selectedDate);
         fetch('/api/checkhash?h=' + this.sessionHash + '&d=' + this.selectedDate.toISOString())
@@ -149,6 +157,7 @@ export default {
               console.log("habit updated");
               this.complete_bool = false;
               this.check_bool = true;
+              this.$emit('update-bar');
               this.updateCard();
             }
           });
