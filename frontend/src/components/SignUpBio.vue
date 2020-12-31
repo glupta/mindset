@@ -22,55 +22,19 @@
       />
     </div>
     <div class="signup-titletext">
-      <p class="title">WELL-BEING HABIT</p>
+      <p class="title">YOUR INFO</p>
       <p class="body">
-        What’s something you’d
+        Tell your partner
         <br>
-        like to work on daily?
+        about yourself
         <br><br>
-        Enter an activity you want to do consistently. We’ll match you with someone in the same mindset.
+        Who are you in a few lines?
       </p>
     </div>
-    <div class="signup-gh">
-      <div class="rectangle"></div>
-      <div class="userentry-form-empty">
-        <p class="form-label-form">Daily Habit</p>
-        <input v-model="habit_input" class="entrybox-form">
-      </div>
-      <!--div class="flex-wrapper1">
-        <div class="userentry-dropdown1">
-          <div class="entrybox-dd"></div>
-          <p class="entrytext-dd">Days</p>
-          <p class="form-label-dd">Frequency</p>
-          <div class="chevron">
-            <img
-              alt="path"
-              class="path"
-              src="https://static.overlay-tech.com/assets/802de8b9-4e36-43c7-9105-f13915886d3c.svg"
-            />
-          </div>
-        </div>
-        <div class="userentry-dropdown2">
-          <div class="entrybox-dd"></div>
-          <p class="entrytext-dd">Days</p>
-          <p class="form-label-dd">Frequency</p>
-          <div class="chevron">
-            <img
-              alt="path"
-              class="path"
-              src="https://static.overlay-tech.com/assets/802de8b9-4e36-43c7-9105-f13915886d3c.svg"
-            />
-          </div>
-        </div>
-      </div-->
+    <div class="userentry-form-empty">
+      <p class="form-label3">Bio</p>
+      <textarea class="text-box" v-model="selected_input"></textarea>
     </div>
-    <!--div class="controls-pagination-dots-light-3-dots">
-      <div class="center">
-        <div class="controls-pagination-dots-x-light-page-dot dot-1"></div>
-        <div class="controls-pagination-dots-x-light-page-dot dot-1 dot-grey"></div>
-        <div class="controls-pagination-dots-x-light-page-dot dot-grey"></div>
-      </div>
-    </div-->
     <p class="next" @click="onSelectNext">NEXT</p>
   </div>
 </template>
@@ -78,14 +42,17 @@
 <script>
 import router from '@/router';
 export default {
-  name: 'SignUpHabit',
+  name: 'SignUpBio',
   data () {
     return {
-      habit_input: '',
-      phone_num: ''
+      phone_num: '',
+      session_hash: '',
+      selected_input: null
     }
   },
   mounted() {
+
+    //this.age_input = this.age_input_options[0];
 
     //check cookie to stay logged in
     if (this.$cookies.isKey('mindset')) {
@@ -106,11 +73,8 @@ export default {
               let obj_remove = this.$cookies.remove('mindset');
               router.push({ name: "Home4" });
             }
-            else if ('habit_name' in data) {
-              console.log("logged in:",data);
-              if (data['habit_name']) {
-                router.push({ name: "HomeSelfInfo" });
-              }
+            else if ('phone_num' in data) {
+              this.phone_num = data['phone_num'];
             }
           });
         })
@@ -125,39 +89,33 @@ export default {
   },
   methods: {
     onSelectNext() {
-      if (this.habit_input == '') {
-        alert("Oops! Something went wrong. Please enter a habit.");
+      if (this.selected_input == null) {
+        alert("Oops! Something went wrong. Please enter your bio.");
       }
-      else if (this.habit_input.length > 30) {
-        alert("Oops! Something went wrong. Please shorten your habit.");
+      else if (this.selected_input.length > 220) {
+        alert("Oops! Something went wrong. Please shorten your bio.");
       }
       else {
-        var entry = {
-          session_hash: this.session_hash,
-          habit_name: this.habit_input
-        };
-        fetch('/api/newhabit', {
-          method: "POST",
-          body: JSON.stringify(entry),
-          headers: new Headers({
-          "content-type": "application/json"
-          })
-        })
+        console.log("selected:",this.selected_input);
+        //call server to store age in DB
+        let fetch_url = '/api/bioupdate?h=' + this.session_hash + '&b=' + this.selected_input;
+        fetch(fetch_url) //get weekly habit count
         .then(response => {
           if (response.status !== 200) { //server error handling
             console.log(`Looks like there was a problem. Status code: ${response.status}`);
             return;
           }
           response.json().then(data => {
-            if ('error' in data) {
-              alert(data['error']);
+            if ('error' in data) { //error handling from testroom backend call
+              console.log("bio error: ",data['error']);
+              alert("bio error: " + data['error']);
+              return;
             }
             else if ('success' in data) {
+              console.log("bio added!");
               router.push({ name: "HomeSelfInfo" });
             }
-            else {
-              alert("Oops! Something went wrong. Please enter your habit again.")
-            }
+            return data;
           });
         })
         .catch(error => { //error handling
@@ -282,7 +240,11 @@ export default {
   align-items: flex-start;
 }
 
-/* user entry form */
+.path {
+  width: 14px;
+  height: 8px;
+}
+
 .userentry-form-empty {
   padding: 22px 0px 0px;
   display: flex;
@@ -291,40 +253,9 @@ export default {
   margin-bottom: 24px;
   margin-left: 24px;
 }
-.entrybox-form {
-  width: 263px;
-  height: 38px;
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 8px;
-  position: relative;
-  border: 1px solid rgba(37, 49, 85, 0.3);
-  padding-left: 8px;
-}
 
-::placeholder {
-  font-family: "Catamaran";
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  color: rgba(37, 49, 85, 1);
-  opacity: 0.7;
-  letter-spacing: 1px;
-}
 
-.entrytext-form {
-  width: 255px;
-  font-family: "Catamaran";
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  color: rgba(37, 49, 85, 1);
-  opacity: 0.7;
-  position: absolute;
-  right: 0px;
-  bottom: 8px;
-  letter-spacing: 1px;
-}
-.form-label-form {
+.form-label3 {
   width: 261px;
   font-family: "Catamaran";
   font-size: 14px;
@@ -339,92 +270,182 @@ export default {
   letter-spacing: 1px;
 }
 
-/* user entry dropdown */
-.userentry-dropdown1 {
-  padding: 22px 0px 0px;
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-  margin-right: 24px;
-}
-.userentry-dropdown2 {
-  padding: 22px 0px 0px;
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-  margin-right: 24px;
-}
-.entrybox-dd {
-  width: 105px;
+.entrybox {
+  width: 263px;
   height: 38px;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 8px;
   position: relative;
   border: 1px solid rgba(37, 49, 85, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
 }
-.entrytext-dd {
-  width: 69px;
-  font-family: "Catamaran";
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  color: rgba(37, 49, 85, 1);
-  opacity: 0.7;
-  position: absolute;
-  left: 10px;
-  bottom: 8px;
-  letter-spacing: 1px;
+
+.age-text {
+  margin-left: 20px;
+}
+
+.userentry-dropdown1 {
+  margin-right: 20px;
+}
+
+/* drop down */
+.userentry-form-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 263px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  position: relative;
+  border: 1px solid rgba(37, 49, 85, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
 }
 .form-label-dd {
-  width: 102px;
+  width: 261px;
   font-family: "Catamaran";
   font-size: 14px;
   font-weight: 200;
   line-height: normal;
   color: rgba(38, 49, 82, 1);
   text-transform: uppercase;
+  margin-left: 4px;
   opacity: 0.7;
-  position: absolute;
-  right: 1px;
-  top: 0px;
   letter-spacing: 1px;
 }
-.chevron {
-  padding: 0px 0px 1px 1px;
+.relative-wrapper1-dd {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.entrybox-dd {
+  width: 273px;
+  height: 198px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  border: 1px solid rgba(37, 49, 85, 0.3);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.entrytext-dd {
+  /*width: 240px;*/
+  font-family: "Catamaran";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  /*
   position: absolute;
-  right: 12px;
-  bottom: 15px;
+  left: 10px;
+  top: 8px;*/
+  letter-spacing: 1px;
 }
-.path {
-  width: 5px;
-  height: 9px;
+.option1 {
+  width: 240px;
+  font-family: "Catamaran";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  /*
+  position: absolute;
+  left: 10px;
+  top: 48px;
+  */
+  letter-spacing: 1px;
+}
+.option2 {
+  width: 240px;
+  font-family: "Catamaran";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  /*
+  position: absolute;
+  left: 10px;
+  top: 88px;
+  */
+  letter-spacing: 1px;
+}
+.option3 {
+  width: 240px;
+  font-family: "Catamaran";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  /*
+  position: absolute;
+  left: 10px;
+  bottom: 48px;
+  */
+  letter-spacing: 1px;
+}
+.option4 {
+  width: 240px;
+  font-family: "Catamaran";
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(37, 49, 85, 1);
+  opacity: 0.7;
+  /*
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  */
+  letter-spacing: 1px;
+}
+.dividers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  left: 10px;
+  top: 39px;
+}
+.divider1 {
+  width: 238px;
+  background-color: rgba(216, 216, 216, 1);
+  border-radius: 1px;
+  opacity: 0.15;
+  border: 1px solid rgba(151, 151, 151, 1);
+/*  &:not(:last-of-type) {
+    margin-bottom: 38px;
+  }*/
 }
 
-/* pagination dots */
-.controls-pagination-dots-light-3-dots {
-  padding: 7px 81px 6px 80px;
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 53px;
-}
-.center {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-}
-.dot-1 {
-  margin-right: 9px;
-}
-.controls-pagination-dots-x-light-page-dot {
-  width: 7px;
-  height: 7px;
-  background-color: rgba(0, 0, 0, 1);
-  border-radius: 50%;
+.form-control {
+  width: 273px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  position: relative;
+  border: 1px solid rgba(37, 49, 85, 0.3);
+  padding-left: 10px;
 }
 
-.dot-grey {
-  background-color: rgb(169, 169, 169);
+.text-box {
+  width: 275px;
+  height: 200px;
 }
+
 </style>

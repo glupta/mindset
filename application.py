@@ -62,11 +62,11 @@ def before_request():
 def send_reminder():
 
 	data = {} #json response
-	sms_message = str(request.args.get('m'))
-	if not sms_message :
-		data['error'] = "num error"
-		print(data['error'])
-		return json.dumps(data)
+	# sms_message = str(request.args.get('m'))
+	# if not sms_message :
+	# 	data['error'] = "num error"
+	# 	print(data['error'])
+	# 	return json.dumps(data)
 
 
 	#connect to DB
@@ -83,6 +83,7 @@ def send_reminder():
 	try :
 		cmd = "SELECT full_name, phone_num FROM users2 WHERE partner_num IS NOT NULL;"
 		#cmd = "SELECT full_name, phone_num FROM users2 WHERE send_reminder = '1';"
+		#cmd = "SELECT full_name, phone_num FROM users2 WHERE phone_num = '6318390224';"
 		cur.execute(cmd)
 		if cur.rowcount == 0 :
 			data['error'] = "Empty list."
@@ -105,22 +106,22 @@ def send_reminder():
 		confirm_url = 'http://mindset.ooo'
 
 	#sms_message += confirm_url
-	#sms_message = "MINDSET:\nWe hope you've had a great start to the week " + row[0] + ", keep up the momentum! Remember to complete your habit: http://mindset.ooo"
-
+	sms_message = "MINDSET:\nContrary to popular belief New Years Resolutions aren't obsolete! Try to think of one, check in on your buddy & complete your habit: http://mindset.ooo"
+	#Contrary to popular belief New Years Resolutions aren’t obsolete! Try to think of one, check in on your buddy & complete your habit: http://mindset.ooo
 	gsm_regex = "^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<=>?¡ÄÖÑÜ§¿äöñüà^{}\\\\\\[~\\]|\u20AC]*$"
-	# result = re.match(gsm_regex, sms_message)
-	# if result:
-	# 	print("Search successful.",len(sms_message))
-	# else:
-	# 	print("Search unsuccessful.")
+	result = re.match(gsm_regex, sms_message)
+	if result:
+		print("Search successful.",len(sms_message))
+	else:
+		print("Search unsuccessful.")
 
 	for row in results:
-		# sms_message = "MINDSET:\nWe hope you've had a great start to the week " + row[0] + ", keep up the momentum! Remember to complete your habit: http://mindset.ooo"
-		# result = re.match(gsm_regex, sms_message)
-		# if result:
-		# 	print("Search successful.",len(sms_message))
-		# else:
-		# 	print("Search unsuccessful.")
+	# 	# sms_message = "MINDSET:\nThe weekend is in sight, hang in there " + row[0] + "! Remember to complete your habit, your hard work will pay off: http://mindset.ooo"
+	# 	# result = re.match(gsm_regex, sms_message)
+	# 	# if result:
+	# 	# 	print("Search successful.",len(sms_message))
+	# 	# else:
+	# 	# 	print("Search unsuccessful.")
 
 		client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
 		message = client.messages.create(
@@ -256,6 +257,9 @@ def check_hash():
 			data['full_name'] = result[1]
 			data['habit_name'] = result[5]
 			data['partner_hash'] = result[6]
+			data['age'] = result[10]
+			data['gender'] = result[11]
+			data['bio'] = result[12]
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
 		data['error'] = "Oops! Something went wrong. The database connection failed."
@@ -714,10 +718,10 @@ Message sent: %s
 def pairing_alert():
 
 	data = {} #json response
-	phone_query = str(request.args.get('n'))
-	if not phone_query :
-		print("num error")
-		return json.dumps(data)
+	# phone_query = str(request.args.get('n'))
+	# if not phone_query :
+	# 	print("num error")
+	# 	return json.dumps(data)
 
 	#connect to DB
 	try :
@@ -731,37 +735,19 @@ def pairing_alert():
 
 	#search database for phone number
 	try :
-		cmd = "SELECT full_name, partner_num FROM users2 WHERE phone_num = %s;"
-		cur.execute(cmd,(phone_query,))
+		cmd = "SELECT phone_num, full_name, partner_num FROM users2 WHERE send_reminder = '1';"
+		cur.execute(cmd)
 		if cur.rowcount == 0 :
 			print("Phone number not found.")
 			return json.dumps(data)
 		else :
-			result = cur.fetchone()
-			user_name = result[0]
-			partner_num = result[1]
-			if not partner_num :
-				print("User is not paired yet.")
-				return json.dumps(data)
+			results = cur.fetchall()
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
 		data['error'] = "Oops! Something went wrong. The database connection failed."
 		return json.dumps(data)
 
-	#get partner's nickname
-	try :
-		cmd = "SELECT full_name FROM users2 WHERE phone_num = %s;"
-		cur.execute(cmd,(partner_num,))
-		if cur.rowcount == 0 :
-			print("The phone number was not found.")
-			data['error'] = 'Oops! Something went wrong. The phone number was not found.'
-			return json.dumps(data)
-		else :
-			partner_name = cur.fetchone()[0]
-	except Exception as e:
-		print("Database connection failed due to {}".format(e))
-		data['error'] = "Oops! Something went wrong. The database connection failed."
-		return json.dumps(data)
+	print("results:",results)
 
 	#url in text
 	if "localhost" in request.url :
@@ -771,14 +757,53 @@ def pairing_alert():
 	else :
 		confirm_url = 'http://mindset.ooo'
 
-	#sms_message = "Hey " + user_name + "! Mindset here\n\nGreat news, you’ve been paired with " + partner_name + "!\n\nText back to start the conversation.\n\n" + confirm_url
-	sms_message = "MINDSET:\nGreat news! We've paired you with " + partner_name + ". Reply to say hello and track your habits here: " + confirm_url
-	gsm_regex = "^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<=>?¡ÄÖÑÜ§¿äöñüà^{}\\\\\\[~\\]|\u20AC]*$"
-	result = re.match(gsm_regex, sms_message)
-	if result:
-		print("Search successful.")
-	else:
-		print("Search unsuccessful.")
+	#get partner's nickname
+	for i in results:
+		try :
+			cmd = "SELECT full_name FROM users2 WHERE phone_num = %s;"
+			cur.execute(cmd,(i[2],))
+			if cur.rowcount == 0 :
+				print("The phone number was not found.")
+				data['error'] = 'Oops! Something went wrong. The phone number was not found.'
+				return json.dumps(data)
+			else :
+				partner_name = cur.fetchone()[0]
+		except Exception as e:
+			print("Database connection failed due to {}".format(e))
+			data['error'] = "Oops! Something went wrong. The database connection failed."
+			return json.dumps(data)
+
+		#sms_message = "Hey " + i[1] + "! Mindset here\n\nGreat news, you’ve been paired with " + partner_name + "!\n\nText back to start the conversation.\n\n" + confirm_url
+		sms_message = "MINDSET:\nHey " + i[1] + ", great news! You've been paired with a new accountability buddy. Text back to greet " + partner_name + ", and track your habits here: http://mindset.ooo"
+		#sms_message = "MINDSET:\nNew week = Fresh start. Reply here directly to say hello to " + partner_name + " and share a few things about yourself while you're at it :) http://mindset.ooo"
+		gsm_regex = "^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<=>?¡ÄÖÑÜ§¿äöñüà^{}\\\\\\[~\\]|\u20AC]*$"
+		result = re.match(gsm_regex, sms_message)
+		if result:
+			print(sms_message,len(sms_message))
+		else:
+			print("Search unsuccessful.")
+
+		client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
+		message = client.messages.create(
+			body=sms_message,
+			from_='+13158205380',
+			to="+1" + i[0]
+		)
+
+		#update confirm timestamp for user or partner
+		time_current = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+		try:
+			cmd = "UPDATE users2 SET pairing_time = %s WHERE phone_num = %s;"
+			print("updated user confirm timestamp")
+			cur.execute(cmd,(time_current,i[0],))
+			conn.commit()
+		except Exception as e:
+			print("Database connection failed due to {}".format(e))
+			conn.rollback()
+			data['error'] = "Oops! Something went wrong. The database connection failed."
+			return json.dumps(data)
+
+	return "success"
 
 	# # Create an SNS client
 	# client = boto3.client(
@@ -802,13 +827,6 @@ def pairing_alert():
  #    	Message=message
  #    )
 
-	client = Client(TWI_ACCOUNT_SID, TWI_AUTH_TOKEN)
-	message = client.messages.create(
-		body=sms_message,
-		from_='+13158205380',
-		to="+1" + phone_query
-	)
-
 	# try :
 	# 	cmd = "INSERT INTO sms_log(phone_num,message) VALUES (%s,%s)"
 	# 	cur.execute(cmd,(phone_query,str(sms_response),))
@@ -819,20 +837,155 @@ def pairing_alert():
 	# 	data['error'] = "Oops! Something went wrong. The sms log did not update."
 	# 	return json.dumps(data)
 
-	#update confirm timestamp for user or partner
-	time_current = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+@app.route('/api/ageupdate') #adds age to DB for user
+def age_update():
+
+	data = {} #json response
+	hash_query = str(request.args.get('h'))
+	age_query = str(request.args.get('a'))
+	if not hash_query or not age_query :
+		data['error'] = "data missing"
+		return json.dumps(data)
+
+	#connect to DB
+	try :
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("age: passed DB credentials")
+	except:
+		print("age: did not pass DB credentials")
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#search database for hash
+	try :
+		cmd = "SELECT age FROM users2 WHERE session_hash = %s;"
+		cur.execute(cmd,(hash_query,))
+		if cur.rowcount == 0 :
+			print("User hash does not exist.")
+			data['error'] = 'Oops! Something went wrong. The user hash does not exist.'
+			return json.dumps(data)
+		# elif cur.fetchone()[0] :
+		# 	print("User age already added.")
+		# 	data['error'] = 'Oops! Something went wrong. The user age is already added.'
+		# 	return json.dumps(data)
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
 	try:
-		cmd = "UPDATE users2 SET pairing_time = %s WHERE phone_num = %s;"
-		print("updated user confirm timestamp")
-		cur.execute(cmd,(time_current,phone_query,))
+		cmd = "UPDATE users2 SET age = %s WHERE session_hash = %s;"
+		cur.execute(cmd,(age_query,hash_query,))
 		conn.commit()
+		data['success'] = True
 	except Exception as e:
 		print("Database connection failed due to {}".format(e))
 		conn.rollback()
 		data['error'] = "Oops! Something went wrong. The database connection failed."
 		return json.dumps(data)
 
-	return phone_query
+	return json.dumps(data)
+
+@app.route('/api/genderupdate') #adds gender to DB for user
+def gender_update():
+
+	data = {} #json response
+	hash_query = str(request.args.get('h'))
+	gender_query = str(request.args.get('g'))
+	if not hash_query or not gender_query :
+		data['error'] = "data missing"
+		return json.dumps(data)
+
+	#connect to DB
+	try :
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("gender: passed DB credentials")
+	except:
+		print("gender: did not pass DB credentials")
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#search database for hash
+	try :
+		cmd = "SELECT gender FROM users2 WHERE session_hash = %s;"
+		cur.execute(cmd,(hash_query,))
+		if cur.rowcount == 0 :
+			print("User hash does not exist.")
+			data['error'] = 'Oops! Something went wrong. The user hash does not exist.'
+			return json.dumps(data)
+		# elif cur.fetchone()[0] :
+		# 	print("User gender already added.")
+		# 	data['error'] = 'Oops! Something went wrong. The user gender is already added.'
+		# 	return json.dumps(data)
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	try:
+		cmd = "UPDATE users2 SET gender = %s WHERE session_hash = %s;"
+		cur.execute(cmd,(gender_query,hash_query,))
+		conn.commit()
+		data['success'] = True
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	return json.dumps(data)
+
+@app.route('/api/bioupdate') #adds gender to DB for user
+def bio_update():
+
+	data = {} #json response
+	hash_query = str(request.args.get('h'))
+	bio_query = str(request.args.get('b'))
+	if not hash_query or not bio_query :
+		data['error'] = "data missing"
+		return json.dumps(data)
+
+	#connect to DB
+	try :
+		conn = mysql.connector.connect(host=ENDPOINT, user=USR, passwd=PWD, port=PORT, database=DBNAME)
+		cur = conn.cursor(buffered=True)
+		print("bio: passed DB credentials")
+	except:
+		print("bio: did not pass DB credentials")
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	#search database for hash
+	try :
+		cmd = "SELECT bio FROM users2 WHERE session_hash = %s;"
+		cur.execute(cmd,(hash_query,))
+		if cur.rowcount == 0 :
+			print("User hash does not exist.")
+			data['error'] = 'Oops! Something went wrong. The user hash does not exist.'
+			return json.dumps(data)
+		# elif cur.fetchone()[0] :
+		# 	print("User bio already added.")
+		# 	data['error'] = 'Oops! Something went wrong. The user bio is already added.'
+		# 	return json.dumps(data)
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	try:
+		cmd = "UPDATE users2 SET bio = %s WHERE session_hash = %s;"
+		cur.execute(cmd,(bio_query,hash_query,))
+		conn.commit()
+		data['success'] = True
+	except Exception as e:
+		print("Database connection failed due to {}".format(e))
+		conn.rollback()
+		data['error'] = "Oops! Something went wrong. The database connection failed."
+		return json.dumps(data)
+
+	return json.dumps(data)
 
 @app.route('/api/phoneintake') #adds user from waiting list
 def phone_intake():

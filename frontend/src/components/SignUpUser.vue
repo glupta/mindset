@@ -22,55 +22,28 @@
       />
     </div>
     <div class="signup-titletext">
-      <p class="title">WELL-BEING HABIT</p>
+      <p class="title">YOUR INFO</p>
       <p class="body">
-        What’s something you’d
+        Tell your partner
         <br>
-        like to work on daily?
+        about yourself
         <br><br>
-        Enter an activity you want to do consistently. We’ll match you with someone in the same mindset.
+        What age group are you in?
       </p>
     </div>
-    <div class="signup-gh">
-      <div class="rectangle"></div>
-      <div class="userentry-form-empty">
-        <p class="form-label-form">Daily Habit</p>
-        <input v-model="habit_input" class="entrybox-form">
-      </div>
-      <!--div class="flex-wrapper1">
-        <div class="userentry-dropdown1">
-          <div class="entrybox-dd"></div>
-          <p class="entrytext-dd">Days</p>
-          <p class="form-label-dd">Frequency</p>
-          <div class="chevron">
-            <img
-              alt="path"
-              class="path"
-              src="https://static.overlay-tech.com/assets/802de8b9-4e36-43c7-9105-f13915886d3c.svg"
-            />
-          </div>
-        </div>
-        <div class="userentry-dropdown2">
-          <div class="entrybox-dd"></div>
-          <p class="entrytext-dd">Days</p>
-          <p class="form-label-dd">Frequency</p>
-          <div class="chevron">
-            <img
-              alt="path"
-              class="path"
-              src="https://static.overlay-tech.com/assets/802de8b9-4e36-43c7-9105-f13915886d3c.svg"
-            />
-          </div>
-        </div>
-      </div-->
+    <div class="userentry-form-empty">
+      <p class="form-label3">Age Group</p>
+      <input class="entrybox" v-model="age_input">
     </div>
-    <!--div class="controls-pagination-dots-light-3-dots">
-      <div class="center">
-        <div class="controls-pagination-dots-x-light-page-dot dot-1"></div>
-        <div class="controls-pagination-dots-x-light-page-dot dot-1 dot-grey"></div>
-        <div class="controls-pagination-dots-x-light-page-dot dot-grey"></div>
+    <div class="userentry-dropdown1">
+      <div class="chevron">
+        <img
+          alt="path"
+          class="path"
+          src="https://static.overlay-tech.com/assets/802de8b9-4e36-43c7-9105-f13915886d3c.svg"
+        />
       </div>
-    </div-->
+    </div>
     <p class="next" @click="onSelectNext">NEXT</p>
   </div>
 </template>
@@ -78,14 +51,17 @@
 <script>
 import router from '@/router';
 export default {
-  name: 'SignUpHabit',
+  name: 'SignUpUser',
   data () {
     return {
-      habit_input: '',
-      phone_num: ''
+      age_input: '',
+      phone_num: '',
+      age_input_options: ['18 - 23', '24 - 29', '30 - 34', '35+']
     }
   },
   mounted() {
+
+    this.age_input = this.age_input_options[0];
 
     //check cookie to stay logged in
     if (this.$cookies.isKey('mindset')) {
@@ -106,12 +82,12 @@ export default {
               let obj_remove = this.$cookies.remove('mindset');
               router.push({ name: "Home4" });
             }
-            else if ('habit_name' in data) {
-              console.log("logged in:",data);
-              if (data['habit_name']) {
-                router.push({ name: "HomeSelfInfo" });
-              }
-            }
+            // else if ('habit_name' in data) {
+            //   console.log("logged in:",data);
+            //   if (data['habit_name']) {
+            //     router.push({ name: "HomeSelfInfo" });
+            //   }
+            // }
           });
         })
         .catch(error => { //error handling
@@ -125,45 +101,42 @@ export default {
   },
   methods: {
     onSelectNext() {
-      if (this.habit_input == '') {
+      if (this.age_input == '') {
         alert("Oops! Something went wrong. Please enter a habit.");
       }
-      else if (this.habit_input.length > 30) {
-        alert("Oops! Something went wrong. Please shorten your habit.");
-      }
-      else {
-        var entry = {
-          session_hash: this.session_hash,
-          habit_name: this.habit_input
-        };
-        fetch('/api/newhabit', {
-          method: "POST",
-          body: JSON.stringify(entry),
-          headers: new Headers({
-          "content-type": "application/json"
-          })
-        })
-        .then(response => {
-          if (response.status !== 200) { //server error handling
-            console.log(`Looks like there was a problem. Status code: ${response.status}`);
-            return;
-          }
-          response.json().then(data => {
-            if ('error' in data) {
-              alert(data['error']);
-            }
-            else if ('success' in data) {
-              router.push({ name: "HomeSelfInfo" });
-            }
-            else {
-              alert("Oops! Something went wrong. Please enter your habit again.")
-            }
-          });
-        })
-        .catch(error => { //error handling
-          console.log("Fetch error: " + error);
-        });
-      }
+      // else {
+      //   var entry = {
+      //     session_hash: this.session_hash,
+      //     habit_name: this.habit_input
+      //   };
+      //   fetch('/api/newhabit', {
+      //     method: "POST",
+      //     body: JSON.stringify(entry),
+      //     headers: new Headers({
+      //     "content-type": "application/json"
+      //     })
+      //   })
+      //   .then(response => {
+      //     if (response.status !== 200) { //server error handling
+      //       console.log(`Looks like there was a problem. Status code: ${response.status}`);
+      //       return;
+      //     }
+      //     response.json().then(data => {
+      //       if ('error' in data) {
+      //         alert(data['error']);
+      //       }
+      //       else if ('success' in data) {
+      //         router.push({ name: "HomeSelfInfo" });
+      //       }
+      //       else {
+      //         alert("Oops! Something went wrong. Please enter your habit again.")
+      //       }
+      //     });
+      //   })
+      //   .catch(error => { //error handling
+      //     console.log("Fetch error: " + error);
+      //   });
+      // }
     }
   }
 };
@@ -426,5 +399,30 @@ export default {
 
 .dot-grey {
   background-color: rgb(169, 169, 169);
+}
+
+.form-label3 {
+  width: 261px;
+  font-family: "Catamaran";
+  font-size: 14px;
+  font-weight: 200;
+  line-height: normal;
+  color: rgba(38, 49, 82, 1);
+  text-transform: uppercase;
+  opacity: 0.7;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  letter-spacing: 1px;
+}
+
+.entrybox {
+  width: 263px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 8px;
+  position: relative;
+  border: 1px solid rgba(37, 49, 85, 0.3);
+  padding-left: 8px;
 }
 </style>

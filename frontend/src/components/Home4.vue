@@ -39,7 +39,7 @@
         <p class="num-431">&#43;1</p>
         <div class="relative-wrapper1">
           <p class="form-label">Mobile Number</p>
-          <input class="entrybox" v-model="mobile_input">
+          <input class="entrybox" @keypress="isNumber($event)" v-model="mobile_input">
         </div>
       </div>
       <!--div class="userentry-form-empty">
@@ -217,6 +217,15 @@ export default {
     },
     onSelectSignUp() {
       router.push({ name: "SignUp" });
+    },
+    isNumber: function(evt) {
+      evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+        evt.preventDefault();;
+      } else {
+        return true;
+      }
     }
   }
 };
@@ -353,7 +362,7 @@ export default {
   position: relative;
 }
 .entrybox {
-  width: 242px;
+  width: 225px;
   height: 38px;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 8px;

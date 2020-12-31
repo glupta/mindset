@@ -45,8 +45,6 @@
             <p v-if="selected_day!=i" class="fri">{{day}}</p>
           </div>
         </div>
-        
-        
       </div>
       <div class="oval-copy-8"></div>
       <div class="oval-copy-9"></div>
@@ -71,6 +69,7 @@
     </div>
     <div class="wellness-card">
       <HomeWellnessCard v-if="!edit_bool" :sessionHash="selected_hash" :dataEntry="today_bool" :selectedDate="selected_date" :borderColor="card_color" @update-bar="weekCount"></HomeWellnessCard>
+      <!--HomeWellnessBar v-if="!edit_bool" :sessionHash="selected_hash" :dataEntry="today_bool" :selectedDate="selected_date" :borderColor="card_color" @update-bar="weekCount"></HomeWellnessBar-->
     </div>
     <div v-if="popup_bool" class="shadow"></div>
     <div v-if="edit_bool" class="popup-slidercontainer-edit">
@@ -160,6 +159,7 @@
 
 <script>
 import router from '@/router'
+import HomeWellnessBar from '@/components/HomeWellnessBar'
 import HomeWellnessCard from '@/components/HomeWellnessCard'
 import PairingPopup from '@/components/PairingPopup'
 export default {
@@ -182,27 +182,25 @@ export default {
       selected_date: '',
       cal_header: "TODAY",
       today_bool: true,
-      card_color: 'rgba(37, 49, 85, 1)'
+      card_color: 'rgba(37, 49, 85, 1)',
+      week_count: -1
     }
   },
   components: {
     HomeWellnessCard,
+    HomeWellnessBar,
     PairingPopup
   },
-  async mounted() {
-
-    console.log("screen width:",window.screen.width);
-
+  mounted() {
     this.checkCookie();
-    
     this.timeData();
-    
-    this.weekCount();
   },
 
   watch: {
     selected_date(newValue) {
-      this.weekCount();
+      if (this.week_count < 0) {
+        this.weekCount();
+      }
     },
     selected_hash(newValue) {
       this.weekCount();
@@ -235,6 +233,15 @@ export default {
               else if ('habit_name' in data) {
                 if (!data['habit_name']) {
                   router.push({ name: "SignUpHabit" });
+                }
+                else if (!data['age']) {
+                  router.push({ name: "SignUpAge" });
+                }
+                else if (!data['gender']) {
+                  router.push({ name: "SignUpGender" });
+                }
+                else if (!data['bio']) {
+                  router.push({ name: "SignUpBio" });
                 }
                 else if (!data['partner_hash']) {
                   this.popup_bool = true;
@@ -300,7 +307,6 @@ export default {
     },
 
     weekCount() {
-      console.log("wc date:",this.selected_date);
       if (!this.selected_date || !this.selected_hash) {
         return;
       }
@@ -319,7 +325,8 @@ export default {
             return;
           }
           else if ('week_count' in data) {
-            let bar_wdith = parseInt(data['week_count']) * 50;
+            this.week_count = parseInt(data['week_count'])
+            let bar_wdith = this.week_count * 50;
             console.log("bw:",bar_wdith);
             document.getElementById('rectangle-bar').style.width = bar_wdith.toString() + 'px';
           }
@@ -330,7 +337,6 @@ export default {
         console.log("Fetch error: " + error);
       });
     },
-
     onLogOut() {
       let obj_remove = this.$cookies.remove('mindset');
       router.push({ name: "Home4" });

@@ -291,6 +291,7 @@ export default {
   margin-right: 14px;
   opacity: 0.7;
   letter-spacing: 1px;
+  width: 20px;
 }
 .relative-wrapper1 {
   display: flex;
@@ -298,7 +299,7 @@ export default {
   position: relative;
 }
 .rectangle2 {
-  width: 244px;
+  width: 225px;
   height: 38px;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 8px;
